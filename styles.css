@@ -1,0 +1,893 @@
+/* ==========================================================================
+   O3 Car-Spa — Flagship System + Round WhatsApp Floating Circle Button
+   ========================================================================== */
+
+:root {
+  /* Color Palette Tokens */
+  --bg-obsidian: #05070c;
+  --bg-surface: rgba(10, 14, 23, 0.65);
+
+  /* Signature Accents */
+  --ocean-water: #cae8e8;
+  --ocean-water-glow: rgba(202, 232, 232, 0.35);
+  --ocean-water-border: rgba(202, 232, 232, 0.18);
+  --oxygen-cyan: #00f0ff;
+  --oxygen-cyan-glow: rgba(0, 240, 255, 0.45);
+  --whatsapp-green: #25d366;
+  --whatsapp-glow: rgba(37, 211, 102, 0.45);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  /* Tactile Depths */
+  --button-tactile: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 30px rgba(0, 240, 255, 0.4);
+
+  /* Anti-Boxy Radii */
+  --radius-xl: 48px;
+  --radius-lg: 36px;
+  --radius-pill: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  background-color: var(--bg-obsidian);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+body {
+  background: radial-gradient(circle at 50% -10%, rgba(202, 232, 232, 0.22) 0%, transparent 65%),
+              radial-gradient(circle at 85% 35%, rgba(0, 240, 255, 0.12) 0%, transparent 55%),
+              radial-gradient(circle at 15% 75%, rgba(202, 232, 232, 0.1) 0%, transparent 55%),
+              var(--bg-obsidian);
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-obsidian);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--ocean-water), var(--oxygen-cyan));
+  border-radius: 4px;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, .font-display {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.text-shadow-hero {
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95), 0 0 15px rgba(5, 7, 12, 0.9);
+}
+
+.text-gradient-ocean {
+  background: linear-gradient(135deg, #00f0ff 0%, #70f3ff 50%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  text-shadow: none !important;
+  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.85));
+}
+
+/* FULL-BLEED CRYSTAL CLEAR HERO STAGE (NO BOXY BOXES) */
+.hero-video-stage-clear {
+  position: relative;
+  width: 100%;
+  min-height: 92vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #05070c;
+}
+
+.hero-video-bg-clear {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  filter: brightness(1.08) contrast(1.05) saturate(1.1);
+}
+
+.hero-video-overlay-light {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 7, 12, 0.35) 0%, rgba(5, 7, 12, 0.05) 50%, rgba(5, 7, 12, 0.7) 100%),
+              radial-gradient(circle at 15% 85%, rgba(5, 7, 12, 0.65) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* SLEEK PURE ROUND WHATSAPP FLOATING BUTTON (SHORTER ROUND ONLY) */
+.whatsapp-float-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 0 6px 25px var(--whatsapp-glow);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.whatsapp-float-btn:hover {
+  transform: translateY(-4px) scale(1.12);
+  box-shadow: 0 10px 32px rgba(37, 211, 102, 0.75);
+  color: #ffffff;
+}
+
+.whatsapp-pulse-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
+  animation: pulse-ring 1.8s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* GLOBAL GSAP SCROLL ANIMATION TARGET CLASSES */
+.gsap-reveal-up {
+  will-change: transform, opacity;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.gsap-stagger-item {
+  will-change: transform, opacity;
+  opacity: 0;
+  transform: translateY(35px) scale(0.96);
+}
+
+.gsap-parallax-bg {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+.gsap-scroll-scale {
+  will-change: transform, opacity, box-shadow;
+  transform-origin: center center;
+}
+
+/* TRANSPARENT BRAND LOGO BLENDING */
+.logo-blend {
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.6)) brightness(1.3) contrast(1.15);
+  transition: all 0.35s ease;
+}
+
+.logo-blend:hover {
+  filter: drop-shadow(0 0 40px rgba(202, 232, 232, 0.85)) brightness(1.45);
+  transform: scale(1.05);
+}
+
+/* BORDERLESS ORGANIC FLOATING GLASS (ANTI-BOXY) */
+.glass-surface, .card-liquid {
+  position: relative;
+  background: rgba(10, 14, 23, 0.5);
+  backdrop-filter: blur(32px) saturate(220%);
+  -webkit-backdrop-filter: blur(32px) saturate(220%);
+  border: 1px solid rgba(202, 232, 232, 0.14);
+  border-radius: var(--radius-xl);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.82);
+}
+
+.glass-surface:hover, .card-liquid:hover {
+  transform: translateY(-8px);
+  border-color: rgba(202, 232, 232, 0.4);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9), 0 0 50px var(--ocean-water-glow);
+}
+
+/* BORDERLESS COLUMN PILLAR STRIP FOR BRAND SYSTEM */
+.pillar-floating-item {
+  position: relative;
+  padding: 1.5rem 1rem;
+  background: transparent;
+  border: none;
+  backdrop-filter: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+.pillar-floating-item:hover {
+  transform: translateX(6px);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.pillar-number {
+  font-family: monospace;
+  font-size: 3rem;
+  font-weight: 200;
+  color: rgba(202, 232, 232, 0.12);
+  line-height: 1;
+  transition: color 0.4s ease, transform 0.4s ease;
+}
+
+.pillar-floating-item:hover .pillar-number {
+  color: var(--oxygen-cyan);
+  transform: translateY(-4px);
+}
+
+.pillar-divider-line {
+  position: absolute;
+  top: 15%;
+  right: 0;
+  width: 1px;
+  height: 70%;
+  background: linear-gradient(to bottom, transparent, rgba(202, 232, 232, 0.15), transparent);
+}
+
+@media (max-width: 1023px) {
+  .pillar-divider-line {
+    display: none;
+  }
+}
+
+.pillar-hover-bar {
+  width: 0%;
+  height: 1px;
+  background: var(--oxygen-cyan);
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 8px;
+}
+
+.pillar-floating-item:hover .pillar-hover-bar {
+  width: 100%;
+}
+
+/* 3D SPATIAL VIDEO CONTAINER & BLENDING */
+.video-glass-3d {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: #000;
+  border: 1px solid rgba(202, 232, 232, 0.22);
+  box-shadow: 0 40px 85px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 240, 255, 0.3);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.video-glass-3d:hover {
+  transform: scale(1.02);
+  border-color: var(--oxygen-cyan);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.99), 0 0 70px rgba(0, 240, 255, 0.55);
+}
+
+.video-glass-3d video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.video-overlay-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 7, 12, 0.08) 0%, rgba(5, 7, 12, 0.78) 100%);
+  pointer-events: none;
+}
+
+/* Claymorphic Pill Capsules */
+.pill-capsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(202, 232, 232, 0.12);
+  border: 1px solid rgba(202, 232, 232, 0.25);
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ocean-water);
+  backdrop-filter: blur(18px);
+}
+
+/* Skeuomorphic Tactile Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--ocean-water) 0%, var(--oxygen-cyan) 100%);
+  color: #05070c;
+  font-weight: 800;
+  padding: 1rem 2.4rem;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--button-tactile);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 14px 40px rgba(0, 240, 255, 0.75);
+}
+
+.btn-secondary {
+  background: rgba(202, 232, 232, 0.09);
+  color: var(--text-main);
+  border: 1px solid rgba(202, 232, 232, 0.22);
+  font-weight: 600;
+  padding: 1rem 2.4rem;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.35s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-secondary:hover {
+  background: rgba(202, 232, 232, 0.2);
+  border-color: var(--ocean-water);
+  color: #ffffff;
+}
+
+/* Before & After Interactive Comparison Slider */
+.ba-slider {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  user-select: none;
+}
+
+.ba-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ba-after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  border-right: 3px solid var(--ocean-water);
+  box-shadow: 6px 0 35px rgba(0, 0, 0, 0.75);
+}
+
+.ba-after img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ba-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  background: var(--ocean-water);
+  color: #05070c;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.95);
+  cursor: ew-resize;
+  z-index: 10;
+  font-weight: 800;
+}
+
+/* Modal Overlay & Drawer */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 10, 0.94);
+  backdrop-filter: blur(22px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 440px;
+  max-width: 90vw;
+  background: var(--bg-surface);
+  border-left: 1px solid var(--ocean-water-border);
+  box-shadow: -25px 0 60px rgba(0,0,0,0.9);
+  z-index: 1100;
+  padding: 2rem;
+  overflow-y: auto;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   Interactive Glow Inspection Visualizer
+   ========================================================================== */
+.glow-visualizer-container {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  background: #05070c;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid rgba(202, 232, 232, 0.2);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+  cursor: none; /* Hide default cursor inside visualizer */
+}
+
+.visualizer-base-swirls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.95;
+}
+
+.visualizer-flashlight-ring {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 2px solid rgba(202, 232, 232, 0.95);
+  box-shadow: 0 0 60px rgba(0, 240, 255, 0.6), inset 0 0 40px rgba(0, 240, 255, 0.3);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.visualizer-lens-flare {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 20px #ffffff, 0 0 40px var(--oxygen-cyan);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+/* Heading Stagger Text Clipping Protection */
+.gsap-stagger-title {
+  line-height: 1.18 !important;
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+  display: block;
+}
+
+/* ==========================================================================
+   Climate Cleanroom HUD Dashboard
+   ========================================================================== */
+.cleanroom-hud-grid {
+  display: grid;
+  grid-template-cols: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 1rem;
+}
+
+.cleanroom-hud-card {
+  padding: 1.25rem;
+  background: rgba(5, 7, 12, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(202, 232, 232, 0.18);
+  border-radius: 24px;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.4s ease;
+}
+
+.cleanroom-hud-card:hover {
+  border-color: var(--ocean-water);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.hud-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: hud-glow 1.5s infinite alternate;
+}
+
+@keyframes hud-glow {
+  0% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
+  100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 12px 3px rgba(0, 240, 255, 0.8); }
+}
+
+/* ==========================================================================
+   GSAP Stagger Title Masking
+   ========================================================================== */
+.stagger-title-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.stagger-title-char {
+  display: inline-block;
+  transform: translateY(100%);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   Hydrophobic Rain Physics Canvas
+   ========================================================================== */
+.hydrophobic-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background: radial-gradient(circle at 50% 50%, #0c111a, #05070c);
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(202, 232, 232, 0.2);
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.9);
+}
+
+.hydrophobic-rain-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   Vehicle Studio Paint & Caliper Configurator
+   ========================================================================== */
+.configurator-panel {
+  display: grid;
+  grid-template-cols: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .configurator-panel {
+    grid-template-cols: 7fr 5fr;
+  }
+}
+
+.car-vector-canvas {
+  width: 100%;
+  height: 280px;
+  background: #05070c;
+  border-radius: 32px;
+  border: 1px solid rgba(202, 232, 232, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.95);
+  position: relative;
+  overflow: hidden;
+}
+
+.car-reflection-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(202, 232, 232, 0.12) 40%, rgba(0, 240, 255, 0.08) 50%, transparent 60%);
+  background-size: 200% 100%;
+  animation: shimmer-swipe 8s infinite linear;
+  pointer-events: none;
+}
+
+@keyframes shimmer-swipe {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ==========================================================================
+   Paint Thickness Telemetry hotspots
+   ========================================================================== */
+.telemetry-car-outline {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  background: #05070c;
+  border-radius: 32px;
+  border: 1px solid rgba(202, 232, 232, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.telemetry-hotspot {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: var(--oxygen-cyan);
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+}
+
+.telemetry-hotspot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--oxygen-cyan);
+  animation: rotate-ping 2.5s infinite linear;
+}
+
+@keyframes rotate-ping {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.6) rotate(360deg); opacity: 0; }
+}
+
+.telemetry-hotspot.active {
+  background: #ffffff;
+  border-color: var(--oxygen-cyan);
+  box-shadow: 0 0 25px var(--oxygen-cyan), 0 0 50px var(--oxygen-cyan);
+}
+
+/* ==========================================================================
+   Scratch-Heal Polish Simulator
+   ========================================================================== */
+.scratch-simulator-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  background: #090a0f;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(202, 232, 232, 0.2);
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.95);
+  cursor: crosshair;
+}
+
+.scratch-bg-swirls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.scratch-orbital-pad {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 240, 255, 0.6);
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 20%, rgba(255, 46, 78, 0.15) 60%, transparent 80%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  animation: orbital-rotate 1.5s infinite linear;
+}
+
+@keyframes orbital-rotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.scratch-heat-meter {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--oxygen-cyan);
+  background: rgba(5, 7, 12, 0.8);
+  border: 1px solid rgba(202, 232, 232, 0.2);
+  padding: 6px 12px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ==========================================================================
+   Starlight cabin Ambient Customizer
+   ========================================================================== */
+.cabin-headliner-container {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  background: #05070c;
+  border-radius: 32px;
+  border: 1px solid rgba(202, 232, 232, 0.12);
+  overflow: hidden;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.starlight-dot {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: #ffffff;
+  pointer-events: none;
+  transition: background-color 0.5s, box-shadow 0.5s, opacity 0.5s;
+}
+
+@keyframes shooting-sweep {
+  0% {
+    transform: rotate(25deg) scaleX(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: rotate(25deg) scaleX(1);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(25deg) translate(220px, 100px) scaleX(0);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Sleek Cockpit Tactility Buttons
+   ========================================================================== */
+.cockpit-tactile-btn {
+  position: relative;
+  background: #090d16;
+  border: 1px solid rgba(202, 232, 232, 0.12);
+  border-radius: 14px;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.6), 
+    inset 1px 1px 1.5px rgba(255, 255, 255, 0.12), 
+    inset -1px -1px 3px rgba(0, 0, 0, 0.7);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #c8d2d6;
+}
+
+.cockpit-tactile-btn:hover {
+  border-color: rgba(202, 232, 232, 0.3);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.7), 
+    inset 1.5px 1.5px 2px rgba(255, 255, 255, 0.16), 
+    inset -1.5px -1.5px 4px rgba(0, 0, 0, 0.8);
+  transform: translateY(-1px);
+}
+
+.cockpit-tactile-btn.active {
+  background: #04060b;
+  border-color: var(--oxygen-cyan);
+  box-shadow: 
+    inset 2px 2px 5px rgba(0, 0, 0, 0.95), 
+    inset -1px -1px 2px rgba(255, 255, 255, 0.05),
+    0 0 14px rgba(0, 240, 255, 0.35);
+  color: #ffffff;
+  transform: translateY(0.5px);
+}
+
+/* ==========================================================================
+   Interactive Specular Glare Ball & Workflow Timeline
+   ========================================================================== */
+.reflection-ball-container {
+  position: relative;
+  background: #05070c;
+  border-radius: 32px;
+  border: 1px solid rgba(202, 232, 232, 0.12);
+  cursor: grab;
+  overflow: hidden;
+}
+
+.reflection-ball-container:active {
+  cursor: grabbing;
+}
+
+.workflow-timeline-wrapper {
+  position: relative;
+  border-left: 2px solid rgba(202, 232, 232, 0.08);
+  padding-left: 2.2rem;
+}
+
+.workflow-step {
+  position: relative;
+  padding-bottom: 2.5rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.workflow-step:last-child {
+  padding-bottom: 0;
+}
+
+.workflow-node {
+  position: absolute;
+  left: -2.7rem;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #0d111a;
+  border: 2.5px solid rgba(202, 232, 232, 0.2);
+  transition: all 0.4s ease;
+  z-index: 10;
+  box-shadow: 0 0 0 4px #05070c;
+}
+
+.workflow-step.active .workflow-node {
+  border-color: var(--oxygen-cyan);
+  background: var(--oxygen-cyan);
+  box-shadow: 0 0 12px var(--oxygen-cyan), 0 0 0 4px #05070c;
+}
+
+
+/* ==========================================================================
+   MOBILE & TOUCH RESPONSIVE UTILITIES
+   ========================================================================== */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.25rem !important;
+    line-height: 1.15 !important;
+  }
+  h2 {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+  }
+  .hero-video-stage-clear {
+    min-h: 75vh !important;
+  }
+  .pill-capsule {
+    font-size: 10px !important;
+    padding: 4px 10px !important;
+  }
+}
+
+/* Hide scrollbars for filter pill bars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Tap highlight fix */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

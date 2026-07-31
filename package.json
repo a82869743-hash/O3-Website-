@@ -1,0 +1,20 @@
+{
+  "name": "o3-car-spa-website",
+  "version": "1.0.0",
+  "description": "O3 Car-Spa Studio — Premium Car Detailing Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server . -p 8080 -c-1 -o",
+    "start": "npx http-server . -p 8080 -c-1 -o",
+    "serve": "npx serve . -p 8080"
+  },
+  "keywords": [
+    "detailing",
+    "car-spa",
+    "o3",
+    "ceramic-coating",
+    "ppf"
+  ],
+  "author": "O3 Car Spa",
+  "license": "ISC"
+}

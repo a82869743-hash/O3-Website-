@@ -26,11 +26,10 @@ function O3Preloader({ progress, isFinished }) {
         {/* Brand Official Logo with Pulsing Halo */}
         <div className="relative inline-block">
           <div className="absolute -inset-4 bg-[#00f0ff]/20 rounded-full blur-2xl animate-pulse"></div>
-          <img 
-            src="assets/o3_official_logo.png" 
+          <img src="assets/o3_official_logo.png" 
             alt="O3 CAR-SPA Official Studio Logo" 
             className="h-20 sm:h-24 w-auto mx-auto relative z-10 drop-shadow-[0_0_35px_rgba(0,240,255,0.7)]"
-          />
+           loading="lazy" decoding="async" />
         </div>
 
         {/* Studio Official Tagline */}
@@ -98,11 +97,10 @@ function PaintGlowVisualizer() {
       className="glow-visualizer-container"
     >
       {/* Before Layer (Swirls) */}
-      <img src="assets/o3_swirl_before.png" alt="Detailing Before Inspection" className="visualizer-base-swirls" />
+      <img src="assets/o3_swirl_before.png" alt="Detailing Before Inspection" className="visualizer-base-swirls"  loading="lazy" decoding="async" />
 
       {/* After Layer (Flawless Ceramic Polish) */}
-      <img 
-        src="assets/o3_swirl_after.png" 
+      <img src="assets/o3_swirl_after.png" 
         alt="Ceramic Mirror Polish" 
         style={{
           position: 'absolute',
@@ -115,7 +113,7 @@ function PaintGlowVisualizer() {
             ? `circle(150px at ${coords.x}px ${coords.y}px)` 
             : 'circle(0px at 0px 0px)'
         }}
-      />
+       loading="lazy" decoding="async" />
 
       {/* Flashlight Inspection Beam & Lens Flare */}
       {isHovered && (
@@ -534,11 +532,10 @@ function VehicleStudioConfigurator() {
         <div className="lg:col-span-7 car-vector-canvas relative p-0 overflow-hidden">
           <div className="car-reflection-shimmer z-10"></div>
           
-          <img 
-            src={activePaint.img} 
+          <img src={activePaint.img} 
             alt={`Rolls-Royce Ghost in ${activePaint.name}`} 
             className="w-full h-full object-cover transition-all duration-700 opacity-90"
-          />
+           loading="lazy" decoding="async" />
 
           {/* Bottom Ambient Vignette to keep card contrast premium */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent pointer-events-none z-10"></div>
@@ -671,11 +668,10 @@ function PaintThicknessHotspots() {
       <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
         {/* Blueprint diagram */}
         <div className="lg:col-span-7 telemetry-car-outline relative p-0 overflow-hidden">
-          <img 
-            src="assets/o3_mercedes_amg.png" 
+          <img src="assets/o3_mercedes_amg.png" 
             alt="Mercedes-Benz AMG C63 Coupe Studio Shot" 
             className="w-full h-full object-cover opacity-85 transition-all hover:scale-[1.01]" 
-          />
+           loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent pointer-events-none"></div>
 
           {Object.entries(hotspots).map(([key, val]) => (
@@ -845,7 +841,7 @@ function PaintScratchHealSimulator() {
             onMouseLeave={handleMouseLeave}
             className="scratch-simulator-container"
           >
-            <img src="assets/o3_swirl_after.png" alt="Corrected Paint Underneath" className="scratch-bg-swirls" />
+            <img src="assets/o3_swirl_after.png" alt="Corrected Paint Underneath" className="scratch-bg-swirls"  loading="lazy" decoding="async" />
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block"></canvas>
 
             {isPolishing && (
@@ -1185,23 +1181,21 @@ function LuxuryCarBeforeAfterShowcase() {
           className="relative w-full h-[340px] sm:h-[440px] rounded-3xl overflow-hidden cursor-ew-resize select-none border border-[#cae8e8]/20 bg-[#05070c] shadow-2xl"
         >
           {/* AFTER Image Layer (Full Base) */}
-          <img 
-            src={currentData.afterImg} 
+          <img src={currentData.afterImg} 
             alt={`After ${currentData.title}`} 
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-          />
+           loading="lazy" decoding="async" />
 
           {/* BEFORE Image Layer (Clipped overlay) */}
           <div 
             className="absolute inset-0 overflow-hidden pointer-events-none"
             style={{ width: `${sliderPos}%` }}
           >
-            <img 
-              src={currentData.beforeImg} 
+            <img src={currentData.beforeImg} 
               alt={`Before ${currentData.title}`} 
               className="absolute inset-0 w-full h-full object-cover max-w-none"
               style={{ width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%' }}
-            />
+             loading="lazy" decoding="async" />
           </div>
 
           {/* Vertical Slider Handle Line */}
@@ -1446,11 +1440,10 @@ function StarlightCabinCustomizer() {
       <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
         {/* Starlight Roof Canopy View */}
         <div className="lg:col-span-7 cabin-headliner-container relative p-0">
-          <img 
-            src="assets/o3_rolls_royce_cabin.png" 
+          <img src="assets/o3_rolls_royce_cabin.png" 
             alt="Rolls-Royce Starlight Cabin Roof View" 
             className="w-full h-full object-cover opacity-80"
-          />
+           loading="lazy" decoding="async" />
           <div className="absolute inset-0 bg-[#05070c]/20 pointer-events-none"></div>
           
           {/* Static stars overlay */}
@@ -2141,11 +2134,10 @@ function App() {
             onClick={() => navigateTo('home')} 
             className="cursor-pointer flex items-center gap-3 group"
           >
-            <img 
-              src="assets/o3_official_logo.png" 
+            <img src="assets/o3_official_logo.png" 
               alt="O3 CAR-SPA Premium Car Detailing Studio Official Logo" 
               className="logo-blend h-11 sm:h-12 w-auto group-hover:scale-103 transition-transform"
-            />
+             loading="lazy" decoding="async" />
           </div>
 
           {/* ELEGANT FLOATING GLASS NAV CAPSULE */}
@@ -2387,7 +2379,7 @@ function App() {
 
                 <div className="grid lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-5 space-y-4">
-                    <img src="assets/sharanpal_sodhi_founder.png" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
+                    <img src="assets/sharanpal_sodhi_founder.png" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                     <div className="space-y-1">
                       <h3 className="text-xl font-bold text-white">Mr. Sharanpal Sodhi</h3>
                       <p className="text-xs text-[#cae8e8] font-mono">Founder & Master Detailer (Sharanpal Sir)</p>
@@ -2396,15 +2388,7 @@ function App() {
 
                   <div className="lg:col-span-7 space-y-5">
                     <div className="relative rounded-3xl overflow-hidden border border-[#cae8e8]/30 shadow-2xl h-72">
-                      <video 
-                        src="assets/porsche_studio_bay_video.mp4" 
-                        autoPlay 
-                        loop 
-                        muted 
-                        controls 
-                        playsInline 
-                        className="w-full h-full object-cover"
-                      ></video>
+                      <video src="assets/porsche_studio_bay_video.mp4" loop muted controls playsInline preload="none" loading="lazy" className="w-full h-full object-cover"></video>
                     </div>
 
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -2434,7 +2418,7 @@ function App() {
                   <div key={s.id} className="glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group">
                     <div className="space-y-3">
                       <div className="relative overflow-hidden rounded-2xl">
-                        <img src={s.img} alt={s.title} className="w-full h-48 object-cover group-hover:scale-103 transition-all" />
+                        <img src={s.img} alt={s.title} className="w-full h-48 object-cover group-hover:scale-103 transition-all"  loading="lazy" decoding="async" />
                         <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md">
                           {s.warranty}
                         </span>
@@ -2522,7 +2506,7 @@ function App() {
 
                 <div className="grid lg:grid-cols-12 gap-8 items-center">
                   <div className="lg:col-span-6 space-y-4">
-                    <img src="assets/o3_studio_environment.png" alt="O3 Cleanroom Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
+                    <img src="assets/o3_studio_environment.png" alt="O3 Cleanroom Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                   </div>
 
                   <div className="lg:col-span-6 space-y-6 text-xs text-slate-300">
@@ -2586,7 +2570,7 @@ function App() {
                   </div>
 
                   <div className="lg:col-span-5">
-                    <img src="assets/o3_on_wheels.png" alt="O3 On Wheels Mobile Concierge Truck" className="w-full h-64 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
+                    <img src="assets/o3_on_wheels.png" alt="O3 On Wheels Mobile Concierge Truck" className="w-full h-64 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                   </div>
                 </div>
               </div>
@@ -2648,12 +2632,12 @@ function App() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="p-6 rounded-3xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3">
-                    <img src="assets/o3_on_wheels.png" alt="Mobile Unit Franchise" className="w-full h-40 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                    <img src="assets/o3_on_wheels.png" alt="Mobile Unit Franchise" className="w-full h-40 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                     <h4 className="text-lg font-bold text-white">Doorstep Detailing Franchise (₹5 Lakhs)</h4>
                     <p className="text-xs text-slate-400">Fully equipped mobile van setup with generator, pure water tank, and German Würth compounds.</p>
                   </div>
                   <div className="p-6 rounded-3xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3">
-                    <img src="assets/o3_studio_environment.png" alt="Full Studio Franchise" className="w-full h-40 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                    <img src="assets/o3_studio_environment.png" alt="Full Studio Franchise" className="w-full h-40 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                     <h4 className="text-lg font-bold text-white">Turnkey Precision Studio (₹10 Lakhs)</h4>
                     <p className="text-xs text-slate-400">Complete studio architecture, 6500K LED lighting rig, Rupes polishers, and staff training by Sharanpal Sir.</p>
                   </div>
@@ -2906,7 +2890,7 @@ function App() {
               
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_studio_environment.png" alt="How It Started" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="assets/o3_studio_environment.png" alt="How It Started" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
                   <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
                     Chapter 01 · Origin
@@ -2926,7 +2910,7 @@ function App() {
 
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_equipment_lab.png" alt="Meaning Behind Our Name" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="assets/o3_equipment_lab.png" alt="Meaning Behind Our Name" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
                   <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
                     Chapter 02 · Identity
@@ -2946,7 +2930,7 @@ function App() {
 
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_mercedes_amg.png" alt="Where We Are Today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src="assets/o3_mercedes_amg.png" alt="Where We Are Today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
                   <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
                     Chapter 03 · Excellence
@@ -3002,7 +2986,7 @@ function App() {
               <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">MEET THE FOUNDER</span>
               <div className="grid lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-4 space-y-3">
-                  <img src="assets/sharanpal_sodhi_founder.png" alt="Sharanpal Sodhi — Founder, O3 Car Spa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
+                  <img src="assets/sharanpal_sodhi_founder.png" alt="Sharanpal Sodhi — Founder, O3 Car Spa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                   <div>
                     <h3 className="text-2xl font-bold text-white">Sharanpal Sodhi</h3>
                     <p className="text-xs text-[#00f0ff] font-mono">Founder, O3 Car Spa</p>
@@ -3031,7 +3015,7 @@ function App() {
             
             {/* BRAND VISION HEADER */}
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2" />
+              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
               <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES</span>
               <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
                 About <span className="text-gradient-ocean font-black">O3 Car Spa</span>
@@ -3096,7 +3080,7 @@ function App() {
             {/* FOUNDER & STUDIO PHOTO SPOTLIGHT */}
             <div className="grid md:grid-cols-3 gap-8">
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/sharanpal_sodhi_founder.png" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                <img src="assets/sharanpal_sodhi_founder.png" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">Mr. Sharanpal Sodhi</h3>
                   <span className="text-xs text-[#00f0ff] font-mono">Founder & Master Detailer (13+ Yrs)</span>
@@ -3107,7 +3091,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/o3_detailers_team.png" alt="O3 Certified Detailers Team" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                <img src="assets/o3_detailers_team.png" alt="O3 Certified Detailers Team" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">Master Technicians</h3>
                   <span className="text-xs text-[#00f0ff] font-mono">Rupes Italian Certified Craftsmen</span>
@@ -3118,7 +3102,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/o3_equipment_lab.png" alt="O3 Detailing Equipment & Lab Setup" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                <img src="assets/o3_equipment_lab.png" alt="O3 Detailing Equipment & Lab Setup" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">German & Italian Tools</h3>
                   <span className="text-xs text-[#00f0ff] font-mono">Würth & Rupes BigFoot System</span>
@@ -3151,7 +3135,7 @@ function App() {
                 ].map((b, bIdx) => (
                   <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#00f0ff] transition-all flex flex-col justify-between group hover:-translate-y-1">
                     <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#00f0ff]/50 transition-all">
-                      <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform" />
+                      <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform"  loading="lazy" decoding="async" />
                     </div>
                     <div>
                       <strong className="text-white text-sm block leading-tight">{b.name}</strong>
@@ -3194,7 +3178,7 @@ function App() {
                   className="glass-surface p-4 border border-[#cae8e8]/25 hover:border-[#00f0ff] space-y-3 cursor-pointer group transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="relative h-44 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                    <img src={cItem.img} alt={cItem.title} className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500" />
+                    <img src={cItem.img} alt={cItem.title} className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"  loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent opacity-80"></div>
                     <span className="absolute bottom-3 left-3 text-xs font-mono font-bold text-[#00f0ff] bg-[#05070c]/80 px-2.5 py-1 rounded-full border border-[#00f0ff]/30">
                       Explore SKU Grid →
@@ -3371,7 +3355,7 @@ function App() {
                   
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video">
-                      <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                       <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
                         {prod.brand}
                       </span>
@@ -3435,7 +3419,7 @@ function App() {
                 ].map((b, bIdx) => (
                   <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#00f0ff] transition-all flex flex-col justify-between group hover:-translate-y-1">
                     <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#00f0ff]/50 transition-all">
-                      <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform" />
+                      <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform"  loading="lazy" decoding="async" />
                     </div>
                     <div>
                       <strong className="text-white text-sm block leading-tight">{b.name}</strong>
@@ -3464,7 +3448,7 @@ function App() {
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black h-56">
-                    <img src={selectedProduct.img} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                    <img src={selectedProduct.img} alt={selectedProduct.name} className="w-full h-full object-cover"  loading="lazy" decoding="async" />
                   </div>
 
                   <div className="space-y-2 text-xs text-slate-300">
@@ -3511,7 +3495,7 @@ function App() {
                 <div key={s.id} className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group">
                   <div className="space-y-3">
                     <div className="relative overflow-hidden rounded-2xl">
-                      <img src={s.img} alt={s.title} className="w-full h-48 object-cover group-hover:scale-103 transition-all" />
+                      <img src={s.img} alt={s.title} className="w-full h-48 object-cover group-hover:scale-103 transition-all"  loading="lazy" decoding="async" />
                       <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md">
                         {s.warranty}
                       </span>
@@ -3630,7 +3614,7 @@ function App() {
                   
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden h-36 bg-black border border-[#cae8e8]/20">
-                      <img src={plan.img} alt={plan.name} className="w-full h-full object-cover" />
+                      <img src={plan.img} alt={plan.name} className="w-full h-full object-cover"  loading="lazy" decoding="async" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-90"></div>
                       <span className={`absolute top-3 left-3 text-[10px] font-mono font-bold uppercase px-3 py-1 rounded-full backdrop-blur-md border ${plan.highlight ? 'bg-[#00f0ff] text-[#05070c] border-[#00f0ff]' : 'bg-[#05070c]/80 text-[#00f0ff] border-[#00f0ff]/30'}`}>
                         {plan.badge}
@@ -4113,16 +4097,26 @@ function App() {
                   <div className="space-y-3">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video flex items-center justify-center">
                       {item.type === 'video' ? (
-                        <video 
-                          src={item.src} 
-                          controls 
-                          playsInline 
-                          preload="metadata"
-                          className="w-full h-full object-cover"
-                        ></video>
+                        <div 
+                          onClick={() => setLightboxMedia(item)}
+                          className="relative w-full h-full bg-[#0a0e17] flex flex-col items-center justify-center cursor-pointer group/vid"
+                        >
+                          <img src={item.src.endsWith('.mp4') ? 'assets/o3_official_brand_poster.jpg' : item.src} 
+                            alt={item.title} 
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover opacity-60 group-hover/vid:opacity-80 transition-opacity" 
+                           loading="lazy" decoding="async" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent"></div>
+                          <div className="absolute w-12 h-12 rounded-full bg-[#00f0ff]/90 text-[#05070c] font-bold flex items-center justify-center text-lg shadow-[0_0_20px_rgba(0,240,255,0.8)] group-hover/vid:scale-110 transition-transform">
+                            ▶
+                          </div>
+                          <span className="absolute bottom-2 text-[10px] font-mono text-white bg-black/80 px-2 py-0.5 rounded-full border border-[#00f0ff]/30">
+                            Click to Watch Video Reel
+                          </span>
+                        </div>
                       ) : (
-                        <img 
-                          src={item.src} 
+                        <img src={item.src} 
                           alt={item.title} 
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
                           onClick={() => setLightboxMedia(item)}
@@ -4172,7 +4166,7 @@ function App() {
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black max-h-[75vh] flex items-center justify-center">
-                    <img src={lightboxMedia.src} alt={lightboxMedia.title} className="max-h-[70vh] w-auto object-contain" />
+                    <img src={lightboxMedia.src} alt={lightboxMedia.title} className="max-h-[70vh] w-auto object-contain"  loading="lazy" decoding="async" />
                   </div>
                 </div>
               </div>
@@ -4226,8 +4220,8 @@ function App() {
               </div>
 
               <div className="space-y-4">
-                <img src="assets/o3_studio_environment.png" alt="O3 Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
-                <img src="assets/o3_equipment_lab.png" alt="O3 Equipment & Compound Station" className="w-full h-56 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
+                <img src="assets/o3_studio_environment.png" alt="O3 Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                <img src="assets/o3_equipment_lab.png" alt="O3 Equipment & Compound Station" className="w-full h-56 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
               </div>
             </div>
 
@@ -4274,7 +4268,7 @@ function App() {
                 </div>
 
                 <div className="lg:col-span-5">
-                  <img src="assets/o3_on_wheels.png" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl" />
+                  <img src="assets/o3_on_wheels.png" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -4336,7 +4330,7 @@ function App() {
             <div className="grid md:grid-cols-2 gap-8">
               
               <div className="glass-surface p-8 space-y-6 bg-[#0d111a] border border-[#cae8e8]/40">
-                <img src="assets/o3_on_wheels.png" alt="Mobile Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                <img src="assets/o3_on_wheels.png" alt="Mobile Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div className="space-y-2">
                   <span className="text-xs font-mono text-[#cae8e8] uppercase font-bold">Model 1: Mobile Unit</span>
                   <h3 className="text-2xl font-bold text-white">Doorstep Detailing Franchise</h3>
@@ -4359,7 +4353,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-8 space-y-6 bg-[#0d111a] border border-[#cae8e8]/60">
-                <img src="assets/o3_studio_environment.png" alt="Studio Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                <img src="assets/o3_studio_environment.png" alt="Studio Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div className="space-y-2">
                   <span className="text-xs font-mono text-[#cae8e8] uppercase font-bold">Model 2: Full Studio</span>
                   <h3 className="text-2xl font-bold text-white">Precision Detailing Studio</h3>
@@ -4456,11 +4450,11 @@ function App() {
             <div className="grid lg:grid-cols-12 gap-10">
               
               <div className="lg:col-span-5 glass-surface p-8 space-y-6 bg-[#0d111a]">
-                <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-12 w-auto mb-2" />
+                <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-12 w-auto mb-2"  loading="lazy" decoding="async" />
                 <h3 className="text-2xl font-bold text-white">O3 Car-Spa Studio</h3>
                 <p className="text-xs text-[#cae8e8] font-mono">Managed by Mr. Sharanpal Sodhi</p>
 
-                <img src="assets/o3_studio_environment.png" alt="O3 Studio Entrance" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20" />
+                <img src="assets/o3_studio_environment.png" alt="O3 Studio Entrance" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
 
                 <div className="space-y-4 text-sm text-slate-300">
                   <div className="flex gap-3">
@@ -4562,7 +4556,7 @@ function App() {
               <p className="text-xs text-[#cae8e8] font-mono italic">{activeServiceDetail.tagline}</p>
             </div>
 
-            <img src={activeServiceDetail.img} alt={activeServiceDetail.title} className="w-full h-56 object-cover rounded-2xl border border-[#cae8e8]/20 shadow-xl" />
+            <img src={activeServiceDetail.img} alt={activeServiceDetail.title} className="w-full h-56 object-cover rounded-2xl border border-[#cae8e8]/20 shadow-xl"  loading="lazy" decoding="async" />
 
             <div className="space-y-3 text-xs text-slate-300">
               <h4 className="font-bold text-white uppercase text-sm border-b border-[#cae8e8]/20 pb-2">Treatment Executive Summary</h4>
@@ -4613,7 +4607,7 @@ function App() {
       {/* ================= FINAL CTA BAND ================= */}
       <section className="bg-gradient-to-r from-[#0d111a] via-[#101827] to-[#0d111a] border-t border-b border-[#cae8e8]/20 py-16 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-14 w-auto mx-auto mb-2" />
+          <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-14 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white">Ready for Perfection?</h2>
           <p className="text-slate-[#cae8e8] max-w-xl mx-auto text-sm sm:text-base">
             Schedule a consultation with Sharanpal Sir and team at our studio, or request doorstep concierge service.
@@ -4636,7 +4630,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             <div className="space-y-4">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Premium Detailing Studio Official Logo" className="logo-blend h-12 w-auto" />
+              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Premium Detailing Studio Official Logo" className="logo-blend h-12 w-auto"  loading="lazy" decoding="async" />
               <p className="text-slate-400 leading-relaxed">
                 13+ years of detailing excellence in Anand under Mr. Sharanpal Sodhi. High-glow foam wash, PPF, Graphene & Ceramic Coating.
               </p>
@@ -4709,7 +4703,7 @@ function App() {
             </button>
 
             <div className="space-y-1">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1" />
+              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
               <h3 className="text-2xl font-bold text-white">Partner with O3 Car-Spa</h3>
               <p className="text-xs text-slate-400">Investment Tier: ₹5 Lakhs – ₹10 Lakhs</p>
             </div>
@@ -4758,7 +4752,7 @@ function App() {
             </button>
 
             <div className="space-y-1">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1" />
+              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
               <h3 className="text-2xl font-bold text-white">Schedule Detailing Visit</h3>
               {selectedBookingService && (
                 <div className="text-xs text-[#cae8e8] font-mono">Selected: {selectedBookingService}</div>
@@ -4807,7 +4801,7 @@ function App() {
         <div className="drawer-panel">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#cae8e8]/20">
             <div>
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-8 w-auto mb-1" />
+              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-8 w-auto mb-1"  loading="lazy" decoding="async" />
               <p className="text-xs text-[#cae8e8] font-mono">Official O3 Brand Tokens</p>
             </div>
             <button onClick={() => setIsDrawerOpen(false)} className="text-[#cae8e8] hover:text-[#00f0ff] font-bold">
@@ -4845,11 +4839,10 @@ function App() {
           {/* Drawer Header */}
           <div className="flex items-center justify-between pb-6 border-b border-[#cae8e8]/20">
             <div className="flex items-center gap-3">
-              <img 
-                src="assets/o3_official_logo.png" 
+              <img src="assets/o3_official_logo.png" 
                 alt="O3 CAR-SPA Logo" 
                 className="logo-blend h-10 w-auto" 
-              />
+               loading="lazy" decoding="async" />
               <div>
                 <span className="text-[10px] font-mono font-bold text-[#00f0ff] uppercase block">PREMIUM STUDIO</span>
                 <span className="text-xs text-white font-extrabold">Vallabh Vidyanagar</span>

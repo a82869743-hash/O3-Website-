@@ -2388,7 +2388,7 @@ function App() {
 
                   <div className="lg:col-span-7 space-y-5">
                     <div className="relative rounded-3xl overflow-hidden border border-[#cae8e8]/30 shadow-2xl h-72">
-                      <video src="assets/porsche_studio_bay_video.mp4" loop muted controls playsInline preload="none" loading="lazy" className="w-full h-full object-cover"></video>
+                      <video src="assets/porsche_studio_bay_video.mp4" autoPlay loop muted playsInline preload="metadata" className="w-full h-full object-cover rounded-2xl"></video>
                     </div>
 
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">

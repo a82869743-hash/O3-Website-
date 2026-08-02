@@ -1688,22 +1688,22 @@ function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Preloader Calibration Timer
+  // Fast Preloader Calibration Timer
   useEffect(() => {
     let curr = 0;
     const timer = setInterval(() => {
-      curr += Math.floor(Math.random() * 12) + 6;
+      curr += Math.floor(Math.random() * 25) + 20;
       if (curr >= 100) {
         curr = 100;
         setLoadProgress(100);
         clearInterval(timer);
         setTimeout(() => {
           setIsLoading(false);
-        }, 500);
+        }, 100);
       } else {
         setLoadProgress(curr);
       }
-    }, 110);
+    }, 35);
     return () => clearInterval(timer);
   }, []);
 

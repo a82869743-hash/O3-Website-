@@ -1529,6 +1529,154 @@ function StarlightCabinCustomizer() {
   );
 }
 
+// 12. OFFICIAL O3 CAR-SPA STUDIO TARIFF & PRICE CATALOG (EXACT OFFICIAL PRICE LIST)
+function OfficialTariffMenu() {
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const tariffCategories = [
+    { id: 'all', name: 'All Official Services' },
+    { id: 'wash', name: 'Washing & Care' },
+    { id: 'protection', name: 'Color Protection & Treatments' },
+    { id: 'ceramic', name: 'Ceramic Coating' },
+    { id: 'graphene', name: 'Graphene Coating' },
+    { id: 'ppf', name: 'Paint Protection Film (PPF)' },
+    { id: 'maintenance', name: 'Maintenance Coatings' },
+    { id: 'packages', name: 'Special Washing Subscriptions' },
+    { id: 'anti-rust', name: 'Anti-Rust Underbody' }
+  ];
+
+  const priceData = [
+    // SERVICES
+    { cat: 'wash', name: 'Exterior Wash + Shampoo & Vacuum', price: '₹ 500', note: 'Complete exterior snow foam wash & interior vacuuming' },
+    { cat: 'wash', name: 'Intensive Shiny Interior', price: '₹ 2,500', note: 'Deep interior extraction, dashboard & leather dressing' },
+    { cat: 'wash', name: 'Ozone Treatment & Odour Removal', price: '₹ 800', note: 'O3 cabin sanitization & bacteria elimination' },
+    { cat: 'wash', name: 'Leather Care Treatment*', price: '₹ 800', note: 'Nourishing leather conditioner & UV shield' },
+    { cat: 'wash', name: 'Head Light Restoration', price: '₹ 1,200', note: 'Oxidation removal & UV clear seal' },
+
+    // COLOR PROTECTION & COATING TREATMENT
+    { cat: 'protection', name: 'Rodent Repellant Coating', price: '₹ 1,200', note: 'Engine bay wire & pipe rodent protection' },
+    { cat: 'protection', name: 'Engine Coating', price: '₹ 3,000', note: 'Degreasing, thermal bay dressing & electrical seal' },
+    { cat: 'protection', name: 'Alloy Wheel Coating', price: '₹ 3,500', note: 'Brake dust repellent & heat-resistant silica layer' },
+    { cat: 'protection', name: 'Windshield Coating', price: '₹ 3,000', note: 'Rain repellent & night glare hydrophobic shield' },
+    { cat: 'protection', name: 'Leather Shield', price: '₹ 6,000', note: 'Hydrophobic & stain barrier for leather seats' },
+    { cat: 'protection', name: 'Fabric Shield', price: '₹ 6,000', note: 'Liquid repellent barrier for fabric upholstery' },
+    { cat: 'protection', name: 'Trim Shield', price: '₹ 4,000', note: 'Restores plastic cladding & prevents UV fading' },
+    { cat: 'protection', name: 'Machine Polish & Wax', price: '₹ 2,000', note: 'Single-stage gloss enhancement & carnauba wax' },
+    { cat: 'protection', name: 'Compounding Hi-tech Wax (2 Steps)', price: '₹ 3,500', note: 'Swirl mark reduction & high-gloss sealant' },
+    { cat: 'protection', name: 'O3 Coating (3 Steps)', price: '₹ 7,000', note: '3-stage paint leveling & deep gloss conservation' },
+
+    // CERAMIC COATING
+    { cat: 'ceramic', name: '1 Year - Ceramic Shield', price: '₹ 12,000', note: '9H SiO2 Hydrophobic Glass Coating' },
+    { cat: 'ceramic', name: '2 Years - Ceramic Shield', price: '₹ 14,000', note: '9H SiO2 Hydrophobic Glass Coating' },
+    { cat: 'ceramic', name: '3 Years - Ceramic Shield', price: '₹ 20,000', note: '9H SiO2 Hydrophobic Glass Coating' },
+    { cat: 'ceramic', name: '5 Years - Ceramic Shield', price: '₹ 30,000', note: '9H SiO2 Hydrophobic Glass Coating' },
+    { cat: 'ceramic', name: '2 YEARS - Ceramic Shield (1 CoatCare)', price: '₹ 25,000', note: 'Includes 1 Free Maintenance CoatCare Service' },
+    { cat: 'ceramic', name: '3 YEARS - Ceramic Shield (2 CoatCare)', price: '₹ 35,000', note: 'Includes 2 Free Maintenance CoatCare Services' },
+    { cat: 'ceramic', name: '5 YEARS - Ceramic Shield (4 CoatCare)', price: '₹ 40,000', note: 'Includes 4 Free Maintenance CoatCare Services' },
+
+    // GRAPHENE COATING
+    { cat: 'graphene', name: '2 YEARS - Graphene Armor', price: '₹ 18,000', note: 'Reduced Water Spotting & Enhanced Hardness' },
+    { cat: 'graphene', name: '3 YEARS - Graphene Armor', price: '₹ 22,000', note: 'Reduced Water Spotting & Enhanced Hardness' },
+    { cat: 'graphene', name: '5 YEARS - Graphene Armor', price: '₹ 30,000', note: 'Reduced Water Spotting & Enhanced Hardness' },
+    { cat: 'graphene', name: '2 YEARS - Graphene Armor (1 CoatCare)', price: '₹ 28,000', note: 'Includes 1 Free Maintenance CoatCare Service' },
+    { cat: 'graphene', name: '3 YEARS - Graphene Armor (2 CoatCare)', price: '₹ 40,000', note: 'Includes 2 Free Maintenance CoatCare Services' },
+    { cat: 'graphene', name: '5 YEARS - Graphene Armor (4 CoatCare)', price: '₹ 45,000', note: 'Includes 4 Free Maintenance CoatCare Services' },
+
+    // PPF - PAINT PROTECTION FILM
+    { cat: 'ppf', name: 'PPF 3 Years - CLEAR (TPH - Thermoplastic Hybrid)', price: '₹ 70,000', note: 'Clear Self-Healing Protective Film' },
+    { cat: 'ppf', name: 'PPF 5 Years - CLEAR (TPH - Thermoplastic Hybrid)', price: '₹ 90,000', note: 'Clear Self-Healing Protective Film' },
+    { cat: 'ppf', name: 'PPF 5 Years - GLOSS (TPU - Thermoplastic Polyurethane)', price: '₹ 1,30,000', note: 'Premium Optical Grade Self-Healing Film' },
+    { cat: 'ppf', name: 'PPF 7 Years - GLOSS (TPU - Thermoplastic Polyurethane)', price: '₹ 1,50,000', note: 'Flagship Optical Grade Self-Healing Film' },
+    { cat: 'ppf', name: 'PPF 3 Years - MATT (TPH - Thermoplastic Hybrid)', price: '₹ 80,000', note: 'Stealth Satin Finish Self-Healing Film' },
+    { cat: 'ppf', name: 'PPF 5 Years - MATT (TPU - Thermoplastic Polyurethane)', price: '₹ 1,50,000', note: 'Stealth Satin Finish Self-Healing Film' },
+    { cat: 'ppf', name: 'PPF 7 Years - MATT (TPU - Thermoplastic Polyurethane)', price: '₹ 1,80,000', note: 'Flagship Satin Finish Self-Healing Film' },
+    { cat: 'ppf', name: 'PPF 3 Years - BLACK (TPH - Thermoplastic Hybrid)', price: '₹ 80,000', note: 'Gloss Black Roof & Accent Film' },
+    { cat: 'ppf', name: 'PPF 5 Years - BLACK (TPH - Thermoplastic Hybrid)', price: '₹ 1,50,000', note: 'Gloss Black Roof & Accent Film' },
+    { cat: 'ppf', name: 'PPF 7 Years - BLACK (TPU - Thermoplastic Polyurethane)', price: '₹ 1,80,000', note: 'Flagship Black TPU Protection Film' },
+    { cat: 'ppf', name: 'PPF 3 Years - COLOR (TPH - Thermoplastic Hybrid)', price: '₹ 1,50,000', note: 'Colored Custom Wrap Protection Film' },
+
+    // MAINTENANCE COATING
+    { cat: 'maintenance', name: 'Maintenance Coating - 1 Time', price: '₹ 1,500', note: 'Quick Top-Up Hydrophobic Boost' },
+    { cat: 'maintenance', name: 'Ceramic Maintenance - 1 Time', price: '₹ 8,000', note: 'Complete Decontamination & Ceramic Re-Load' },
+    { cat: 'maintenance', name: 'Graphene Maintenance - 1 Time', price: '₹ 9,000', note: 'Complete Decontamination & Graphene Re-Load' },
+
+    // SPECIAL WASHING OFFER RATE
+    { cat: 'packages', name: '12 Washes For 12 Months', price: '₹ 4,200', note: 'Monthly Detailing Snow Foam Wash Package' },
+    { cat: 'packages', name: '24 Washes For 24 Months', price: '₹ 8,400', note: 'Bi-Monthly Detailing Snow Foam Wash Package' },
+    { cat: 'packages', name: '36 Washes For 36 Months', price: '₹ 12,500', note: '3-Year VIP Detailing Wash Package' },
+    { cat: 'packages', name: '60 Washes For 60 Months', price: '₹ 21,000', note: '5-Year VIP Unlimited Detailing Wash Package' },
+
+    // ANTI RUST UNDER SHIELD
+    { cat: 'anti-rust', name: 'O3 Undershield Body Coating (2 Years)', price: '₹ 3,500', note: 'Heavy-Duty Rubberized Anti-Rust Chassis Coating' }
+  ];
+
+  const filteredData = activeCategory === 'all' 
+    ? priceData 
+    : priceData.filter(item => item.cat === activeCategory);
+
+  return (
+    <div className="glass-surface p-6 sm:p-10 border border-[#cae8e8]/30 bg-[#0a0e17] space-y-8 shadow-2xl rounded-3xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#cae8e8]/20 pb-4 gap-4 text-left">
+        <div>
+          <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">Official Studio Price List & Tariff Card</span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white mt-1">O3 Car-Spa Official Services Menu</h2>
+          <p className="text-xs text-slate-400 font-mono mt-1">Transparent fixed pricing · Managed by Mr. Sharanpalsingh Sodhi · Vitthal Udyognagar, Anand</p>
+        </div>
+
+        <a 
+          href="https://wa.me/917225030303?text=Hello%20Sharanpalsingh%20Sir!%20I%20want%20to%20book%20a%20detailing%20service%20from%20the%20official%20price%20list." 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary text-xs !py-3 !px-6 flex items-center gap-2"
+        >
+          <span>💬 Book via WhatsApp (72250 30303)</span>
+        </a>
+      </div>
+
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2">
+        {tariffCategories.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => setActiveCategory(cat.id)}
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cockpit-tactile-btn ${
+              activeCategory === cat.id ? 'active text-[#00f0ff]' : 'text-slate-300 hover:text-[#00f0ff]'
+            }`}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Price Table Grid */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
+        {filteredData.map((item, idx) => (
+          <div key={idx} className="bg-[#05070c] p-5 rounded-2xl border border-slate-800 hover:border-[#cae8e8]/40 transition-all flex flex-col justify-between space-y-3 group">
+            <div className="space-y-1">
+              <div className="flex items-start justify-between gap-2">
+                <h4 className="text-sm font-bold text-white group-hover:text-[#00f0ff] transition-colors">{item.name}</h4>
+              </div>
+              <p className="text-[11px] text-slate-400 font-light leading-relaxed">{item.note}</p>
+            </div>
+
+            <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <span className="text-base font-extrabold text-[#00f0ff] font-mono">{item.price}</span>
+              <a 
+                href={`https://wa.me/917225030303?text=Hello%20Sharanpalsingh%20Sir!%20I%20want%20to%20inquire%20about:%20${encodeURIComponent(item.name)}%20(${item.price})`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] font-mono text-[#cae8e8] hover:underline font-bold"
+              >
+                Inquire Service →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
@@ -1564,6 +1712,7 @@ function App() {
 
   // Selected Service for In-Depth Detail Modal
   const [activeServiceDetail, setActiveServiceDetail] = useState(null);
+  const [serviceCategory, setServiceCategory] = useState('all');
 
   // FAQ Accordion
   const [expandedFaq, setExpandedFaq] = useState(0);
@@ -1640,231 +1789,921 @@ function App() {
     }
   ];
 
-  // 11 EXHAUSTIVE INTERACTIVE SERVICES DATABASE
+  // 47 EXHAUSTIVE INTERACTIVE OFFICIAL SERVICES DATABASE
   const allServicesData = [
-    {
-      id: 'ppf',
-      title: 'Paint Protection Film (PPF)',
-      category: 'Signature Armor',
-      icon: '🛡️',
-      tagline: 'Self-Healing TPU Armor Against Stone Chips & Scratches',
-      summary: 'Optical-grade thermoplastic polyurethane (TPU) film engineered to absorb impact energy from road gravel, stone chips, keys, and environmental scratches.',
-      img: 'assets/o3_ppf_protection.png',
-      warranty: '5 Years Warranty',
-      durability: '5 – 7 Years',
-      equipment: 'Plotter Pre-Cut Film, Alcohol Prep Solution, Steam Edge-Tuckers',
-      procedure: [
-        'Phase 1: Decontamination Wash & Clay Bar Treatment',
-        'Phase 2: Single-Stage Paint Polish to lock in pristine surface',
-        'Phase 3: Isopropyl Alcohol Wipe for 100% sterile paint bonding',
-        'Phase 4: Precision Plotter Template Cutting for exact panel dimensions',
-        'Phase 5: Slip Solution Laying & Squeegee Air-Bubble Extraction',
-        'Phase 6: Heat-Sealed Edge Wrapping into door seams and panel gaps'
-      ],
-      maintenance: 'Wash with pH-neutral shampoo every 2 weeks. Avoid high-pressure water jets within 5cm of edges.'
-    },
-    {
-      id: 'ceramic',
-      title: 'Ceramic & Graphene Coating 9H',
-      category: 'Signature Armor',
-      icon: '✨',
-      tagline: 'Molecular Silica Hydrophobic Shield & Deep Mirror Gloss',
-      summary: 'Liquid quartz SiO₂ & Graphene matrix that chemically bonds to clear coat at a molecular level, producing hyper-hydrophobic water beading and chemical resistance.',
-      img: 'assets/o3_ceramic_coating.png',
-      warranty: '3 – 5 Years Warranty',
-      durability: '3 – 5 Years',
-      equipment: 'Rupes Orbital Polishers, Scangrip LED Rig, Hedson Infra-Red Curing Lamps',
-      procedure: [
-        'Phase 1: Multi-stage paint defect compounding removing 95%+ swirl marks',
-        'Phase 2: Panel wiping with solvent residue remover',
-        'Phase 3: Hand application of 9H Liquid Silica/Graphene in cross-hatch pattern',
-        'Phase 4: Flashing inspection under 6500K daylight LED lighting',
-        'Phase 5: Microfiber leveling & buffing for streak-free glass gloss',
-        'Phase 6: Shortwave Infra-Red lamp curing at 80°C for 24 hours'
-      ],
-      maintenance: 'Apply ceramic booster spray every 6 months to maintain hyper-hydrophobic angle.'
-    },
-    {
-      id: 'paint-correction',
-      title: 'Paint Correction & Micro-Abrasive Polish',
-      category: 'Signature Armor',
-      icon: '🔍',
-      tagline: 'Permanent Swirl Mark & Hologram Elimination',
-      summary: 'Scientific multi-stage compounding utilizing Italian Rupes BigFoot orbital polishers and diminishing abrasive pads to eliminate paint swirls, spiderwebbing, and oxidation.',
-      img: 'assets/o3_paint_correction.png',
-      warranty: 'Flawless Finish Guarantee',
-      durability: 'Permanent (until newly scratched)',
-      equipment: 'Rupes BigFoot LHR21ES, DeFelsko PosiTector 6000 Ultrasonic Gauge, Microfiber Pads',
-      procedure: [
-        'Phase 1: Paint depth measurement across 20 panel test points (microns)',
-        'Phase 2: Taping off rubber trims, badges, and plastic emblems',
-        'Phase 3: Heavy compounding pass removing deep scratches and oxidation',
-        'Phase 4: Medium refining pass restoring depth and color saturation',
-        'Phase 5: Ultra-fine finishing polish removing micro-marring and haze',
-        'Phase 6: Final inspection under multi-angle spectrum lighting'
-      ],
-      maintenance: 'Use two-bucket wash method with grit guards to prevent re-introducing scratches.'
-    },
-    {
-      id: 'glass-coating',
-      title: 'Glass Hydrophobic Coating',
-      category: 'Specialist Detail',
-      icon: '🌧️',
-      tagline: 'Crystal-Clear Rain Repellent Windshield Protection',
-      summary: 'Fluoropolymer glass coating that repels rain, mud, night glare, and water spots, allowing water drops to roll off effortlessly at speeds above 40 km/h.',
-      img: 'assets/o3_ceramic_coating.png',
-      warranty: '1 Year Warranty',
-      durability: '12 Months',
-      equipment: 'Cerium Oxide Glass Polish, Dual-Action Rayon Pads, Curing Heat Gun',
-      procedure: [
-        'Phase 1: Deep glass decontamination removing tree sap & wiper haze',
-        'Phase 2: Cerium oxide rotary glass compounding eliminating water spots',
-        'Phase 3: Degreasing glass surface with alcohol prep',
-        'Phase 4: Precision hand applicator wipe of glass hydrophobic bonding agent',
-        'Phase 5: Curing period and micro-buffing to optical clarity'
-      ],
-      maintenance: 'Clean wipers with soft cloth. Avoid abrasive glass cleaners.'
-    },
-    {
-      id: '3m-coating',
-      title: '3M Clear Finish Coating',
-      category: 'Specialist Detail',
-      icon: '💎',
-      tagline: 'UV Fading & Paint Oxidation Defense',
-      summary: 'Industry-standard 3M polymer coating providing clear coat gloss enhancement and UV ray protection preventing premature paint dullness.',
-      img: 'assets/o3_hero_car.png',
-      warranty: '18 Months Warranty',
-      durability: '1.5 Years',
-      equipment: '3M Perfect-It Polishing System, Foam Finishing Pads',
-      procedure: [
-        'Phase 1: Paint prep wash & clay bar decontamination',
-        'Phase 2: Single-pass gloss polish using 3M machine compounds',
-        'Phase 3: Application of 3M synthetic sealant layer',
-        'Phase 4: Curing and hand microfiber buffing'
-      ],
-      maintenance: 'Wash regularly with mild automotive car shampoo.'
-    },
-    {
-      id: 'sealant',
-      title: 'Paint Sealant Coating',
-      category: 'Specialist Detail',
-      icon: '🛡️',
-      tagline: '12-Month Dirt & Environmental Grime Barrier',
-      summary: 'Cross-linking synthetic polymer sealant creating a durable barrier against dust, acid rain, bird droppings, and industrial fallout.',
-      img: 'assets/o3_paint_correction.png',
-      warranty: '1 Year Warranty',
-      durability: '12 Months',
-      equipment: 'Dual-Action Orbital Applicator, Soft Foam Finishing Buffs',
-      procedure: [
-        'Phase 1: High-pressure foam prep wash',
-        'Phase 2: Surface oil degreasing wipe',
-        'Phase 3: Machine application of polymer liquid sealant',
-        'Phase 4: Haze period wait time & microfiber buffing'
-      ],
-      maintenance: 'Re-apply sealant twice a year for continuous gloss protection.'
-    },
-    {
-      id: 'exterior-wash',
-      title: 'Exterior High-Pressure Detailing Wash',
-      category: 'Care & Maintenance',
-      icon: '🚿',
-      tagline: 'Scratch-Free Snow Foam Bath & Wheel Arch Flush',
-      summary: 'Multi-stage safe wash procedure using high-glow snow foam cannons, grit-guard buckets, wheel barrel brushes, and high-pressure underbody flushing.',
-      img: 'assets/o3_on_wheels.png',
-      warranty: 'Cleanliness Guarantee',
-      durability: 'Per Wash',
-      equipment: 'Kärcher High-Pressure Washer, Snow Foam Cannon, Grit-Guard Buckets',
-      procedure: [
-        'Phase 1: High-pressure water rinse removing loose grit',
-        'Phase 2: Thick pH-neutral snow foam bath dwell time',
-        'Phase 3: Microfiber wash mitt pass using two-bucket technique',
-        'Phase 4: Wheel barrel, brake caliper & tire arch degreasing',
-        'Phase 5: Underbody pressure jet flushing',
-        'Phase 6: Warm forced-air drying avoiding water spot streaks'
-      ],
-      maintenance: 'Schedule weekly or bi-weekly depending on driving conditions.'
-    },
-    {
-      id: 'interior-detail',
-      title: 'Intensive Interior Detailing & Sanitization',
-      category: 'Care & Maintenance',
-      icon: '🛋️',
-      tagline: 'Hot Steam Extraction, Leather Conditioning & AC Vent Disinfection',
-      summary: 'Deep interior sanitization treatment extracting ground-in dirt from carpet fibers, leather seats, dashboard seams, and AC ventilation ducts using high-temperature steam.',
-      img: 'assets/o3_equipment_lab.png',
-      warranty: 'Sanitization Certificate',
-      durability: '6 Months Cleanliness',
-      equipment: 'Hot-Water Carpet Extractor, Dry Steam Vapor Machine, Leather Care Balms',
-      procedure: [
-        'Phase 1: High-power vacuum extraction of seats, carpets & boot',
-        'Phase 2: 140°C dry steam vapor cleaning of AC vents and dashboard buttons',
-        'Phase 3: Fabric shampoo extraction removing stains and odors',
-        'Phase 4: pH-balanced leather seat scrub and rich conditioner application',
-        'Phase 5: Non-greasy matte UV protection dressing on dashboard and door trims',
-        'Phase 6: Antibacterial fogging treatment eliminating cabin germs'
-      ],
-      maintenance: 'Vacuum cabin monthly. Condition leather every 3-4 months.'
-    },
-    {
-      id: 'wurth-treatment',
-      title: 'Car Care Treatment (Würth German System)',
-      category: 'Specialist Detail',
-      icon: '🧪',
-      tagline: 'German Engineering Formulations for 3-Year Surface Protection',
-      summary: 'Certified Würth German automotive protection system designed for paint, plastic trims, and engine bays, engineered to withstand extreme tropical weather conditions.',
-      img: 'assets/o3_detailers_team.png',
-      warranty: '3 Years Warranty',
-      durability: '3 Years',
-      equipment: 'Würth German Compounds, Engine Bay Dressings, Rubber Preservatives',
-      procedure: [
-        'Phase 1: Engine bay degreasing and protective rubber coating',
-        'Phase 2: Paint compounding with Würth German micro-finishing pads',
-        'Phase 3: Plastic trim UV restoration preventing fading',
-        'Phase 4: Final sealant application and quality sign-off'
-      ],
-      maintenance: 'Maintain with Würth quick-detailer spray after washing.'
-    },
-    {
-      id: 'carnauba-wax',
-      title: 'Carnauba Polish & Gloss Waxing',
-      category: 'Care & Maintenance',
-      icon: '🌴',
-      tagline: 'Warm Organic Gloss & Deep Color Saturation',
-      summary: 'Natural Grade-A Brazilian Carnauba wax application that fills micro-pores in clear coat, producing a warm, wet-look gloss favorite for car shows and supercars.',
-      img: 'assets/o3_hero_car.png',
-      warranty: 'Gloss Enhancement',
-      durability: '3 – 6 Months',
-      equipment: 'Hand Foam Applicators, Ultra-Soft Plush Microfiber Towels',
-      procedure: [
-        'Phase 1: Gentle hand prep wash and surface decontamination',
-        'Phase 2: Hand application of pure Brazilian Carnauba paste wax',
-        'Phase 3: Curing dwell time allowing natural oils to nourish clear coat',
-        'Phase 4: Hand buffing to a deep, mirror warm shine'
-      ],
-      maintenance: 'Re-apply every 3 months for peak wet-look reflection.'
-    },
-    {
-      id: 'underbody-coating',
-      title: 'Extensive Cleaning & Underbody Coating',
-      category: 'Care & Maintenance',
-      icon: '🚜',
-      tagline: 'High-Pressure Rust Proofing & Anti-Corrosion Shield',
-      summary: 'Heavy-duty rubberized underbody coating applied to chassis, wheel wells, and frame rails to protect against rust, monsoon road water, and gravel impact noise.',
-      img: 'assets/o3_on_wheels.png',
-      warranty: '3 Years Rust-Proof Warranty',
-      durability: '3 – 5 Years',
-      equipment: 'Hydraulic Vehicle Hoist, High-Pressure Underbody Spray Gun',
-      procedure: [
-        'Phase 1: Hydraulic lift raising vehicle for 100% underchassis access',
-        'Phase 2: High-pressure mud and grease removal wash',
-        'Phase 3: Drying underbody with compressed air',
-        'Phase 4: Masking exhaust pipes and brake rotors',
-        'Phase 5: Spraying heavy rubberized anti-rust coating across frame rails',
-        'Phase 6: Curing and safety inspection'
-      ],
-      maintenance: 'Inspect annually after monsoon season for road scrapes.'
-    }
-  ];
+  {
+    "id": "wash-vacuum",
+    "title": "Exterior Wash + Shampoo & Vacuum",
+    "category": "Washing & Quick Care",
+    "price": "\u20b9 500",
+    "icon": "\ud83d\udebf",
+    "tagline": "Complete Exterior Snow Foam Wash & Interior Vacuuming",
+    "summary": "Multi-stage safe wash procedure using high-pressure foam cannons, grit-guard wash mitts, wheel arch cleaning, and full interior cabin vacuuming.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.jpg",
+    "warranty": "Cleanliness Guarantee",
+    "durability": "Per Wash",
+    "equipment": "K\u00e4rcher High-Pressure Washer, Snow Foam Lance, Industrial Vacuum",
+    "procedure": [
+      "Phase 1: High-pressure water pre-rinse removing surface grit",
+      "Phase 2: Thick pH-neutral snow foam bath dwell time",
+      "Phase 3: Scratch-free two-bucket microfiber mitt pass",
+      "Phase 4: High-power interior cabin, carpet & boot vacuuming",
+      "Phase 5: Streak-free microfiber drying & glass cleaning"
+    ],
+    "maintenance": "Recommended weekly or after long highway drives."
+  },
+  {
+    "id": "shiny-interior",
+    "title": "Intensive Shiny Interior Detailing",
+    "category": "Washing & Quick Care",
+    "price": "\u20b9 2,500",
+    "icon": "\ud83e\ude91",
+    "tagline": "Deep Interior Extraction, Dashboard & Leather Dressing",
+    "summary": "Deep interior sanitization treatment extracting ground-in dirt from carpets, upholstery, dashboard seams, and door trims using hot steam & specialized leather dressings.",
+    "img": "assets/o3_int_after.png",
+    "warranty": "Sanitization Certificate",
+    "durability": "6 Months Cleanliness",
+    "equipment": "Hot Water Extractor, Dry Steam Vapor Machine, Leather Care Balms",
+    "procedure": [
+      "Phase 1: Deep vacuum extraction of carpets, seats & trunk",
+      "Phase 2: 140\u00b0C dry steam vapor cleaning of AC vents & seams",
+      "Phase 3: Fabric shampoo stain extraction",
+      "Phase 4: pH-balanced leather scrub & rich conditioner pass",
+      "Phase 5: Non-greasy matte UV protection dressing on dashboard"
+    ],
+    "maintenance": "Vacuum monthly and apply leather conditioner every 3 months."
+  },
+  {
+    "id": "ozone-treatment",
+    "title": "Ozone Treatment & Odour Removal",
+    "category": "Washing & Quick Care",
+    "price": "\u20b9 800",
+    "icon": "\ud83c\udf00",
+    "tagline": "O3 Cabin Sanitization & Bacteria Elimination",
+    "summary": "High-output O3 ozone gas flooding that oxidizes and destroys airborne bacteria, mold spores, smoke smells, and persistent cabin odors.",
+    "img": "assets/o3_equipment_lab.png",
+    "warranty": "99.9% Bacteria Free",
+    "durability": "3 \u2013 6 Months",
+    "equipment": "High-Output O3 Ozone Generator, HEPA Cabin Recirculation Unit",
+    "procedure": [
+      "Phase 1: Cabin sealing & AC system set to full internal recirculation",
+      "Phase 2: 20-minute active O3 ozone gas generator cycle inside closed cabin",
+      "Phase 3: Breakdown of odor molecules & biological contaminants",
+      "Phase 4: 10-minute fresh air ventilation purge"
+    ],
+    "maintenance": "Perform after rain or once every 6 months."
+  },
+  {
+    "id": "leather-care",
+    "title": "Leather Care Treatment",
+    "category": "Washing & Quick Care",
+    "price": "\u20b9 800",
+    "icon": "\ud83d\udcbc",
+    "tagline": "Nourishing Leather Conditioner & UV Shield",
+    "summary": "Specialized leather cleansing and oil-nourishing treatment that restores natural suppleness, prevents cracking, and shields against sun UV fading.",
+    "img": "assets/product_interior_leather.png",
+    "warranty": "Supple Finish Guarantee",
+    "durability": "3 \u2013 4 Months",
+    "equipment": "Soft Horsehair Brushes, Ma-Fra Italian Leather Care Cream",
+    "procedure": [
+      "Phase 1: Gentle horsehair brush scrubbing removing pore dirt",
+      "Phase 2: Damp microfiber residue wipe",
+      "Phase 3: Hand application of natural Aloe Vera enriched leather cream",
+      "Phase 4: Buffing to natural non-slippery satin shine"
+    ],
+    "maintenance": "Avoid harsh chemical wipes on leather surfaces."
+  },
+  {
+    "id": "headlight-restoration",
+    "title": "Head Light Restoration & UV Seal",
+    "category": "Washing & Quick Care",
+    "price": "\u20b9 1,200",
+    "icon": "\ud83d\udca1",
+    "tagline": "Oxidation Removal & UV Clear Sealant",
+    "summary": "Multi-stage wet sanding and micro-compounding technique that permanently strips yellow oxidation and haze from polycarbonate headlight lenses.",
+    "img": "assets/o3_studio_environment.png",
+    "warranty": "1 Year Clarity Warranty",
+    "durability": "12 Months",
+    "equipment": "2000/3000 Grit Wet Sanding Discs, Rotary Polisher, UV Clear Sealant",
+    "procedure": [
+      "Phase 1: Masking surrounding paintwork with protective tape",
+      "Phase 2: Multi-grade wet sanding stripping yellowed outer layer",
+      "Phase 3: Micro-abrasive compound polishing to crystal clarity",
+      "Phase 4: Application of UV ceramic clear coat barrier"
+    ],
+    "maintenance": "Wash with mild shampoo; avoid dry wiping headlights."
+  },
+  {
+    "id": "rodent-repellant",
+    "title": "Rodent Repellant Coating",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 1,200",
+    "icon": "\ud83d\udc00",
+    "tagline": "Engine Bay Wire & Pipe Rodent Protection",
+    "summary": "Heavy-duty heat-resistant bitter spray formulation applied to engine bay wiring harnesses, rubber hoses, and cables to prevent rodent chewing damage.",
+    "img": "assets/o3_coating_worker.png",
+    "warranty": "6 Months Rodent Shield",
+    "durability": "6 Months",
+    "equipment": "High-Temp Bitter Polymer Coating, Engine Bay Prep Washer",
+    "procedure": [
+      "Phase 1: Engine bay degreasing and dust removal",
+      "Phase 2: Compressed air drying of electrical connectors",
+      "Phase 3: High-temp bitter repellant spray across wires, hoses & insulation",
+      "Phase 4: Inspection and curing check"
+    ],
+    "maintenance": "Re-apply every 6 months or after engine bay pressure washing."
+  },
+  {
+    "id": "engine-coating",
+    "title": "Engine Coating & Thermal Dressing",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 3,000",
+    "icon": "\u2699\ufe0f",
+    "tagline": "Degreasing, Thermal Bay Dressing & Electrical Seal",
+    "summary": "Complete engine bay steam restoration and heat-resistant protective clear lacquer application that keeps plastic covers, hoses, and metal components looking showroom new.",
+    "img": "assets/o3_coating_worker.png",
+    "warranty": "1 Year Bay Shield",
+    "durability": "12 Months",
+    "equipment": "Steam Jet Cleaner, W\u00fcrth German Heat Lacquer",
+    "procedure": [
+      "Phase 1: Heavy oil & sludge steam degreasing",
+      "Phase 2: Compressed air moisture removal",
+      "Phase 3: Application of heat-resistant, non-sticky clear engine lacquer spray",
+      "Phase 4: Plastic cover & hose dressing"
+    ],
+    "maintenance": "Wipe down engine cover with damp cloth during routine washes."
+  },
+  {
+    "id": "alloy-coating",
+    "title": "Alloy Wheel Coating (Heat-Resistant 9H)",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 3,500",
+    "icon": "\ud83d\udede",
+    "tagline": "Brake Dust Repellent & Heat-Resistant Silica Layer",
+    "summary": "Ultra-high temperature 9H quartz ceramic coating engineered to withstand 800\u00b0C brake temperatures, preventing corrosive brake dust etching into alloy rims.",
+    "img": "assets/product_tools_accessories.png",
+    "warranty": "2 Years Rim Guard",
+    "durability": "2 Years",
+    "equipment": "Iron Fallout Chemical Remover, 800\u00b0C Heat Quartz Coating",
+    "procedure": [
+      "Phase 1: Iron chemical fallout decontamination wash",
+      "Phase 2: Alloy barrel claying & alcohol wipe",
+      "Phase 3: Precision hand wipe of heat-resistant 9H ceramic coating on spokes & inner barrel",
+      "Phase 4: IR lamp curing pass"
+    ],
+    "maintenance": "Rinse wheels with water; brake dust slides off effortlessly without acid cleaners."
+  },
+  {
+    "id": "windshield-coating",
+    "title": "Windshield Hydrophobic Coating",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 3,000",
+    "icon": "\ud83c\udf27\ufe0f",
+    "tagline": "Rain Repellent & Night Glare Hydrophobic Shield",
+    "summary": "Fluoropolymer glass coating that chemically bonds to glass, allowing rainwater to bead and fly off at speeds above 40 km/h for dramatically improved night rain visibility.",
+    "img": "assets/o3_studio_environment.png",
+    "warranty": "1 Year Warranty",
+    "durability": "12 Months",
+    "equipment": "Cerium Oxide Glass Polish, Kisho Japanese Fluorine Glass Shield",
+    "procedure": [
+      "Phase 1: Cerium oxide rotary glass polishing eliminating wiper haze & water spots",
+      "Phase 2: Isopropyl alcohol degreasing wipe",
+      "Phase 3: Kisho Japanese glass hydrophobic shield hand wipe",
+      "Phase 4: Curing and buffing to optical transparency"
+    ],
+    "maintenance": "Clean wiper blades with damp cloth regularly."
+  },
+  {
+    "id": "leather-shield",
+    "title": "Leather Shield Coating",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 6,000",
+    "icon": "\ud83d\udecb\ufe0f",
+    "tagline": "Hydrophobic & Stain Barrier for Leather Seats",
+    "summary": "Advanced breathable ceramic coating formulated for genuine leather seats that prevents liquid penetration, UV fading, and dye transfer from blue jeans.",
+    "img": "assets/product_interior_leather.png",
+    "warranty": "2 Years Warranty",
+    "durability": "2 Years",
+    "equipment": "Nanotechnology Leather Coating, Micro Suede Applicators",
+    "procedure": [
+      "Phase 1: Leather deep cleaning & pore decontamination",
+      "Phase 2: Solvent residue wipe",
+      "Phase 3: Layering breathable ceramic leather coating across all seat bolsters & headrests",
+      "Phase 4: Natural matte finish curing"
+    ],
+    "maintenance": "Wipe spills immediately with dry microfiber towel."
+  },
+  {
+    "id": "fabric-shield",
+    "title": "Fabric Shield Upholstery Guard",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 6,000",
+    "icon": "\ud83e\uddf5",
+    "tagline": "Liquid Repellent Barrier for Fabric Upholstery",
+    "summary": "Hydrophobic textile barrier coating that coats individual fabric fibers, causing coffee, soda, and water spills to bead up on top of seats without soaking in.",
+    "img": "assets/o3_int_after.png",
+    "warranty": "2 Years Warranty",
+    "durability": "2 Years",
+    "equipment": "Nano-Textile Spray Coating, Thermal Curing Guns",
+    "procedure": [
+      "Phase 1: Fabric shampoo extraction wash & 100% moisture removal",
+      "Phase 2: Fiber-penetrating hydrophobic spray coating pass",
+      "Phase 3: Thermal curing creating invisible liquid spill-proof barrier"
+    ],
+    "maintenance": "Blot liquid spills with dry paper towel or microfiber cloth."
+  },
+  {
+    "id": "trim-shield",
+    "title": "Trim Shield Plastic UV Restorer",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 4,000",
+    "icon": "\ud83d\udda4",
+    "tagline": "Restores Plastic Cladding & Prevents UV Fading",
+    "summary": "Permanent plastic restoration ceramic coating that penetrates deep into oxidized unpainted exterior trim and bumpers, restoring rich dark matte color with 2-year UV defense.",
+    "img": "assets/product_exterior_care.png",
+    "warranty": "2 Years Warranty",
+    "durability": "2 Years",
+    "equipment": "Trim Restorer Coating, Suede Applicator Blocks",
+    "procedure": [
+      "Phase 1: Plastic cladding deep degreasing",
+      "Phase 2: Restorative dark pigment bonding pass",
+      "Phase 3: Permanent UV ceramic barrier seal"
+    ],
+    "maintenance": "Avoid harsh petroleum-based tire shines on plastic cladding."
+  },
+  {
+    "id": "machine-polish",
+    "title": "Machine Polish & Wax",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 2,000",
+    "icon": "\u2728",
+    "tagline": "Single-Stage Gloss Enhancement & Carnauba Wax",
+    "summary": "Single-stage orbital machine polish that restores paint clarity, removes light haze, and applies a rich protective synthetic wax layer.",
+    "img": "assets/o3_paint_correction.png",
+    "warranty": "High Gloss Guarantee",
+    "durability": "6 Months",
+    "equipment": "Rupes Orbital Polisher, Meguiar\u2019s Finishing Polish & Synthetic Wax",
+    "procedure": [
+      "Phase 1: Foam prep wash & surface decontamination",
+      "Phase 2: Single-pass orbital gloss refining pass",
+      "Phase 3: Synthetic polymer gloss wax application & microfiber buffing"
+    ],
+    "maintenance": "Wash with pH-neutral shampoo to preserve wax layer."
+  },
+  {
+    "id": "compounding-wax",
+    "title": "Compounding Hi-Tech Wax (2 Steps)",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 3,500",
+    "icon": "\ud83d\udd0d",
+    "tagline": "Swirl Mark Reduction & High-Gloss Sealant",
+    "summary": "Two-stage paint correction process combining heavy compounding scratch reduction with fine finishing polish and a high-durability hybrid wax sealant.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "1 Year Swirl Reduction",
+    "durability": "12 Months",
+    "equipment": "Menzerna Heavy Cut 400, Microfiber Cutting Pads, Dual Action Polisher",
+    "procedure": [
+      "Phase 1: Step 1 heavy compounding removing 75%+ swirl marks & holograms",
+      "Phase 2: Step 2 ultra-fine finishing polish",
+      "Phase 3: Hi-tech hybrid wax sealant curing & final wipe"
+    ],
+    "maintenance": "Wash using two-bucket method with grit guards."
+  },
+  {
+    "id": "o3-coating-3steps",
+    "title": "O3 Coating (3 Steps Leveling)",
+    "category": "Color Protection & Treatments",
+    "price": "\u20b9 7,000",
+    "icon": "\ud83d\udc8e",
+    "tagline": "3-Stage Paint Leveling & Deep Gloss Conservation",
+    "summary": "Flagship 3-step studio paint correction and leveling treatment that measures clear coat depth, removes multi-layer defects, and applies O3 silica protective coating.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "2 Years Warranty",
+    "durability": "2 Years",
+    "equipment": "3-Pass Rupes Compounding System, Ultrasonic Depth Gauge, O3 Silica Sealant",
+    "procedure": [
+      "Phase 1: Ultrasonic clear coat depth measurement across 20 points",
+      "Phase 2: Stage 1 heavy cut compounding pass",
+      "Phase 3: Stage 2 micro-abrasive refining polish",
+      "Phase 4: Stage 3 O3 Silica protective coating application & inspection"
+    ],
+    "maintenance": "Re-apply O3 booster spray annually."
+  },
+  {
+    "id": "ceramic-1yr",
+    "title": "1 Year Ceramic Shield (9H SiO2)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 12,000",
+    "icon": "\u2728",
+    "tagline": "Entry-Level Liquid Quartz Gloss & Hydrophobic Barrier",
+    "summary": "Professional 9H SiO2 ceramic glass coating providing 12 months of high-gloss shine, rain repellency, and chemical resistance.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "1 Year Warranty",
+    "durability": "12 Months",
+    "equipment": "Rupes Orbital Polishers, 9H Silica Quartz, IR Curing Lamp Rig",
+    "procedure": [
+      "Phase 1: Single-stage paint correction removing fine swirls",
+      "Phase 2: Panel degreasing wipe",
+      "Phase 3: 9H Silica quartz liquid application",
+      "Phase 4: Infrared curing at 80\u00b0C"
+    ],
+    "maintenance": "Apply ceramic booster spray every 6 months."
+  },
+  {
+    "id": "ceramic-2yr",
+    "title": "2 Years Ceramic Shield (9H SiO2)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 14,000",
+    "icon": "\u2728",
+    "tagline": "24-Month Quartz Hardness & Mirror Surface Gloss",
+    "summary": "Double-layer 9H SiO2 quartz coating that bonds to clear coat, preserving deep mirror gloss and UV protection for 2 full years.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "2 Years Warranty",
+    "durability": "24 Months",
+    "equipment": "Scangrip Daylight LED, 9H Silica Quartz, Hedson IR Curing",
+    "procedure": [
+      "Phase 1: 2-stage paint correction & swirl removal",
+      "Phase 2: IPA decontamination wipe",
+      "Phase 3: Double cross-hatch SiO2 application",
+      "Phase 4: 24-hr IR curing"
+    ],
+    "maintenance": "Use pH-neutral car wash shampoo."
+  },
+  {
+    "id": "ceramic-3yr",
+    "title": "3 Years Ceramic Shield (9H SiO2)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 20,000",
+    "icon": "\ud83d\udee1\ufe0f",
+    "tagline": "36-Month High-Density Quartz Surface Protection",
+    "summary": "High-density 9H SiO2 ceramic formulation with enhanced chemical resistance against bird droppings, tree sap, and acid rain.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "3 Years Warranty",
+    "durability": "3 Years",
+    "equipment": "Rupes BigFoot, High-Density Quartz, Shortwave IR Rig",
+    "procedure": [
+      "Phase 1: Multi-stage paint compounding & leveling",
+      "Phase 2: Panel prep wipe",
+      "Phase 3: High-density 9H quartz layering",
+      "Phase 4: Full shortwave IR heat curing"
+    ],
+    "maintenance": "Bring vehicle for annual studio inspection."
+  },
+  {
+    "id": "ceramic-5yr",
+    "title": "5 Years Ceramic Shield (9H SiO2)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 30,000",
+    "icon": "\ud83d\udc51",
+    "tagline": "5-Year Ultra-Durable SiO2 Quartz Flagship Coating",
+    "summary": "Flagship 5-year multi-layer ceramic matrix coating offering ultimate scratch resistance, deep wet-look reflection, and hyper-hydrophobic water repellency.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "5 Years Warranty",
+    "durability": "5 Years",
+    "equipment": "DeFelsko Gauge, Multi-Layer 9H Quartz, Hedson IR Curing",
+    "procedure": [
+      "Phase 1: 3-pass paint correction to 98%+ clarity",
+      "Phase 2: Dual panel wipe decontamination",
+      "Phase 3: Base coat + Top coat multi-layer quartz application",
+      "Phase 4: 48-hr cleanroom curing pass"
+    ],
+    "maintenance": "Annual studio maintenance top-up pass included."
+  },
+  {
+    "id": "ceramic-2yr-1coatcare",
+    "title": "2 Years Ceramic Shield (1 CoatCare Included)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 25,000",
+    "icon": "\ud83c\udf81",
+    "tagline": "Includes 1 Free Maintenance CoatCare Service",
+    "summary": "Complete 2-year ceramic coating package bundled with 1 complimentary annual studio CoatCare decontamination & top-up maintenance service.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "2 Years Warranty + 1 Maintenance",
+    "durability": "2 Years",
+    "equipment": "9H Quartz, CoatCare Booster Spray, IR Curing",
+    "procedure": [
+      "Phase 1: 2-stage paint compounding",
+      "Phase 2: Ceramic 9H application & curing",
+      "Phase 3: 1 Free CoatCare maintenance voucher issued"
+    ],
+    "maintenance": "Redeem CoatCare maintenance at 12 months."
+  },
+  {
+    "id": "ceramic-3yr-2coatcare",
+    "title": "3 Years Ceramic Shield (2 CoatCare Included)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 35,000",
+    "icon": "\ud83c\udf81",
+    "tagline": "Includes 2 Free Maintenance CoatCare Services",
+    "summary": "Premium 3-year ceramic shield bundle backed by 2 complimentary annual studio CoatCare maintenance sessions for long-term gloss retention.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "3 Years Warranty + 2 Maintenances",
+    "durability": "3 Years",
+    "equipment": "9H SiO2 Quartz, IR Curing Rig",
+    "procedure": [
+      "Phase 1: Multi-stage paint leveling",
+      "Phase 2: High-density 9H quartz layering",
+      "Phase 3: 2 Free CoatCare maintenance vouchers issued"
+    ],
+    "maintenance": "Redeem CoatCare maintenance at month 12 and month 24."
+  },
+  {
+    "id": "ceramic-5yr-4coatcare",
+    "title": "5 Years Ceramic Shield (4 CoatCare Included)",
+    "category": "Ceramic Coating Packages",
+    "price": "\u20b9 40,000",
+    "icon": "\ud83d\udc51",
+    "tagline": "Includes 4 Free Annual CoatCare Services",
+    "summary": "Ultimate 5-year ceramic protection program bundled with 4 full annual studio CoatCare maintenance passes for total peace of mind.",
+    "img": "assets/o3_ceramic_coating.png",
+    "warranty": "5 Years Warranty + 4 Maintenances",
+    "durability": "5 Years",
+    "equipment": "Multi-Layer Quartz, Hedson IR Curing",
+    "procedure": [
+      "Phase 1: 3-pass paint correction to flawless finish",
+      "Phase 2: Multi-layer ceramic quartz application",
+      "Phase 3: 4 Free CoatCare maintenance vouchers issued"
+    ],
+    "maintenance": "Annual CoatCare pass redeemable every 12 months."
+  },
+  {
+    "id": "graphene-2yr",
+    "title": "2 Years Graphene Armor (9H Matrix)",
+    "category": "Graphene Coating Packages",
+    "price": "\u20b9 18,000",
+    "icon": "\u26a1",
+    "tagline": "Reduced Water Spotting & Enhanced Hardness",
+    "summary": "Reduced Graphene Oxide (rGO) matrix coating delivering high thermal dissipation, lower water spot etching, and slick hydrophobic protection.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "2 Years Warranty",
+    "durability": "2 Years",
+    "equipment": "rGO Graphene Oxide Matrix, IR Curing Rig",
+    "procedure": [
+      "Phase 1: 2-stage paint correction",
+      "Phase 2: Panel wiping with residue remover",
+      "Phase 3: Graphene matrix coating application",
+      "Phase 4: IR lamp heat curing at 80\u00b0C"
+    ],
+    "maintenance": "Wash with pH-neutral shampoo."
+  },
+  {
+    "id": "graphene-3yr",
+    "title": "3 Years Graphene Armor (9H Matrix)",
+    "category": "Graphene Coating Packages",
+    "price": "\u20b9 22,000",
+    "icon": "\u26a1",
+    "tagline": "36-Month Thermal Dissipation & Hydrophobic Slickness",
+    "summary": "3-year high-durability graphene matrix coating engineered for hot Indian summer road conditions, repelling water spots & road grime.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "3 Years Warranty",
+    "durability": "3 Years",
+    "equipment": "Scangrip Daylight, rGO Graphene Matrix, IR Curing",
+    "procedure": [
+      "Phase 1: Multi-pass paint defect compounding",
+      "Phase 2: Panel prep wipe",
+      "Phase 3: Double graphene matrix coat",
+      "Phase 4: IR lamp heat curing"
+    ],
+    "maintenance": "Use graphene booster spray every 6 months."
+  },
+  {
+    "id": "graphene-5yr",
+    "title": "5 Years Graphene Armor (9H Matrix)",
+    "category": "Graphene Coating Packages",
+    "price": "\u20b9 30,000",
+    "icon": "\ud83d\udee1\ufe0f",
+    "tagline": "5-Year Ultra Graphene Hardness Matrix Flagship",
+    "summary": "Flagship 5-year graphene matrix protection providing unmatched contact angle water beading, extreme scratch resistance, and wet gloss.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "5 Years Warranty",
+    "durability": "5 Years",
+    "equipment": "Multi-Layer Graphene Oxide, Hedson IR Curing",
+    "procedure": [
+      "Phase 1: 3-stage paint leveling to 98%+ scratch elimination",
+      "Phase 2: Solvent decontamination wipe",
+      "Phase 3: Multi-layer rGO graphene matrix application",
+      "Phase 4: 48-hr cleanroom curing pass"
+    ],
+    "maintenance": "Annual studio inspection included."
+  },
+  {
+    "id": "graphene-2yr-1coatcare",
+    "title": "2 Years Graphene Armor (1 CoatCare Included)",
+    "category": "Graphene Coating Packages",
+    "price": "\u20b9 28,000",
+    "icon": "\ud83c\udf81",
+    "tagline": "Includes 1 Free Maintenance CoatCare Service",
+    "summary": "2-year graphene armor package bundled with 1 complimentary annual studio CoatCare decontamination & top-up service.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "2 Years Warranty + 1 Maintenance",
+    "durability": "2 Years",
+    "equipment": "rGO Graphene Coating, CoatCare Booster, IR Curing",
+    "procedure": [
+      "Phase 1: 2-stage paint correction",
+      "Phase 2: Graphene matrix coating application & IR curing",
+      "Phase 3: 1 Free CoatCare maintenance voucher issued"
+    ],
+    "maintenance": "Redeem CoatCare maintenance at 12 months."
+  },
+  {
+    "id": "graphene-3yr-2coatcare",
+    "title": "3 Years Graphene Armor (2 CoatCare Included)",
+    "category": "Graphene Coating Packages",
+    "price": "\u20b9 40,000",
+    "icon": "\ud83c\udf81",
+    "tagline": "Includes 2 Free Maintenance CoatCare Services",
+    "summary": "3-year graphene matrix coating bundle including 2 complimentary annual studio CoatCare maintenance sessions.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "3 Years Warranty + 2 Maintenances",
+    "durability": "3 Years",
+    "equipment": "Graphene Oxide Matrix, IR Curing Rig",
+    "procedure": [
+      "Phase 1: Multi-stage paint correction",
+      "Phase 2: Graphene matrix coat & curing",
+      "Phase 3: 2 Free CoatCare maintenance vouchers issued"
+    ],
+    "maintenance": "Redeem CoatCare maintenance at month 12 and month 24."
+  },
+  {
+    "id": "graphene-5yr-4coatcare",
+    "title": "5 Years Graphene Armor (4 CoatCare Included)",
+    "category": "Graphene Coating Packages",
+    "price": "\u20b9 45,000",
+    "icon": "\ud83d\udc51",
+    "tagline": "Includes 4 Free Annual CoatCare Services",
+    "summary": "Ultimate 5-year graphene matrix program bundled with 4 full annual studio CoatCare maintenance passes.",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "warranty": "5 Years Warranty + 4 Maintenances",
+    "durability": "5 Years",
+    "equipment": "Multi-Layer Graphene Oxide, Hedson IR Curing",
+    "procedure": [
+      "Phase 1: 3-pass paint leveling to flawless finish",
+      "Phase 2: Multi-layer graphene matrix application",
+      "Phase 3: 4 Free CoatCare maintenance vouchers issued"
+    ],
+    "maintenance": "Annual CoatCare pass redeemable every 12 months."
+  },
+  {
+    "id": "ppf-3yr-clear",
+    "title": "PPF 3 Years - CLEAR (TPH Thermoplastic Hybrid)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 70,000",
+    "icon": "\ud83d\udee1\ufe0f",
+    "tagline": "Clear Self-Healing Protective Film (3 Years)",
+    "summary": "Entry-level clear self-healing protective film engineered to shield factory paint against stone chips, scratches, and road debris.",
+    "img": "assets/o3_ppf_protection.png",
+    "warranty": "3 Years Warranty",
+    "durability": "3 Years",
+    "equipment": "Plotter Pre-Cut Film, Alcohol Prep Solution, Steam Edge-Tuckers",
+    "procedure": [
+      "Phase 1: Full decontamination wash & single-stage paint polish",
+      "Phase 2: IPA alcohol wipe for sterile paint bonding",
+      "Phase 3: Computerized plotter template cutting",
+      "Phase 4: Slip solution laying & squeegee air extraction",
+      "Phase 5: Heat-sealed edge wrapping into seams"
+    ],
+    "maintenance": "Wash with pH-neutral shampoo."
+  },
+  {
+    "id": "ppf-5yr-clear",
+    "title": "PPF 5 Years - CLEAR (TPH Thermoplastic Hybrid)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 90,000",
+    "icon": "\ud83d\udee1\ufe0f",
+    "tagline": "5-Year Clear Self-Healing Hybrid Protective Armor",
+    "summary": "High-durability clear TPH film offering 5 years of self-healing scratch defense and optical paint clarity.",
+    "img": "assets/o3_ppf_protection.png",
+    "warranty": "5 Years Warranty",
+    "durability": "5 Years",
+    "equipment": "Plotter Pre-Cut Film, Steam Edge-Tuckers",
+    "procedure": [
+      "Phase 1: Decontamination wash & paint prep",
+      "Phase 2: Plotter pre-cut installation",
+      "Phase 3: Squeegee extraction & edge tucking"
+    ],
+    "maintenance": "Avoid pressure washing within 5cm of edges."
+  },
+  {
+    "id": "ppf-5yr-gloss-tpu",
+    "title": "PPF 5 Years - GLOSS (TPU Thermoplastic Polyurethane)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,30,000",
+    "icon": "\ud83d\udc8e",
+    "tagline": "Premium Optical Grade Self-Healing TPU Film",
+    "summary": "Premium 100% optical-grade TPU film with instant heat-activated self-healing, hyper-gloss clarity, and non-yellowing adhesive layer.",
+    "img": "assets/o3_ppf_protection.png",
+    "warranty": "5 Years Warranty",
+    "durability": "5 Years",
+    "equipment": "Optical TPU Film, Steam Edge Tuckers, Plotter Pre-Cut",
+    "procedure": [
+      "Phase 1: Paint defect correction to pristine surface",
+      "Phase 2: Plotter cut TPU template squeegee installation",
+      "Phase 3: Heat-wrapped edge tucking"
+    ],
+    "maintenance": "Self-heals swirl marks under sunlight or warm water."
+  },
+  {
+    "id": "ppf-7yr-gloss-tpu",
+    "title": "PPF 7 Years - GLOSS (TPU Thermoplastic Polyurethane)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,50,000",
+    "icon": "\ud83d\udc51",
+    "tagline": "Flagship Optical Grade Self-Healing TPU Film (7 Years)",
+    "summary": "Ultra-thick 7-year flagship TPU self-healing armor providing maximum protection against high-speed gravel hits and key scratches.",
+    "img": "assets/o3_ppf_protection.png",
+    "warranty": "7 Years Warranty",
+    "durability": "7 Years",
+    "equipment": "Flagship Optical TPU, Plotter Pre-Cut, Steam Edge Tuckers",
+    "procedure": [
+      "Phase 1: Multi-stage paint prep wash & polish",
+      "Phase 2: Computerized pre-cut template installation",
+      "Phase 3: Invisible edge tucking under emblems & seams"
+    ],
+    "maintenance": "Back by 7-year studio warranty against yellowing & bubbling."
+  },
+  {
+    "id": "ppf-3yr-matt",
+    "title": "PPF 3 Years - MATT (TPH Thermoplastic Hybrid)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 80,000",
+    "icon": "\ud83d\udda4",
+    "tagline": "Stealth Satin Finish Self-Healing Film (3 Years)",
+    "summary": "Converts glossy paint into a sleek matte/satin finish while providing full self-healing stone chip protection.",
+    "img": "assets/o3_rolls_royce_black.png",
+    "warranty": "3 Years Warranty",
+    "durability": "3 Years",
+    "equipment": "Matte TPH Film, Steam Edge Tuckers",
+    "procedure": [
+      "Phase 1: Decontamination wash & panel prep",
+      "Phase 2: Matte TPH film squeegee installation",
+      "Phase 3: Heat-sealed edge wrapping"
+    ],
+    "maintenance": "Clean with matte-safe quick detailer spray."
+  },
+  {
+    "id": "ppf-5yr-matt-tpu",
+    "title": "PPF 5 Years - MATT (TPU Thermoplastic Polyurethane)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,50,000",
+    "icon": "\ud83d\udda4",
+    "tagline": "Stealth Satin Finish Optical TPU Self-Healing Film",
+    "summary": "Premium optical-grade matte TPU film offering smooth satin texture, self-healing capability, and 5 years of anti-scratch armor.",
+    "img": "assets/o3_rolls_royce_black.png",
+    "warranty": "5 Years Warranty",
+    "durability": "5 Years",
+    "equipment": "Matte Optical TPU, Computerized Plotter Pre-Cut",
+    "procedure": [
+      "Phase 1: Paint prep decontamination",
+      "Phase 2: Pre-cut matte TPU installation",
+      "Phase 3: Seamless edge wrapping"
+    ],
+    "maintenance": "Do not apply glossy waxes on matte film."
+  },
+  {
+    "id": "ppf-7yr-matt-tpu",
+    "title": "PPF 7 Years - MATT (TPU Thermoplastic Polyurethane)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,80,000",
+    "icon": "\ud83d\udc51",
+    "tagline": "Flagship Satin TPU Stealth Protection Film (7 Years)",
+    "summary": "Top-of-the-line 7-year matte TPU armor for luxury supercars and SUVs seeking a custom satin look with ultimate paint defense.",
+    "img": "assets/o3_rolls_royce_black.png",
+    "warranty": "7 Years Warranty",
+    "durability": "7 Years",
+    "equipment": "Flagship Matte TPU, Steam Edge Tuckers",
+    "procedure": [
+      "Phase 1: Full vehicle paint prep",
+      "Phase 2: Full body stealth matte TPU wrap",
+      "Phase 3: Cleanroom heat curing"
+    ],
+    "maintenance": "7-year studio warranty included."
+  },
+  {
+    "id": "ppf-3yr-black",
+    "title": "PPF 3 Years - BLACK (TPH Roof & Accent Film)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 80,000",
+    "icon": "\ud83c\udfce\ufe0f",
+    "tagline": "Gloss Black Roof & Accent Protection Film",
+    "summary": "Deep mirror gloss black TPH film designed for dual-tone roof wraps, pillars, mirrors, and hood accents with self-healing defense.",
+    "img": "assets/o3_mercedes_amg.png",
+    "warranty": "3 Years Warranty",
+    "durability": "3 Years",
+    "equipment": "Gloss Black TPH Film, Heat Guns",
+    "procedure": [
+      "Phase 1: Roof & pillar decontamination wash",
+      "Phase 2: High-gloss black TPH application",
+      "Phase 3: Heat trimming & edge tucking"
+    ],
+    "maintenance": "Wipe with soft microfiber."
+  },
+  {
+    "id": "ppf-5yr-black",
+    "title": "PPF 5 Years - BLACK (TPH Roof & Accent Film)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,50,000",
+    "icon": "\ud83c\udfce\ufe0f",
+    "tagline": "5-Year Gloss Black Self-Healing Accent Film",
+    "summary": "High-durability gloss black TPH protective film for full body or accent panel transformations.",
+    "img": "assets/o3_mercedes_amg.png",
+    "warranty": "5 Years Warranty",
+    "durability": "5 Years",
+    "equipment": "Gloss Black TPH, Steam Tuckers",
+    "procedure": [
+      "Phase 1: Surface prep & alcohol wipe",
+      "Phase 2: Gloss black TPH squeegee installation",
+      "Phase 3: Edge wrapping"
+    ],
+    "maintenance": "Wash with pH-neutral shampoo."
+  },
+  {
+    "id": "ppf-7yr-black-tpu",
+    "title": "PPF 7 Years - BLACK (TPU Roof & Accent Film)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,80,000",
+    "icon": "\ud83d\udc51",
+    "tagline": "Flagship Black TPU Self-Healing Armor (7 Years)",
+    "summary": "Flagship black TPU film combining deep piano-black mirror shine with heavy-duty anti-scratch self-healing armor.",
+    "img": "assets/o3_mercedes_amg.png",
+    "warranty": "7 Years Warranty",
+    "durability": "7 Years",
+    "equipment": "Piano Black TPU, Plotter Pre-Cut",
+    "procedure": [
+      "Phase 1: Full panel correction",
+      "Phase 2: Black TPU wrap installation",
+      "Phase 3: IR curing"
+    ],
+    "maintenance": "Backed by 7-year studio warranty."
+  },
+  {
+    "id": "ppf-3yr-color",
+    "title": "PPF 3 Years - COLOR WRAP (TPH Color Protection)",
+    "category": "Paint Protection Film (PPF)",
+    "price": "\u20b9 1,50,000",
+    "icon": "\ud83c\udfa8",
+    "tagline": "Colored Custom Wrap Protection Film",
+    "summary": "Custom colored TPH protection film allowing complete vehicle color transformations with built-in stone chip defense.",
+    "img": "assets/o3_rolls_royce_cyan.png",
+    "warranty": "3 Years Warranty",
+    "durability": "3 Years",
+    "equipment": "Color TPH Film, Heat Guns, Edge Tuckers",
+    "procedure": [
+      "Phase 1: Full body decontamination",
+      "Phase 2: Custom color TPH application",
+      "Phase 3: Seamless edge wrapping"
+    ],
+    "maintenance": "Wash with mild car shampoo."
+  },
+  {
+    "id": "maintenance-1time",
+    "title": "Maintenance Coating - 1 Time",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 1,500",
+    "icon": "\ud83d\udd04",
+    "tagline": "Quick Top-Up Hydrophobic Boost",
+    "summary": "Single-pass studio maintenance wash & SiO2 hydrophobic booster spray application to revive ceramic/wax water beading.",
+    "img": "assets/product_coating_kit.png",
+    "warranty": "Gloss Booster Guarantee",
+    "durability": "3 Months",
+    "equipment": "SiO2 Spray Booster, Microfiber Towels",
+    "procedure": [
+      "Phase 1: Decontamination wash",
+      "Phase 2: Hydrophobic SiO2 booster spray pass",
+      "Phase 3: Microfiber buffing"
+    ],
+    "maintenance": "Perform quarterly."
+  },
+  {
+    "id": "ceramic-maintenance-1time",
+    "title": "Ceramic Maintenance - 1 Time",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 8,000",
+    "icon": "\u2728",
+    "tagline": "Complete Decontamination & Ceramic Re-Load",
+    "summary": "Full studio ceramic maintenance session including iron decontamination wash, clay bar pass, and ceramic reload coating top-up.",
+    "img": "assets/product_coating_kit.png",
+    "warranty": "Annual Re-Load Certificate",
+    "durability": "12 Months",
+    "equipment": "Iron Remover, Clay Bar, Ceramic Re-Load Spray",
+    "procedure": [
+      "Phase 1: Chemical iron fallout wash",
+      "Phase 2: Clay bar decontamination",
+      "Phase 3: Machine ceramic reload pass"
+    ],
+    "maintenance": "Recommended once a year."
+  },
+  {
+    "id": "graphene-maintenance-1time",
+    "title": "Graphene Maintenance - 1 Time",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 9,000",
+    "icon": "\u26a1",
+    "tagline": "Complete Decontamination & Graphene Re-Load",
+    "summary": "Complete studio graphene maintenance treatment reviving slickness, gloss, and water spot defense on graphene-coated vehicles.",
+    "img": "assets/product_coating_kit.png",
+    "warranty": "Annual Re-Load Certificate",
+    "durability": "12 Months",
+    "equipment": "Graphene Booster, Clay Bar, IR Lamp",
+    "procedure": [
+      "Phase 1: Decontamination wash",
+      "Phase 2: Clay bar pass",
+      "Phase 3: Graphene re-load application & IR curing"
+    ],
+    "maintenance": "Recommended once a year."
+  },
+  {
+    "id": "subscription-12",
+    "title": "12 Washes For 12 Months Subscription",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 4,200",
+    "icon": "\ud83c\udf9f\ufe0f",
+    "tagline": "Monthly Detailing Snow Foam Wash Package",
+    "summary": "12 high-pressure snow foam detailing washes valid over 12 months with interior vacuuming and tire gel dressing.",
+    "img": "assets/o3_on_wheels.png",
+    "warranty": "12 Washes Pass",
+    "durability": "12 Months",
+    "equipment": "K\u00e4rcher Washer, Snow Foam Lance",
+    "procedure": [
+      "Phase 1: High-pressure foam wash",
+      "Phase 2: Interior vacuuming",
+      "Phase 3: Tire gel dressing"
+    ],
+    "maintenance": "Redeem 1 wash per month."
+  },
+  {
+    "id": "subscription-24",
+    "title": "24 Washes For 24 Months Subscription",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 8,400",
+    "icon": "\ud83c\udf9f\ufe0f",
+    "tagline": "Bi-Monthly Detailing Snow Foam Wash Package",
+    "summary": "24 detailing snow foam washes valid over 24 months for complete vehicle maintenance.",
+    "img": "assets/o3_on_wheels.png",
+    "warranty": "24 Washes Pass",
+    "durability": "24 Months",
+    "equipment": "K\u00e4rcher Washer, Industrial Vacuum",
+    "procedure": [
+      "Phase 1: Foam wash & vacuum",
+      "Phase 2: Glass wipe & tire dressing"
+    ],
+    "maintenance": "Redeem 1 wash every 2 weeks."
+  },
+  {
+    "id": "subscription-36",
+    "title": "36 Washes For 36 Months Subscription",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 12,500",
+    "icon": "\ud83c\udf9f\ufe0f",
+    "tagline": "3-Year VIP Detailing Wash Package",
+    "summary": "36 detailing washes valid over 3 years with complimentary underbody flush sessions.",
+    "img": "assets/o3_on_wheels.png",
+    "warranty": "36 Washes Pass",
+    "durability": "36 Months",
+    "equipment": "High-Pressure Washer, Vacuum",
+    "procedure": [
+      "Phase 1: Snow foam wash & vacuum",
+      "Phase 2: Underbody flush"
+    ],
+    "maintenance": "Redeem 1 wash per month."
+  },
+  {
+    "id": "subscription-60",
+    "title": "60 Washes For 60 Months Subscription",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 21,000",
+    "icon": "\ud83c\udf9f\ufe0f",
+    "tagline": "5-Year VIP Unlimited Detailing Wash Package",
+    "summary": "Ultimate 60-wash subscription over 5 years keeping your vehicle pristine with high-glow foam washes.",
+    "img": "assets/o3_on_wheels.png",
+    "warranty": "60 Washes Pass",
+    "durability": "60 Months",
+    "equipment": "K\u00e4rcher Washer, Snow Foam Cannon",
+    "procedure": [
+      "Phase 1: High-glow snow foam wash",
+      "Phase 2: Interior vacuuming & tire dressing"
+    ],
+    "maintenance": "Redeem anytime within 5 years."
+  },
+  {
+    "id": "undershield-2yr",
+    "title": "O3 Undershield Body Coating (2 Years)",
+    "category": "Maintenance & Subscriptions",
+    "price": "\u20b9 3,500",
+    "icon": "\ud83d\ude9c",
+    "tagline": "Heavy-Duty Rubberized Anti-Rust Chassis Coating",
+    "summary": "Heavy-duty rubberized underbody coating applied on hydraulic lift to frame rails and wheel wells to prevent monsoon rust & gravel noise.",
+    "img": "assets/o3_on_wheels.png",
+    "warranty": "2 Years Rust-Proof Warranty",
+    "durability": "2 Years",
+    "equipment": "Hydraulic Hoist, Rubberized Spray Gun",
+    "procedure": [
+      "Phase 1: Hydraulic lift raising",
+      "Phase 2: Chassis mud wash & dry",
+      "Phase 3: Rubberized anti-rust spray application"
+    ],
+    "maintenance": "Inspect after monsoon season."
+  }
+];
 
   // AUTHENTIC REVIEWS DATABASE
   const realReviews = [
@@ -2115,11 +2954,11 @@ function App() {
 
       {/* FLOATING DIRECT WHATSAPP ACTION TOGGLE BUTTON (PURE ROUND CIRCLE) */}
       <a 
-        href="https://wa.me/919033088869?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing."
+        href="https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing."
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float-btn"
-        title="Direct WhatsApp Chat with Sharanpal Sir"
+        title="Direct WhatsApp Chat with Sharanpalsingh Sir"
       >
         <span className="whatsapp-pulse-dot"></span>
         <span>💬</span>
@@ -2177,11 +3016,11 @@ function App() {
               <span>MENU</span>
             </button>
             <a 
-              href="tel:9033088869" 
+              href="tel:7225030303" 
               className="hidden xl:flex items-center gap-2 text-xs text-[#00f0ff] bg-[#00f0ff]/10 px-4 py-2 rounded-full border border-[#00f0ff]/30 hover:bg-[#00f0ff]/20 transition-all font-mono font-bold shadow-[0_0_15px_rgba(0,240,255,0.2)]"
             >
               <span>📞</span>
-              <span>90330 88869</span>
+              <span>72250 30303</span>
             </a>
 
             <button 
@@ -2761,7 +3600,7 @@ function App() {
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-[#cae8e8] uppercase font-bold">Flagship Studio Facility</span>
                       <h3 className="text-xl font-bold text-white">O3 Car-Spa Studio, Anand</h3>
-                      <p className="text-[11px] text-emerald-400 font-mono">Directed by Mr. Sharanpal Sodhi</p>
+                      <p className="text-[11px] text-emerald-400 font-mono">Directed by Mr. Sharanpalsingh Sodhi</p>
                     </div>
 
                     <div className="space-y-3 pt-2">
@@ -2769,7 +3608,7 @@ function App() {
                         <span className="text-lg">📍</span>
                         <div>
                           <strong className="text-white block">Full Studio Address:</strong>
-                          No. 444/2, Phase 4, Opp. Swiss Glass Coat, Plot VU Nagar, New Vallabh Vidyanagar, GIDC, Anand, Gujarat 388121
+                          Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)
                         </div>
                       </div>
 
@@ -2784,8 +3623,16 @@ function App() {
                       <div className="flex items-start gap-3">
                         <span className="text-lg">📞</span>
                         <div>
-                          <strong className="text-white block">Direct Contact Lines:</strong>
-                          <a href="tel:9033088869" className="text-[#cae8e8] hover:underline font-mono font-bold">90330 88869</a> · <a href="tel:7225030303" className="text-[#cae8e8] hover:underline font-mono font-bold">72250 30303</a>
+                          <strong className="text-white block">Direct Booking / Query Line:</strong>
+                          <a href="tel:7225030303" className="text-[#00f0ff] hover:underline font-mono font-bold">72250 30303</a>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3">
+                        <span className="text-lg">✉️</span>
+                        <div>
+                          <strong className="text-white block">Official Email:</strong>
+                          <a href="mailto:o3carspavvn@gmail.com" className="text-[#cae8e8] hover:underline font-mono">o3carspavvn@gmail.com</a>
                         </div>
                       </div>
                     </div>
@@ -2806,24 +3653,24 @@ function App() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-4 border-t border-[#cae8e8]/20">
                   {/* WhatsApp API */}
                   <a 
-                    href="https://wa.me/919033088869?text=Hello%20O3%20Car-Spa%20Team!%20I%20want%20to%20book%20a%20detailing%20session." 
+                    href="https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20book%20a%20detailing%20session." 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="p-5 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 hover:border-emerald-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
                   >
                     <div className="text-3xl text-emerald-400">💬</div>
                     <div className="text-xs font-bold text-white group-hover:text-emerald-400">WhatsApp Chat</div>
-                    <div className="text-[10px] font-mono text-emerald-400">Instant Response</div>
+                    <div className="text-[10px] font-mono text-emerald-400">72250 30303</div>
                   </a>
 
                   {/* Phone Direct */}
                   <a 
-                    href="tel:9033088869" 
+                    href="tel:7225030303" 
                     className="p-5 rounded-2xl bg-[#091524] border border-cyan-500/30 hover:border-cyan-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
                   >
                     <div className="text-3xl text-cyan-400">📞</div>
                     <div className="text-xs font-bold text-white group-hover:text-cyan-400">Call Direct</div>
-                    <div className="text-[10px] font-mono text-cyan-400">90330 88869</div>
+                    <div className="text-[10px] font-mono text-cyan-400">72250 30303</div>
                   </a>
 
                   {/* Google Maps Direction */}
@@ -3384,7 +4231,7 @@ function App() {
                       <span>View Details 🔍</span>
                     </button>
                     <a 
-                      href={`https://wa.me/919033088869?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`}
+                      href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary text-xs flex-1 justify-center py-2.5"
@@ -3463,7 +4310,7 @@ function App() {
 
                   <div className="pt-4 flex gap-4 border-t border-[#cae8e8]/20">
                     <a 
-                      href={`https://wa.me/919033088869?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(selectedProduct.name)}%20(${selectedProduct.price})`}
+                      href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(selectedProduct.name)}%20(${selectedProduct.price})`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary text-xs w-full justify-center py-3"
@@ -3480,57 +4327,118 @@ function App() {
 
         {/* ---------------- SERVICES VIEW ---------------- */}
         {currentView === 'services' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
             
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <span className="pill-capsule font-mono">100% Openable Detailed Cards</span>
-              <h1 className="text-4xl sm:text-5xl font-extrabold text-white">All 11 Precision Services</h1>
+              <span className="pill-capsule font-mono">100% Visual Interactive Service Cards (47 Treatments)</span>
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-white">All Precision Services & Packages</h1>
               <p className="text-slate-300 text-sm sm:text-base">
-                Click on any service card below to inspect technical specifications, chemical formulas, and step-by-step procedures.
+                Click or touch any card below to inspect full step-by-step detailing procedures, equipment specs, and instant WhatsApp booking.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {allServicesData.map((s) => (
-                <div key={s.id} className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group">
-                  <div className="space-y-3">
-                    <div className="relative overflow-hidden rounded-2xl">
-                      <img src={s.img} alt={s.title} className="w-full h-48 object-cover group-hover:scale-103 transition-all"  loading="lazy" decoding="async" />
-                      <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md">
-                        {s.warranty}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl">{s.icon}</span>
-                      <span className="text-[10px] font-mono text-[#cae8e8] uppercase">{s.category}</span>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-white group-hover:text-[#cae8e8] transition-colors">{s.title}</h3>
-                    <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{s.tagline}</p>
-
-                    <div className="pt-2 text-[11px] text-slate-400 space-y-1">
-                      <div><strong className="text-white">Durability:</strong> {s.durability}</div>
-                      <div><strong className="text-white">Equipment:</strong> {s.equipment.slice(0, 38)}...</div>
-                    </div>
-                  </div>
-
-                  <div className="pt-3 border-t border-[#cae8e8]/15 flex items-center gap-3">
-                    <button 
-                      onClick={() => setActiveServiceDetail(s)} 
-                      className="btn-secondary text-xs flex-1 justify-center py-2.5"
-                    >
-                      <span>Open Details 🔍</span>
-                    </button>
-                    <button 
-                      onClick={() => handleOpenBookingWithService(s.title)} 
-                      className="btn-primary text-xs flex-1 justify-center py-2.5"
-                    >
-                      <span>Book Now</span>
-                    </button>
-                  </div>
-                </div>
+            {/* INTERACTIVE CATEGORY FILTER BAR */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto">
+              {[
+                { id: 'all', label: 'All Services (47)' },
+                { id: 'Washing & Quick Care', label: 'Washing & Quick Care (5)' },
+                { id: 'Color Protection & Treatments', label: 'Color Protection & Treatments (10)' },
+                { id: 'Ceramic Coating Packages', label: 'Ceramic Coating 9H (7)' },
+                { id: 'Graphene Coating Packages', label: 'Graphene Armor 9H (6)' },
+                { id: 'Paint Protection Film (PPF)', label: 'PPF Armor Film (11)' },
+                { id: 'Maintenance & Subscriptions', label: 'Maintenance & Subscriptions (8)' }
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setServiceCategory(cat.id)}
+                  className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all border ${
+                    serviceCategory === cat.id
+                      ? 'bg-[#00f0ff] text-[#05070c] border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] scale-105'
+                      : 'bg-[#0d111a]/80 text-slate-300 border-[#cae8e8]/20 hover:border-[#00f0ff]/50 hover:text-white'
+                  }`}
+                >
+                  {cat.label}
+                </button>
               ))}
+            </div>
+
+            {/* 47 EXHAUSTIVE OFFICIAL VISUAL SERVICE CARDS GRID */}
+            <div className="space-y-6">
+              <div className="flex items-center justify-between border-b border-[#cae8e8]/20 pb-4">
+                <span className="text-xs font-mono font-bold text-[#00f0ff] uppercase tracking-wider">
+                  {serviceCategory === 'all' ? 'ALL 47 CERTIFIED CAR-SPA SERVICES' : serviceCategory.toUpperCase()}
+                </span>
+                <span className="text-xs text-slate-400 font-mono">
+                  Showing {(serviceCategory === 'all' ? allServicesData : allServicesData.filter(s => s.category === serviceCategory)).length} Certified Treatments
+                </span>
+              </div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {(serviceCategory === 'all' ? allServicesData : allServicesData.filter(s => s.category === serviceCategory)).map((s) => (
+                  <div 
+                    key={s.id} 
+                    onClick={() => setActiveServiceDetail(s)}
+                    className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1.5 shadow-xl cursor-pointer"
+                  >
+                    <div className="space-y-3">
+                      {/* CARD IMAGE & BADGES */}
+                      <div className="relative overflow-hidden rounded-2xl bg-black border border-[#cae8e8]/20 h-52">
+                        <img 
+                          src={s.img} 
+                          alt={s.title} 
+                          className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"  
+                          loading="lazy" 
+                          decoding="async" 
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent opacity-80"></div>
+                        
+                        {/* Warranty Badge (Top Right) */}
+                        <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono font-bold px-3 py-1 rounded-full backdrop-blur-md">
+                          {s.warranty}
+                        </span>
+
+                        {/* Official Tariff Price Badge (Bottom Left) */}
+                        <span className="absolute bottom-3 left-3 bg-[#05070c]/90 border border-[#00f0ff]/60 text-[#00f0ff] text-sm font-mono font-extrabold px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-[0_0_20px_rgba(0,240,255,0.5)]">
+                          {s.price}
+                        </span>
+                      </div>
+
+                      {/* CATEGORY & ICON */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{s.icon}</span>
+                        <span className="text-[10px] font-mono text-[#00f0ff] uppercase font-bold tracking-wider">{s.category}</span>
+                      </div>
+
+                      {/* TITLE & TAGLINE */}
+                      <h3 className="text-xl font-bold text-white group-hover:text-[#00f0ff] transition-colors leading-snug">{s.title}</h3>
+                      <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{s.tagline}</p>
+
+                      {/* QUICK SPECS PREVIEW */}
+                      <div className="pt-2 text-[11px] text-slate-400 space-y-1 font-mono border-t border-[#cae8e8]/10">
+                        <div><strong className="text-white">Official Price:</strong> <span className="text-[#00f0ff] font-bold">{s.price}</span></div>
+                        <div><strong className="text-white">Durability:</strong> {s.durability}</div>
+                        <div><strong className="text-white">Equipment:</strong> {s.equipment.slice(0, 36)}...</div>
+                      </div>
+                    </div>
+
+                    {/* CARD ACTIONS */}
+                    <div className="pt-3 border-t border-[#cae8e8]/15 flex items-center gap-3">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); setActiveServiceDetail(s); }} 
+                        className="btn-secondary text-xs flex-1 justify-center py-2.5 font-bold"
+                      >
+                        <span>Open Details 🔍</span>
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); handleOpenBookingWithService(s.title); }} 
+                        className="btn-primary text-xs flex-1 justify-center py-2.5 font-bold"
+                      >
+                        <span>Book Now</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
           </div>
@@ -4563,14 +5471,18 @@ function App() {
               <p className="leading-relaxed">{activeServiceDetail.summary}</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 text-xs bg-[#05070c] p-4 rounded-2xl border border-[#cae8e8]/20">
+            <div className="grid grid-cols-3 gap-3 text-xs bg-[#05070c] p-4 rounded-2xl border border-[#cae8e8]/20">
               <div>
-                <span className="text-slate-400 text-[10px] uppercase block">Studio Warranty</span>
-                <strong className="text-[#cae8e8] text-sm">{activeServiceDetail.warranty}</strong>
+                <span className="text-slate-400 text-[10px] uppercase block font-mono font-bold">Official Tariff</span>
+                <strong className="text-[#00f0ff] text-sm sm:text-base font-extrabold font-mono">{activeServiceDetail.price}</strong>
               </div>
               <div>
-                <span className="text-slate-400 text-[10px] uppercase block">Expected Durability</span>
-                <strong className="text-white text-sm">{activeServiceDetail.durability}</strong>
+                <span className="text-slate-400 text-[10px] uppercase block font-mono font-bold">Studio Warranty</span>
+                <strong className="text-[#cae8e8] text-xs font-bold">{activeServiceDetail.warranty}</strong>
+              </div>
+              <div>
+                <span className="text-slate-400 text-[10px] uppercase block font-mono font-bold">Durability</span>
+                <strong className="text-white text-xs font-bold">{activeServiceDetail.durability}</strong>
               </div>
             </div>
 
@@ -4579,7 +5491,7 @@ function App() {
               <ul className="space-y-2">
                 {activeServiceDetail.procedure.map((step, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <span className="text-[#cae8e8] font-bold">▸</span>
+                    <span className="text-[#00f0ff] font-bold">▸</span>
                     <span>{step}</span>
                   </li>
                 ))}
@@ -4592,13 +5504,21 @@ function App() {
               <p className="text-slate-300 leading-relaxed"><strong className="text-white">Recommended Maintenance:</strong> {activeServiceDetail.maintenance}</p>
             </div>
 
-            <div className="pt-4 flex gap-4 border-t border-[#cae8e8]/20">
+            <div className="pt-4 flex flex-col sm:flex-row gap-3 border-t border-[#cae8e8]/20">
               <button 
                 onClick={() => handleOpenBookingWithService(activeServiceDetail.title)} 
-                className="btn-primary text-xs w-full justify-center py-3"
+                className="btn-primary text-xs flex-1 justify-center py-3 font-bold"
               >
-                Book {activeServiceDetail.title} Treatment Now →
+                Book Treatment Now →
               </button>
+              <a 
+                href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20service:%20${encodeURIComponent(activeServiceDetail.title)}%20(${activeServiceDetail.price})`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary text-xs flex-1 justify-center py-3 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/10 font-bold"
+              >
+                Instant WhatsApp Inquiry 💬
+              </a>
             </div>
           </div>
         </div>
@@ -4670,16 +5590,16 @@ function App() {
 
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Studio Contact</h4>
-              <p>📍 No. 444/2, Phase 4, Opp. Swiss Glass Coat, Plot VU Nagar, New Vallabh Vidyanagar, GIDC, Anand, Gujarat 388121</p>
-              <p>📞 90330 88869 · 72250 30303</p>
-              <p>✉️ o3carspavvn@gmail.com</p>
+              <p>📍 Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)</p>
+              <p>📞 <a href="tel:7225030303" className="hover:underline text-[#00f0ff]">72250 30303</a></p>
+              <p>✉️ <a href="mailto:o3carspavvn@gmail.com" className="hover:underline text-[#cae8e8]">o3carspavvn@gmail.com</a></p>
             </div>
 
           </div>
 
           <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
             <div>
-              © O3 Car-Spa. Precision Detailing Studio (Managed by Sharanpal Sodhi). All rights reserved.
+              © O3 Car-Spa. Precision Detailing Studio (Managed by Mr. Sharanpalsingh Sodhi). All rights reserved.
             </div>
             <div className="flex gap-4">
               <a href="#" className="hover:underline">Privacy Policy</a>

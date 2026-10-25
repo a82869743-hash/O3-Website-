@@ -7,9 +7,9 @@
   <meta name="description" content="O3 Car-Spa Premium Car Detailing Studio | Managed by Sharanpalsingh Sodhi | Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121). Call 7225030303. Paint Protection Film (PPF), Ceramic 9H, Graphene Coating, and O3 On Wheels Mobile Detailing." />
   
   <!-- Critical Asset Preloading -->
-  <link rel="preload" href="assets/o3_official_logo.png" as="image" type="image/png">
-  <link rel="preload" href="assets/o3_hero_car.png" as="image" type="image/png">
-  
+  <link rel="preload" href="assets/brand/o3-logo-white.svg" as="image" type="image/svg+xml">
+  <link rel="icon" href="assets/brand/o3-mark-blue.svg" type="image/svg+xml">
+
   <!-- Google Fonts & CDN Preconnects -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,37 +17,29 @@
   <link rel="preconnect" href="https://unpkg.com">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS (precompiled via `npm run build`) -->
+  <link rel="stylesheet" href="tailwind.css" />
 
   <!-- GSAP Animation Engine & ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
   <!-- Custom Design System Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=2.0" />
+  <link rel="stylesheet" href="styles.css" />
 
-  <!-- React 18 & Babel Standalone for ESM Execution -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- React 18 -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
 </head>
 <body class="bg-[#05070c] text-slate-100 antialiased selection:bg-[#cae8e8] selection:text-[#05070c]">
   
   <!-- React Mount Root -->
   <div id="root"></div>
 
-  <!-- React Application Scripts with Cache Buster -->
-  <script type="text/babel" src="app.jsx?v=2.0"></script>
-
-  <script>
-    // Initialize Lucide icons on DOM update
-    window.addEventListener('load', () => {
-      if (window.lucide) window.lucide.createIcons();
-    });
-  </script>
+  <!-- React Application (precompiled from app.jsx via `npm run build`) -->
+  <script src="app.js"></script>
 </body>
 </html>

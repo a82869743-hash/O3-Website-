@@ -3,7 +3,7 @@
   "cleanUrls": true,
   "headers": [
     {
-      "source": "/assets/(.*)",
+      "source": "/(.*)\\.(png|jpg|jpeg|svg|webp|gif|mp4|webm)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -12,19 +12,13 @@
       ]
     },
     {
-      "source": "/(.*).(png|jpg|jpeg|svg|webp|gif|mp4|webm|css|js)",
+      "source": "/(.*)\\.(css|js)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
     }
   ]
 }

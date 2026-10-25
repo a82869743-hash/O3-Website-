@@ -107,8 +107,7 @@ h1, h2, h3, h4, .font-display {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.02);
-  filter: brightness(1.08) contrast(1.05) saturate(1.1);
+  /* No CSS filter here: filtering a playing full-screen video re-processes every frame */
 }
 
 .hero-video-overlay-light {
@@ -190,29 +189,28 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* TRANSPARENT BRAND LOGO BLENDING */
+/* Official vector logo: shown as designed, no filters or glow */
 .logo-blend {
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.6)) brightness(1.3) contrast(1.15);
-  transition: all 0.35s ease;
+  transition: transform 0.35s ease;
 }
 
 .logo-blend:hover {
-  filter: drop-shadow(0 0 40px rgba(202, 232, 232, 0.85)) brightness(1.45);
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 /* BORDERLESS ORGANIC FLOATING GLASS (ANTI-BOXY) */
 .glass-surface, .card-liquid {
   position: relative;
-  background: rgba(10, 14, 23, 0.5);
-  backdrop-filter: blur(32px) saturate(220%);
-  -webkit-backdrop-filter: blur(32px) saturate(220%);
+  /* Solid tint instead of backdrop blur: the blur re-rendered every frame
+     because the animated particle canvas sits behind every card */
+  background: rgba(10, 14, 23, 0.88);
   border: 1px solid rgba(202, 232, 232, 0.14);
   border-radius: var(--radius-xl);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s, box-shadow 0.5s;
   overflow: hidden;
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.82);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.7);
 }
 
 .glass-surface:hover, .card-liquid:hover {
@@ -898,3 +896,37 @@ h1, h2, h3, h4, .font-display {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* ==========================================================================
+   SCROLL SYSTEM (Lenis + GSAP)
+   ========================================================================== */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9999;
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, #00f0ff, #cae8e8);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+  pointer-events: none;
+}
+
+.marquee-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(202, 232, 232, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress-bar { display: none; }
+}
+
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

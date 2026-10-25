@@ -26,7 +26,7 @@ function O3Preloader({ progress, isFinished }) {
         {/* Brand Official Logo with Pulsing Halo */}
         <div className="relative inline-block">
           <div className="absolute -inset-4 bg-[#00f0ff]/20 rounded-full blur-2xl animate-pulse"></div>
-          <img src="assets/o3_official_logo.png" 
+          <img src="assets/brand/o3-logo-white.svg" 
             alt="O3 CAR-SPA Official Studio Logo" 
             className="h-20 sm:h-24 w-auto mx-auto relative z-10 drop-shadow-[0_0_35px_rgba(0,240,255,0.7)]"
            loading="lazy" decoding="async" />
@@ -63,1466 +63,6 @@ function O3Preloader({ progress, isFinished }) {
         {/* Founder Signature Badge */}
         <div className="pt-2 text-[10px] font-mono text-slate-500">
           Craftsmanship Directed by <span className="text-emerald-400 font-semibold">Sharanpal Sodhi</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 1. INTERACTIVE PAINT INSPECTION LIGHT GLOW VISUALIZER
-function PaintGlowVisualizer() {
-  const containerRef = useRef(null);
-  const [coords, setCoords] = useState({ x: -1000, y: -1000 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setCoords({ x, y });
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setCoords({ x: -1000, y: -1000 });
-  };
-
-  return (
-    <div 
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="glow-visualizer-container"
-    >
-      {/* Before Layer (Swirls) */}
-      <img src="assets/o3_swirl_before.png" alt="Detailing Before Inspection" className="visualizer-base-swirls"  loading="lazy" decoding="async" />
-
-      {/* After Layer (Flawless Ceramic Polish) */}
-      <img src="assets/o3_swirl_after.png" 
-        alt="Ceramic Mirror Polish" 
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          pointerEvents: 'none',
-          clipPath: isHovered 
-            ? `circle(150px at ${coords.x}px ${coords.y}px)` 
-            : 'circle(0px at 0px 0px)'
-        }}
-       loading="lazy" decoding="async" />
-
-      {/* Flashlight Inspection Beam & Lens Flare */}
-      {isHovered && (
-        <>
-          <div 
-            className="visualizer-flashlight-ring"
-            style={{
-              left: `${coords.x}px`,
-              top: `${coords.y}px`
-            }}
-          ></div>
-          <div 
-            className="visualizer-lens-flare"
-            style={{
-              left: `${coords.x}px`,
-              top: `${coords.y}px`
-            }}
-          ></div>
-        </>
-      )}
-
-      {/* Overlay text description */}
-      <div className="absolute bottom-4 left-6 z-20 text-[11px] font-mono text-[#cae8e8] bg-[#05070c]/85 border border-[#cae8e8]/30 px-3 py-1.5 rounded-full backdrop-blur-md pointer-events-none">
-        🔍 Drag cursor inside container to scan with 6500K Inspection Light
-      </div>
-    </div>
-  );
-}
-
-// 2. STUDIO HEPA CLIMATE CONTROL HUD
-function CleanroomClimateHud() {
-  const [metrics, setMetrics] = useState({
-    temp: 21.8,
-    humidity: 42.5,
-    airPurity: 99.982
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMetrics(prev => {
-        const tempDelta = (Math.random() - 0.5) * 0.1;
-        const humDelta = (Math.random() - 0.5) * 0.25;
-        const airDelta = (Math.random() - 0.5) * 0.002;
-        
-        let nextTemp = parseFloat((prev.temp + tempDelta).toFixed(1));
-        if (nextTemp < 21.2) nextTemp = 21.2;
-        if (nextTemp > 22.4) nextTemp = 22.4;
-
-        let nextHum = parseFloat((prev.humidity + humDelta).toFixed(1));
-        if (nextHum < 40) nextHum = 40;
-        if (nextHum > 45) nextHum = 45;
-
-        let nextAir = parseFloat((prev.airPurity + airDelta).toFixed(3));
-        if (nextAir < 99.975) nextAir = 99.975;
-        if (nextAir > 99.995) nextAir = 99.995;
-
-        return {
-          temp: nextTemp,
-          humidity: nextHum,
-          airPurity: nextAir
-        };
-      });
-    }, 2200);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="cleanroom-hud-grid text-left font-mono">
-      <div className="cleanroom-hud-card">
-        <span className="text-[10px] text-slate-400 block uppercase mb-1">🏥 HEPA STATUS</span>
-        <div className="flex items-center gap-2">
-          <span className="hud-pulse-dot bg-emerald-400"></span>
-          <strong className="text-white text-sm">ACTIVE</strong>
-        </div>
-      </div>
-      <div className="cleanroom-hud-card">
-        <span className="text-[10px] text-slate-400 block uppercase mb-1">🌡️ TEMPERATURE</span>
-        <strong className="text-white text-base font-bold">{metrics.temp}°C</strong>
-        <span className="text-[9px] text-[#cae8e8] block mt-0.5">Target: 22.0°C</span>
-      </div>
-      <div className="cleanroom-hud-card">
-        <span className="text-[10px] text-slate-400 block uppercase mb-1">🌀 REL HUMIDITY</span>
-        <strong className="text-white text-base font-bold">{metrics.humidity}%</strong>
-        <span className="text-[9px] text-[#cae8e8] block mt-0.5">Limits: 40-45%</span>
-      </div>
-      <div className="cleanroom-hud-card">
-        <span className="text-[10px] text-slate-400 block uppercase mb-1">🔬 AIR PURITY</span>
-        <strong className="text-emerald-400 text-sm font-bold">{metrics.airPurity}%</strong>
-        <span className="text-[9px] text-slate-500 block mt-0.5">HEPA Filter Grade</span>
-      </div>
-    </div>
-  );
-}
-
-// 3. SMART TREATMENT CONFIGURATOR & ROI CALCULATOR
-function TreatmentConfigurator({ onBookService }) {
-  const [carType, setCarType] = useState('sedan');
-  const [paintState, setPaintState] = useState('minor');
-
-  const configData = {
-    hatchback: {
-      label: 'Hatchback / Compact',
-      baseValue: 400000,
-      factor: 1.0
-    },
-    sedan: {
-      label: 'Sedan / Executive',
-      baseValue: 800000,
-      factor: 1.2
-    },
-    suv: {
-      label: 'SUV / Luxury Offroad',
-      baseValue: 1200000,
-      factor: 1.4
-    },
-    supercar: {
-      label: 'Exotic / Supercar',
-      baseValue: 5000000,
-      factor: 2.2
-    }
-  };
-
-  const paintStateData = {
-    new: {
-      label: 'Pristine / Brand New',
-      desc: 'Lock in factory gloss immediately before road damage occurs.',
-      recommendation: 'Signature TPU Paint Protection Film (PPF)',
-      costRange: '₹55,000 – ₹1,20,000',
-      correctionPasses: 'Single-stage prep polish',
-      valueRetention: '10 – 12%'
-    },
-    minor: {
-      label: 'Minor Swirls & Scratches',
-      desc: 'Light defects from washing. Requires refining to restore depth.',
-      recommendation: '9H Silica Quartz Ceramic & Graphene Coating',
-      costRange: '₹22,000 – ₹45,000',
-      correctionPasses: '2-stage paint correction pass',
-      valueRetention: '6 – 8%'
-    },
-    heavy: {
-      label: 'Heavy Swirls & Oxidation',
-      desc: 'Deep spiderwebbing & dull paint. Full restoration required.',
-      recommendation: 'Paint Correction + Ceramic 9H Dual Shield',
-      costRange: '₹35,000 – ₹65,000',
-      correctionPasses: '3-stage micro-abrasive compounding pass',
-      valueRetention: '8 – 10%'
-    }
-  };
-
-  const currentConfig = paintStateData[paintState];
-  const carFactor = configData[carType].factor;
-  
-  const baseCarVal = configData[carType].baseValue;
-  const retentionPercent = parseFloat(currentConfig.valueRetention);
-  const roiAmount = Math.round(baseCarVal * (retentionPercent / 100));
-
-  return (
-    <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-br from-[#0d111a] via-[#101726] to-[#05070c] space-y-8 shadow-2xl">
-      <div className="border-b border-[#cae8e8]/20 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Smart Treatment Configurator</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-2xl sm:text-3xl font-extrabold text-white">Select Your Vehicle Specs & Protection Goals</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 text-left">
-        {/* Controls */}
-        <div className="lg:col-span-6 space-y-6">
-          {/* Step 1: Vehicle Type */}
-          <div className="space-y-3">
-            <label className="block text-xs font-bold uppercase text-[#cae8e8] font-mono">1. Select Vehicle Segment</label>
-            <div className="grid grid-cols-2 gap-3">
-              {Object.entries(configData).map(([key, val]) => (
-                <button
-                  key={key}
-                  onClick={() => setCarType(key)}
-                  className={`p-3 text-xs font-bold transition-all text-left cockpit-tactile-btn ${
-                    carType === key ? 'active' : ''
-                  }`}
-                >
-                  {val.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Step 2: Paint Condition */}
-          <div className="space-y-3">
-            <label className="block text-xs font-bold uppercase text-[#cae8e8] font-mono">2. Current Paint Surface State</label>
-            <div className="space-y-2.5">
-              {Object.entries(paintStateData).map(([key, val]) => (
-                <button
-                  key={key}
-                  onClick={() => setPaintState(key)}
-                  className={`w-full p-4 text-xs text-left transition-all block cockpit-tactile-btn ${
-                    paintState === key ? 'active' : ''
-                  }`}
-                >
-                  <div className="font-bold text-sm mb-0.5">{val.label}</div>
-                  <div className={`text-[11px] font-normal ${paintState === key ? 'text-slate-200' : 'text-slate-400'}`}>{val.desc}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Results Dashboard */}
-        <div className="lg:col-span-6 flex flex-col justify-between bg-[#05070c] p-6 sm:p-8 rounded-3xl border border-[#cae8e8]/20 space-y-6">
-          <div className="space-y-4">
-            <div>
-              <span className="text-[10px] text-[#cae8e8] font-mono uppercase block">Recommended Package</span>
-              <strong className="text-white text-xl sm:text-2xl font-bold">{currentConfig.recommendation}</strong>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-2">
-              <div>
-                <span className="text-[10px] text-slate-400 font-mono block">Estimated Cost</span>
-                <span className="text-white text-sm font-mono font-bold">{currentConfig.costRange}</span>
-              </div>
-              <div>
-                <span className="text-[10px] text-slate-400 font-mono block">Required Prep</span>
-                <span className="text-white text-sm font-bold">{currentConfig.correctionPasses}</span>
-              </div>
-            </div>
-
-            {/* Resale Value Protection */}
-            <div className="p-4 rounded-2xl bg-[#cae8e8]/5 border border-[#cae8e8]/15 space-y-1 mt-2">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-[#cae8e8] font-mono uppercase">Value Protection Retention</span>
-                <span className="text-emerald-400 font-mono text-xs font-bold">+{currentConfig.valueRetention}</span>
-              </div>
-              <p className="text-[11px] text-slate-400">
-                Protects surface gloss & clear coat depth to maintain private resale value up to <strong className="text-white">₹{roiAmount.toLocaleString('en-IN')}</strong>.
-              </p>
-            </div>
-          </div>
-
-          <button 
-            onClick={() => onBookService(`${configData[carType].label} - ${currentConfig.recommendation}`)}
-            className="btn-primary text-xs w-full justify-center py-3.5"
-          >
-            Book Recommended Treatment
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 4. DYNAMIC HYDROPHOBIC RAIN SHIELD PHYSICS CANVAS
-function HydrophobicRainCanvas() {
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
-  const [mouse, setMouse] = useState({ x: -1000, y: -1000, active: false });
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resize = () => {
-      if (!containerRef.current) return;
-      canvas.width = containerRef.current.clientWidth;
-      canvas.height = containerRef.current.clientHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const drops = [];
-    const maxDrops = 110;
-
-    for (let i = 0; i < maxDrops; i++) {
-      drops.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        vx: 1 + Math.random() * 2,
-        vy: 3 + Math.random() * 4,
-        r: 2.5 + Math.random() * 3,
-        alpha: 0.3 + Math.random() * 0.5
-      });
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      ctx.fillStyle = 'rgba(202, 232, 232, 0.06)';
-      ctx.font = 'bold 12px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('⚡ 9H HYPER-HYDROPHOBIC BEADING MATRIX', canvas.width / 2, canvas.height / 2 - 10);
-      ctx.fillText('MOVE CURSOR TO ACTIVATE HIGH-PRESSURE AIR DRYER', canvas.width / 2, canvas.height / 2 + 15);
-
-      if (mouse.active) {
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 80, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
-        ctx.fill();
-      }
-
-      drops.forEach(drop => {
-        if (mouse.active) {
-          const dx = drop.x - mouse.x;
-          const dy = drop.y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const limit = 85;
-
-          if (dist < limit) {
-            const force = (limit - dist) / limit;
-            const angle = Math.atan2(dy, dx);
-            drop.vx += Math.cos(angle) * force * 3.5;
-            drop.vy += Math.sin(angle) * force * 3.5;
-            drop.r = Math.max(1.8, drop.r - 0.15);
-          }
-        }
-
-        drop.x += drop.vx;
-        drop.y += drop.vy;
-
-        drop.vx *= 0.95;
-        drop.vy = drop.vy * 0.95 + (3 + Math.random() * 0.5) * 0.05;
-        if (drop.r < 3.5) drop.r += 0.04;
-
-        ctx.beginPath();
-        ctx.arc(drop.x, drop.y, drop.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(202, 232, 232, ${drop.alpha})`;
-        ctx.fill();
-        
-        ctx.beginPath();
-        ctx.arc(drop.x - drop.r * 0.3, drop.y - drop.r * 0.3, drop.r * 0.25, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-        ctx.fill();
-
-        if (drop.y > canvas.height || drop.x > canvas.width) {
-          drop.y = -10;
-          drop.x = Math.random() * canvas.width;
-          drop.vx = 1 + Math.random() * 1.5;
-          drop.vy = 3 + Math.random() * 4;
-          drop.r = 2.5 + Math.random() * 3;
-        }
-      });
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-    render();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [mouse]);
-
-  const handleMouseMove = (e) => {
-    if (!canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    setMouse({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-      active: true
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setMouse({ x: -1000, y: -1000, active: false });
-  };
-
-  return (
-    <div 
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="hydrophobic-canvas-container"
-    >
-      <canvas ref={canvasRef} className="hydrophobic-rain-canvas"></canvas>
-    </div>
-  );
-}
-
-// 5. VEHICLE STUDIO CONFIGURATOR (PAINT & CALIPER SWAPS)
-function VehicleStudioConfigurator() {
-  const [paintColor, setPaintColor] = useState('#fbfcf7');
-  const [paintFinish, setPaintFinish] = useState('satin');
-  const [caliperColor, setCaliperColor] = useState('#ff2e2e');
-
-  const paints = [
-    { name: 'English White (Rolls)', color: '#fbfcf7', finish: 'satin', img: 'assets/o3_rolls_royce.png' },
-    { name: 'Metallic Ocean Cyan', color: '#00f0ff', finish: 'metallic', img: 'assets/o3_rolls_royce_cyan.png' },
-    { name: 'Matte Vantablack', color: '#090d16', finish: 'matte', img: 'assets/o3_rolls_royce_black.png' },
-    { name: 'Lustrous Gold Leaf', color: '#d4af37', finish: 'metallic', img: 'assets/o3_rolls_royce_gold.png' }
-  ];
-
-  const calipers = [
-    { name: 'Brembo Crimson Accent', color: '#ff2e2e' },
-    { name: 'Acid Caliper Green', color: '#39ff14' },
-    { name: 'Ceramic Safety Yellow', color: '#ffcc00' }
-  ];
-
-  const activePaint = paints.find(p => p.color === paintColor) || paints[0];
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      <div className="border-b border-[#cae8e8]/15 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Studio Color Configurator</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-xl font-bold text-white mt-1">Car-Spa Paint & Caliper Aesthetic Studio</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
-        {/* Visualizer Canvas */}
-        <div className="lg:col-span-7 car-vector-canvas relative p-0 overflow-hidden">
-          <div className="car-reflection-shimmer z-10"></div>
-          
-          <img src={activePaint.img} 
-            alt={`Rolls-Royce Ghost in ${activePaint.name}`} 
-            className="w-full h-full object-cover transition-all duration-700 opacity-90"
-           loading="lazy" decoding="async" />
-
-          {/* Bottom Ambient Vignette to keep card contrast premium */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent pointer-events-none z-10"></div>
-
-          <span className="absolute top-3 right-3 text-[9px] font-mono bg-[#05070c]/85 border border-[#cae8e8]/20 px-2.5 py-1 rounded-full text-slate-400 capitalize z-20">
-            Finish: {paintFinish}
-          </span>
-        </div>
-
-        {/* Customizer Controllers */}
-        <div className="lg:col-span-5 space-y-5">
-          <div className="space-y-2">
-            <span className="text-[10px] font-mono text-slate-400 block uppercase font-bold">1. Select Body Finish</span>
-            <div className="grid grid-cols-2 gap-2">
-              {paints.map((p, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => { setPaintColor(p.color); setPaintFinish(p.finish); }}
-                  className={`p-2.5 flex items-center gap-2.5 transition-all cockpit-tactile-btn ${
-                    paintColor === p.color ? 'active' : ''
-                  }`}
-                >
-                  <span className="w-3.5 h-3.5 rounded-full border border-white/20" style={{ backgroundColor: p.color }}></span>
-                  <span className="truncate">{p.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-[10px] font-mono text-slate-400 block uppercase font-bold">2. Select Brake Caliper Accent</span>
-            <div className="flex flex-col gap-2">
-              {calipers.map((c, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCaliperColor(c.color)}
-                  className={`w-full p-2.5 flex items-center justify-between transition-all cockpit-tactile-btn ${
-                    caliperColor === c.color ? 'active' : ''
-                  }`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: c.color }}></span>
-                    <span>{c.name}</span>
-                  </span>
-                  <span className="font-mono text-[9px] text-[#cae8e8]">Active</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 6. PAINT THICKNESS TELEMETRY HOTSPOTS
-function PaintThicknessHotspots() {
-  const [activeHotspot, setActiveHotspot] = useState('hood');
-
-  const hotspots = {
-    hood: {
-      label: 'Engine Hood Panel (Mercedes-Benz)',
-      x: '22%',
-      y: '54%',
-      thickness: '124 µm',
-      composition: {
-        substrate: 'Aluminum Alloy',
-        primer: '42 µm',
-        basecoat: '68 µm',
-        clearcoat: '11.5 µm',
-        ceramic: '2.5 µm (9H Graphene Matrix)'
-      },
-      verdict: 'Optimal depth. AMG aluminum panel prepared for coating.'
-    },
-    door: {
-      label: 'Front Passenger Door (Mercedes-Benz)',
-      x: '52%',
-      y: '60%',
-      thickness: '116 µm',
-      composition: {
-        substrate: 'Galvanized High-Strength Steel',
-        primer: '35 µm',
-        basecoat: '62 µm',
-        clearcoat: '16.2 µm',
-        ceramic: '2.8 µm (SiO2 Quartz Shield)'
-      },
-      verdict: 'Refining complete. Micro-reflections calibrated at 98.4%.'
-    },
-    roof: {
-      label: 'Mercedes Panoramic Sunroof Arch',
-      x: '58%',
-      y: '32%',
-      thickness: '98 µm',
-      composition: {
-        substrate: 'Tempered Glass & Composite Frame',
-        primer: '20 µm',
-        basecoat: '60 µm',
-        clearcoat: '15.5 µm',
-        ceramic: '2.5 µm (Satin TPU Self-Heal Film)'
-      },
-      verdict: 'Glass-panel transition. Finished with hydrophobic ceramic shield.'
-    },
-    fender: {
-      label: 'Mercedes-Benz Rear Fender Flaring',
-      x: '82%',
-      y: '58%',
-      thickness: '132 µm',
-      composition: {
-        substrate: 'Composite Sheet Molding (SMC)',
-        primer: '48 µm',
-        basecoat: '68 µm',
-        clearcoat: '13.2 µm',
-        ceramic: '2.8 µm (9H Ceramic Shield)'
-      },
-      verdict: 'Heavy factory clearcoat. Fully COMPOUNDED and corrected.'
-    }
-  };
-
-  const currentData = hotspots[activeHotspot];
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      <div className="border-b border-[#cae8e8]/15 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Paint Thickness Telemetry</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-xl font-bold text-white mt-1">Inspection Depth Gauge Hotspots</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
-        {/* Blueprint diagram */}
-        <div className="lg:col-span-7 telemetry-car-outline relative p-0 overflow-hidden">
-          <img src="assets/o3_mercedes_amg.png" 
-            alt="Mercedes-Benz AMG C63 Coupe Studio Shot" 
-            className="w-full h-full object-cover opacity-85 transition-all hover:scale-[1.01]" 
-           loading="lazy" decoding="async" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent pointer-events-none"></div>
-
-          {Object.entries(hotspots).map(([key, val]) => (
-            <button
-              key={key}
-              onClick={() => setActiveHotspot(key)}
-              className={`telemetry-hotspot ${activeHotspot === key ? 'active' : ''}`}
-              style={{ left: val.x, top: val.y }}
-              title={`Scan ${val.label}`}
-            ></button>
-          ))}
-        </div>
-
-        {/* Telemetry Display */}
-        <div className="lg:col-span-5 bg-[#05070c] p-5 rounded-2xl border border-slate-800 space-y-4 font-mono text-xs text-slate-300">
-          <div>
-            <span className="text-[10px] text-slate-400 uppercase">Selected Panel</span>
-            <div className="text-white font-bold text-sm mt-0.5">{currentData.label}</div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 pb-2 border-b border-slate-800">
-            <div>
-              <span className="text-[10px] text-slate-400 block">Total Thickness</span>
-              <strong className="text-emerald-400 text-sm font-bold">{currentData.thickness}</strong>
-            </div>
-            <div>
-              <span className="text-[10px] text-slate-400 block">Clear Coat Layer</span>
-              <strong className="text-white text-sm font-bold">{currentData.composition.clearcoat}</strong>
-            </div>
-          </div>
-
-          <div className="space-y-1.5 pt-1">
-            <span className="text-[10px] text-[#cae8e8] block font-bold">LAYER SPECIFICATION:</span>
-            <div className="flex justify-between text-[11px]">
-              <span className="text-slate-400">Substrate:</span>
-              <span className="text-white">{currentData.composition.substrate}</span>
-            </div>
-            <div className="flex justify-between text-[11px]">
-              <span className="text-slate-400">Primer Coating:</span>
-              <span className="text-white">{currentData.composition.primer}</span>
-            </div>
-            <div className="flex justify-between text-[11px]">
-              <span className="text-slate-400">Base Coat Color:</span>
-              <span className="text-white">{currentData.composition.basecoat}</span>
-            </div>
-            <div className="flex justify-between text-[11px]">
-              <span className="text-slate-[#cae8e8]">Ceramic Quartz Guard:</span>
-              <span className="text-emerald-400 font-bold">{currentData.composition.ceramic}</span>
-            </div>
-          </div>
-
-          <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-[10px] text-slate-400 mt-2">
-            <strong className="text-white uppercase block mb-0.5">Verdict:</strong>
-            {currentData.verdict}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 7. PAINT MICRO-SCRATCH REPAIR SIMULATOR
-function PaintScratchHealSimulator() {
-  const canvasRef = useRef(null);
-  const containerRef = useRef(null);
-  const [coords, setCoords] = useState({ x: -1000, y: -1000 });
-  const [isPolishing, setIsPolishing] = useState(false);
-  const [heat, setHeat] = useState(22);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    const resize = () => {
-      if (!containerRef.current) return;
-      canvas.width = containerRef.current.clientWidth;
-      canvas.height = containerRef.current.clientHeight;
-      drawScratches();
-    };
-
-    const drawScratches = () => {
-      ctx.fillStyle = '#1c2430';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i < 40; i++) {
-        ctx.beginPath();
-        ctx.arc(
-          Math.random() * canvas.width,
-          Math.random() * canvas.height,
-          40 + Math.random() * 80,
-          0,
-          Math.PI * 2
-        );
-        ctx.stroke();
-      }
-
-      ctx.strokeStyle = 'rgba(235, 240, 245, 0.45)';
-      ctx.lineWidth = 1.2;
-      for (let i = 0; i < 6; i++) {
-        ctx.beginPath();
-        ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
-        ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
-        ctx.stroke();
-      }
-    };
-
-    resize();
-    window.addEventListener('resize', resize);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
-  useEffect(() => {
-    let timer;
-    if (isPolishing) {
-      timer = setInterval(() => {
-        setHeat(prev => Math.min(48, prev + 2));
-      }, 150);
-    } else {
-      timer = setInterval(() => {
-        setHeat(prev => Math.max(22, prev - 1));
-      }, 200);
-    }
-    return () => clearInterval(timer);
-  }, [isPolishing]);
-
-  const handleMouseMove = (e) => {
-    if (!canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setCoords({ x, y });
-    setIsPolishing(true);
-
-    const ctx = canvasRef.current.getContext('2d');
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(x, y, 45, 0, Math.PI * 2);
-    ctx.fill();
-  };
-
-  const handleMouseLeave = () => {
-    setIsPolishing(false);
-    setCoords({ x: -1000, y: -1000 });
-  };
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      <div className="border-b border-[#cae8e8]/15 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Inspection & Correction</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-xl font-bold text-white mt-1">Paint Micro-Scratch Repair Simulator</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
-        {/* Simulator Area */}
-        <div className="lg:col-span-7 relative">
-          <div 
-            ref={containerRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="scratch-simulator-container"
-          >
-            <img src="assets/o3_swirl_after.png" alt="Corrected Paint Underneath" className="scratch-bg-swirls"  loading="lazy" decoding="async" />
-            <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block"></canvas>
-
-            {isPolishing && (
-              <div 
-                className="scratch-orbital-pad" 
-                style={{ left: `${coords.x}px`, top: `${coords.y}px` }}
-              ></div>
-            )}
-
-            <div className="scratch-heat-meter">
-              🌡️ FRICTION HEAT: <strong className={heat > 40 ? 'text-red-400' : 'text-[#cae8e8]'}>{heat}°C</strong>
-            </div>
-          </div>
-        </div>
-
-        {/* Informative Telemetry Panel */}
-        <div className="lg:col-span-5 bg-[#05070c] p-5 rounded-2xl border border-slate-800 space-y-4 font-mono text-xs text-slate-300">
-          <div>
-            <span className="text-[10px] text-slate-400 uppercase">Process Description</span>
-            <div className="text-white font-bold text-sm mt-0.5">Dual-Action Orbital Paint Correction</div>
-          </div>
-
-          <p className="text-[11px] leading-relaxed text-slate-400">
-            Drag your cursor over the panel to run our <strong>O3 Dual-Action orbital cutting pad</strong>. Friction heat heats the clearcoat matrix, leveling out microscopic swirls and deep scratches to reveal a flawless mirror surface.
-          </p>
-
-          <div className="space-y-1.5 pt-2 border-t border-slate-800">
-            <span className="text-[10px] text-[#cae8e8] block font-bold">SIMULATION METRICS:</span>
-            <div className="flex justify-between">
-              <span className="text-slate-400">Pad speed:</span>
-              <span className="text-white">4,800 OPM (Orbit/Min)</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-400">Heat threshold:</span>
-              <span className="text-emerald-400 font-bold">52°C max safe limit</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-400">Polish compound:</span>
-              <span className="text-white">Fine Diminishing Alumina</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 8. GLOSS TELEMETRY CHART
-function GlossTelemetryChart() {
-  const [activeStage, setActiveStage] = useState(3);
-  const chartRef = useRef(null);
-
-  const stages = [
-    { label: 'Raw Factory Swirls', gloss: 62, color: '#ff2e2e', data: [45, 52, 58, 62] },
-    { label: 'Chemical Clay Prep', gloss: 78, color: '#ffcc00', data: [45, 58, 70, 78] },
-    { label: '2-Stage Cutting Pass', gloss: 92, color: '#00f0ff', data: [45, 62, 82, 92] },
-    { label: 'O3 Dual Ceramic Quartz', gloss: 99.8, color: '#10b981', data: [45, 68, 88, 99.8] }
-  ];
-
-  const current = stages[activeStage];
-
-  useEffect(() => {
-    const canvas = chartRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const points = current.data;
-    const padding = 30;
-    const w = canvas.width - padding * 2;
-    const h = canvas.height - padding * 2;
-
-    ctx.strokeStyle = 'rgba(202, 232, 232, 0.08)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 4; i++) {
-      const y = padding + (h / 4) * i;
-      ctx.beginPath();
-      ctx.moveTo(padding, y);
-      ctx.lineTo(canvas.width - padding, y);
-      ctx.stroke();
-    }
-
-    ctx.strokeStyle = current.color;
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    points.forEach((pt, idx) => {
-      const x = padding + (w / (points.length - 1)) * idx;
-      const y = padding + h - (h * (pt / 100));
-      if (idx === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    points.forEach((pt, idx) => {
-      const x = padding + (w / (points.length - 1)) * idx;
-      const y = padding + h - (h * (pt / 100));
-      
-      ctx.beginPath();
-      ctx.arc(x, y, 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-      ctx.strokeStyle = current.color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-      ctx.font = '9px monospace';
-      ctx.fillText(`${pt} GU`, x - 12, y - 10);
-    });
-
-  }, [activeStage]);
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      <div className="border-b border-[#cae8e8]/15 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Reflection Quality</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-xl font-bold text-white mt-1">Gloss Unit (GU) Reflection Curve</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
-        {/* Plot Graph Canvas */}
-        <div className="lg:col-span-7 bg-[#05070c] p-5 rounded-3xl border border-slate-800">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-            {/* Chart */}
-            <div className="md:col-span-8">
-              <span className="text-[9px] font-mono text-slate-500 block mb-1">GLOSS PROGRESSION CURVE (GU)</span>
-              <canvas ref={chartRef} width="280" height="150" className="w-full block"></canvas>
-            </div>
-            
-            {/* Speedometer Gauge */}
-            <div className="md:col-span-4 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-slate-800 pt-3 md:pt-0 md:pl-4">
-              <span className="text-[9px] font-mono text-slate-500 block mb-2 text-center">HUD REFLECTION DIAL</span>
-              <div className="relative w-28 h-28 flex items-center justify-center">
-                <svg width="112" height="112" viewBox="0 0 100 100" className="overflow-visible">
-                  <circle cx="50" cy="50" r="45" stroke="rgba(202, 232, 232, 0.08)" strokeWidth="6" fill="none" />
-                  <circle 
-                    cx="50" 
-                    cy="50" 
-                    r="45" 
-                    stroke={current.color} 
-                    strokeWidth="3.5" 
-                    strokeDasharray="210" 
-                    strokeDashoffset={210 - (210 * current.gloss) / 100} 
-                    strokeLinecap="round" 
-                    fill="none" 
-                    transform="rotate(135 50 50)" 
-                    style={{ transition: 'stroke-dashoffset 0.8s ease-out, stroke 0.4s' }}
-                  />
-                  <circle cx="50" cy="50" r="5" fill="#ffffff" />
-                  <line 
-                    x1="50" 
-                    y1="50" 
-                    x2="50" 
-                    y2="15" 
-                    stroke="#ff2e2e" 
-                    strokeWidth="2.5" 
-                    strokeLinecap="round"
-                    style={{
-                      transform: `rotate(${-120 + current.gloss * 2.4}deg)`,
-                      transformOrigin: '50px 50px',
-                      transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)'
-                    }}
-                  />
-                </svg>
-                <div className="absolute bottom-3 text-center">
-                  <div className="text-[14px] font-mono font-bold text-white leading-none">{current.gloss}</div>
-                  <div className="text-[7px] font-mono text-slate-500 uppercase tracking-widest mt-0.5">GU UNITS</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Interactive Controls */}
-        <div className="lg:col-span-5 space-y-4">
-          <span className="text-[10px] font-mono text-slate-400 block uppercase font-bold">Select Detailing Phase</span>
-          <div className="flex flex-col gap-2.5">
-            {stages.map((st, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveStage(idx)}
-                className={`w-full p-3 flex items-center justify-between transition-all cockpit-tactile-btn ${
-                  activeStage === idx ? 'active' : ''
-                }`}
-              >
-                <span>{st.label}</span>
-                <strong style={{ color: st.color }}>{st.gloss} GU</strong>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 8A. LUXURY CAR BEFORE & AFTER SHOWCASE (EXTERIOR, INTERIOR, PAINT WORK)
-function LuxuryCarBeforeAfterShowcase() {
-  const [activeTab, setActiveTab] = useState('exterior'); // 'exterior' | 'interior' | 'paint'
-  const [sliderPos, setSliderPos] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
-  const containerRef = useRef(null);
-
-  const showcaseData = {
-    exterior: {
-      title: "Exterior Detailing & PPF Shield",
-      car: "Rolls-Royce Ghost Flagship",
-      beforeLabel: "Factory Weathered & Raw Surface",
-      afterLabel: "10H Ceramic Quartz & PPF Shield",
-      beforeImg: "assets/o3_ext_before.png",
-      afterImg: "assets/o3_ext_after.png",
-      description: "Complete surface decontamination, multi-stage paint correction, and ultra-hydrophobic 10H Ceramic Coating combined with Opti-Armor self-healing Paint Protection Film.",
-      specs: [
-        { label: "GLOSS RATING", value: "99.8 GU (Mirror Finish)" },
-        { label: "PROTECTION", value: "Self-Healing 10H Ceramic PPF" },
-        { label: "HYDROPHOBIC", value: "115° Water Contact Angle" }
-      ]
-    },
-    interior: {
-      title: "Interior Studio Transformation",
-      car: "Rolls-Royce Starlight Cabin",
-      beforeLabel: "Weathered Leather & Faded Trim",
-      afterLabel: "Restored Cognac Hide & Starlight Ceiling",
-      beforeImg: "assets/o3_int_before.png",
-      afterImg: "assets/o3_int_after.png",
-      description: "Deep hide steam extraction, Swiss leather matte sealant, open-pore timber rejuvenation, and custom 6500K optical fiber starlight headliner installation.",
-      specs: [
-        { label: "LEATHER STATE", value: "Matte OEM Factory Finish" },
-        { label: "CEILING AMBIENCE", value: "Fiber-Optic Starlight Matrix" },
-        { label: "AIR PURITY", value: "HEPA Sanitized 99.98%" }
-      ]
-    },
-    paint: {
-      title: "Paint Correction & Defect Removal",
-      car: "6500K LED Inspection Bay",
-      beforeLabel: "Micro-Swirls & Spiderweb Scratches",
-      afterLabel: "100% Defect-Free Level 3 Polish",
-      beforeImg: "assets/o3_swirl_before.png",
-      afterImg: "assets/o3_swirl_after.png",
-      description: "Level 3 multi-stage rotary & dual-action micro-abrasive polishing eliminates 99.8% of swirl marks, clearcoat holograms, oxidation, and buffer trails.",
-      specs: [
-        { label: "DEFECT ELIMINATION", value: "99.8% Swirl & Scratch Free" },
-        { label: "REFLECTION DEPTH", value: "Molecular Flat Mirror Leveling" },
-        { label: "CLEARCOAT MEASURE", value: "Safe Micro-Measurement Precision" }
-      ]
-    }
-  };
-
-  const currentData = showcaseData[activeTab];
-
-  const updateSlider = (clientX) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    let percentage = (x / rect.width) * 100;
-    if (percentage < 0) percentage = 0;
-    if (percentage > 100) percentage = 100;
-    setSliderPos(percentage);
-  };
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    updateSlider(e.clientX);
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      updateSlider(e.clientX);
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleTouchMove = (e) => {
-    if (e.touches && e.touches[0]) {
-      updateSlider(e.touches[0].clientX);
-    }
-  };
-
-  useEffect(() => {
-    const handleGlobalMouseUp = () => setIsDragging(false);
-    window.addEventListener('mouseup', handleGlobalMouseUp);
-    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-  }, []);
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#cae8e8]/15 pb-4 gap-4 text-left">
-        <div>
-          <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Bespoke Studio Transformation</span>
-          <h3 className="gsap-stagger-title text-xl sm:text-2xl font-bold text-white mt-1">Interactive Before & After Showcase</h3>
-        </div>
-
-        {/* 3 Interactive Category Tabs */}
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => { setActiveTab('exterior'); setSliderPos(50); }}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cockpit-tactile-btn ${
-              activeTab === 'exterior' ? 'active text-[#00f0ff]' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            🏎️ Exterior Detailing & PPF
-          </button>
-          <button
-            onClick={() => { setActiveTab('interior'); setSliderPos(50); }}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cockpit-tactile-btn ${
-              activeTab === 'interior' ? 'active text-[#00f0ff]' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            💺 Interior Studio Cabin
-          </button>
-          <button
-            onClick={() => { setActiveTab('paint'); setSliderPos(50); }}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cockpit-tactile-btn ${
-              activeTab === 'paint' ? 'active text-[#00f0ff]' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            ✨ Paint Work & Polish
-          </button>
-        </div>
-      </div>
-
-      {/* Main Interactive Slider Stage */}
-      <div className="space-y-4">
-        <div 
-          ref={containerRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onTouchMove={handleTouchMove}
-          className="relative w-full h-[340px] sm:h-[440px] rounded-3xl overflow-hidden cursor-ew-resize select-none border border-[#cae8e8]/20 bg-[#05070c] shadow-2xl"
-        >
-          {/* AFTER Image Layer (Full Base) */}
-          <img src={currentData.afterImg} 
-            alt={`After ${currentData.title}`} 
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-           loading="lazy" decoding="async" />
-
-          {/* BEFORE Image Layer (Clipped overlay) */}
-          <div 
-            className="absolute inset-0 overflow-hidden pointer-events-none"
-            style={{ width: `${sliderPos}%` }}
-          >
-            <img src={currentData.beforeImg} 
-              alt={`Before ${currentData.title}`} 
-              className="absolute inset-0 w-full h-full object-cover max-w-none"
-              style={{ width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%' }}
-             loading="lazy" decoding="async" />
-          </div>
-
-          {/* Vertical Slider Handle Line */}
-          <div 
-            className="absolute top-0 bottom-0 z-20 pointer-events-none flex flex-col items-center justify-center"
-            style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
-          >
-            <div className="w-0.5 h-full bg-[#00f0ff] shadow-[0_0_12px_#00f0ff]"></div>
-            <div className="absolute w-10 h-10 rounded-full bg-[#05070c] border-2 border-[#00f0ff] flex items-center justify-center shadow-[0_0_20px_rgba(0,240,255,0.7)] text-[#00f0ff] text-xs font-mono font-bold">
-              ◀▶
-            </div>
-          </div>
-
-          {/* Dynamic Badges */}
-          <div className="absolute top-4 left-4 z-20 pointer-events-none">
-            <span className="px-3 py-1.5 rounded-full text-[10px] font-mono font-bold bg-[#05070c]/85 border border-red-500/40 text-red-300 backdrop-blur-md shadow-lg">
-              ⚠️ BEFORE: {currentData.beforeLabel}
-            </span>
-          </div>
-
-          <div className="absolute top-4 right-4 z-20 pointer-events-none">
-            <span className="px-3 py-1.5 rounded-full text-[10px] font-mono font-bold bg-[#05070c]/85 border border-[#00f0ff]/50 text-[#00f0ff] backdrop-blur-md shadow-lg shadow-[0_0_15px_rgba(0,240,255,0.3)]">
-              ✨ AFTER: {currentData.afterLabel}
-            </span>
-          </div>
-
-          {/* Hint Overlay at bottom */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
-            <span className="px-4 py-1.5 rounded-full text-[10px] font-mono text-[#cae8e8] bg-[#05070c]/90 border border-[#cae8e8]/30 backdrop-blur-md">
-              👈 Drag slider to compare Before & After details 👉
-            </span>
-          </div>
-        </div>
-
-        {/* Spec Data Cards for Selected Category */}
-        <div className="grid sm:grid-cols-3 gap-4 text-left">
-          {currentData.specs.map((spec, i) => (
-            <div key={i} className="bg-[#05070c] p-4 rounded-2xl border border-slate-800 space-y-1 font-mono">
-              <span className="text-[10px] text-slate-400 block uppercase font-bold">{spec.label}</span>
-              <span className="text-xs sm:text-sm text-[#00f0ff] font-bold block">{spec.value}</span>
-            </div>
-          ))}
-        </div>
-
-        <p className="text-xs text-slate-300 font-light leading-relaxed text-left bg-[#05070c]/60 p-4 rounded-2xl border border-[#cae8e8]/15 font-mono">
-          <strong className="text-white block mb-1">STUDIO TRANSFORMATION ANALYSIS ({currentData.car}):</strong>
-          {currentData.description}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-// 8B. INTERACTIVE DETAILING WORKFLOW TIMELINE
-function DetailingWorkflowTimeline() {
-  const [activeStep, setActiveStep] = useState(1);
-
-  const steps = [
-    {
-      id: 0,
-      phase: '01',
-      title: 'Chemical Clay Prep',
-      duration: '2.5 Hours',
-      tools: 'Clay bar & Iron Decontaminator',
-      compound: 'O3 pH-neutral foam & fallout remover',
-      impact: '+1.2% reflection depth',
-      desc: 'Deep chemical decontamination wash to extract metallic fallout, brake dust, and environmental pollutants, restoring a smooth, clean paint surface.'
-    },
-    {
-      id: 1,
-      phase: '02',
-      title: 'Paint Surface Correction',
-      duration: '6.0 Hours',
-      tools: 'Rupes Dual-Action Orbital Polisher',
-      compound: 'Diminishing alumina cutting cream',
-      impact: '+4.5% clarity level',
-      desc: 'Dual-stage orbital cutting and finishing pass. Micro-abrasive crystals level the clearcoat matrix to erase 95%+ of surface swirls, restoring optical clarity.'
-    },
-    {
-      id: 2,
-      phase: '03',
-      title: 'Quartz Base Coat Layer',
-      duration: '3.0 Hours',
-      tools: 'Suede applicator pad & buffer wipe',
-      compound: 'Liquid SiO2 Glass Sol-Gel Compound',
-      impact: '9H crystalline hardness',
-      desc: 'Manual lay-down of our ultra-dense ceramic base coat. The quartz formula bonds chemically with the clearcoat, forming a durable, highly protective layer.'
-    },
-    {
-      id: 3,
-      phase: '04',
-      title: 'Top Quartz Graphene Shield',
-      duration: '2.0 Hours',
-      tools: 'Soft microfiber finishing buffer',
-      compound: 'Fluorinated graphene quartz matrix',
-      impact: '115° water contact angle',
-      desc: 'Application of the graphene composite top coat. This step creates a slick, hydrophobic barrier that repels water beads and blocks UV paint fading.'
-    },
-    {
-      id: 4,
-      phase: '05',
-      title: 'IR Curing Chamber Bake',
-      duration: '1.5 Hours',
-      tools: 'Short-wave infrared curing lamps',
-      compound: '80°C heat wave polymerization',
-      impact: 'Locks molecular structure',
-      desc: 'Accelerated thermal baking in our cleanroom. Short-wave IR heat triggers complete polymerization of the ceramic matrix in just 90 minutes instead of days.'
-    }
-  ];
-
-  const current = steps[activeStep];
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      <div className="border-b border-[#cae8e8]/15 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Detailing Procedure</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-xl font-bold text-white mt-1">O3 Detailing Studio Step-by-Step Flow</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 text-left">
-        {/* Timeline trigger list (Grid 7) */}
-        <div className="lg:col-span-7">
-          <div className="workflow-timeline-wrapper">
-            {steps.map((step) => (
-              <div 
-                key={step.id} 
-                onClick={() => setActiveStep(step.id)}
-                className={`workflow-step cursor-pointer group select-none ${
-                  activeStep === step.id ? 'active' : ''
-                }`}
-              >
-                <div className="workflow-node"></div>
-                <div className="flex justify-between items-center pr-4">
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] font-mono text-[#cae8e8]/60 block font-bold">PHASE {step.phase}</span>
-                    <h4 className={`text-[15px] font-bold transition-colors ${
-                      activeStep === step.id ? 'text-white' : 'text-slate-400 group-hover:text-slate-300'
-                    }`}>
-                      {step.title}
-                    </h4>
-                  </div>
-                  <span className={`text-[10px] font-mono border px-2 py-0.5 rounded transition-all ${
-                    activeStep === step.id 
-                      ? 'border-cyan-400/40 text-cyan-400 bg-cyan-400/5' 
-                      : 'border-slate-800 text-slate-500'
-                  }`}>
-                    {step.duration}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Step details dashboard (Grid 5) */}
-        <div className="lg:col-span-5 bg-[#05070c] p-6 rounded-3xl border border-slate-800 space-y-4 font-mono text-[11px] text-slate-300 flex flex-col justify-between">
-          <div className="space-y-3.5">
-            <div>
-              <span className="text-[9px] text-slate-400 uppercase">Interactive Detailing Phase Details</span>
-              <div className="text-white font-bold text-sm mt-0.5">{current.title}</div>
-            </div>
-            
-            <p className="text-[11px] text-slate-400 leading-relaxed font-sans">{current.desc}</p>
-          </div>
-
-          <div className="space-y-1.5 pt-4 border-t border-slate-800">
-            <span className="text-[9px] text-[#cae8e8] block font-bold uppercase">PROCESS TELEMETRY:</span>
-            <div className="flex justify-between">
-              <span className="text-slate-500">Equipment:</span>
-              <span className="text-white truncate max-w-[150px]">{current.tools}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-slate-500">Compound:</span>
-              <span className="text-white truncate max-w-[150px]">{current.compound}</span>
-            </div>
-            <div className="flex justify-between pt-1 border-t border-slate-900 mt-1">
-              <span className="text-slate-500">Value locked:</span>
-              <span className="text-emerald-400 font-bold">{current.impact}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// 9. ROLLS-ROYCE INTERIOR STARLIGHT CUSTOMIZER
-function StarlightCabinCustomizer() {
-  const [color, setColor] = useState('#ffffff');
-  const [density, setDensity] = useState(60);
-  const [stars, setStars] = useState([]);
-  const [shootingStar, setShootingStar] = useState(null);
-
-  useEffect(() => {
-    const newStars = [];
-    for (let i = 0; i < 110; i++) {
-      newStars.push({
-        x: 5 + Math.random() * 90,
-        y: 5 + Math.random() * 90,
-        size: 1.2 + Math.random() * 2.2,
-        delay: Math.random() * 4,
-        speed: 1.5 + Math.random() * 2
-      });
-    }
-    setStars(newStars);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (Math.random() < 0.6) {
-        setShootingStar({
-          x: Math.random() * 50,
-          y: Math.random() * 40,
-          id: Date.now()
-        });
-        setTimeout(() => {
-          setShootingStar(null);
-        }, 1200);
-      }
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const colorPresets = [
-    { name: 'Pure White Constellation', val: '#ffffff', glow: 'rgba(255, 255, 255, 0.8)' },
-    { name: 'Aurora Ice Cyan', val: '#00f0ff', glow: 'rgba(0, 240, 255, 0.8)' },
-    { name: 'Sunset Amber Glow', val: '#ffcc00', glow: 'rgba(255, 204, 0, 0.8)' }
-  ];
-
-  return (
-    <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/25 bg-[#0d111a] space-y-6">
-      <div className="border-b border-[#cae8e8]/15 pb-4 text-left">
-        <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">Cabin Ambience</span>
-        <div className="overflow-hidden py-3">
-          <h3 className="gsap-stagger-title text-xl font-bold text-white mt-1">Rolls-Royce Interior Starlight Customizer</h3>
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-12 gap-8 items-center text-left">
-        {/* Starlight Roof Canopy View */}
-        <div className="lg:col-span-7 cabin-headliner-container relative p-0">
-          <img src="assets/o3_rolls_royce_cabin.png" 
-            alt="Rolls-Royce Starlight Cabin Roof View" 
-            className="w-full h-full object-cover opacity-80"
-           loading="lazy" decoding="async" />
-          <div className="absolute inset-0 bg-[#05070c]/20 pointer-events-none"></div>
-          
-          {/* Static stars overlay */}
-          {stars.slice(0, density).map((star, idx) => (
-            <div
-              key={idx}
-              className="starlight-dot"
-              style={{
-                left: `${star.x}%`,
-                top: `${star.y}%`,
-                width: `${star.size}px`,
-                height: `${star.size}px`,
-                backgroundColor: color,
-                boxShadow: `0 0 8px 1.5px ${color}`,
-                opacity: 0.3 + Math.abs(Math.sin(Date.now() / 1000 + star.delay)) * 0.7,
-                animation: `pulse-star ${2 + star.delay}s infinite alternate`
-              }}
-            ></div>
-          ))}
-
-          {/* Dynamic Shooting Star sweep */}
-          {shootingStar && (
-            <div
-              key={shootingStar.id}
-              className="absolute pointer-events-none"
-              style={{
-                left: `${shootingStar.x}%`,
-                top: `${shootingStar.y}%`,
-                width: '120px',
-                height: '2px',
-                background: `linear-gradient(to right, ${color}, transparent)`,
-                transform: 'rotate(25deg)',
-                transformOrigin: 'left center',
-                animation: 'shooting-sweep 1.2s linear forwards',
-                boxShadow: `0 0 8px ${color}`
-              }}
-            ></div>
-          )}
-
-          <span className="absolute bottom-3 left-4 text-[9px] font-mono text-slate-400 uppercase tracking-widest z-20">
-            Rolls-Royce Cabin Ceiling Panoramic Customizer
-          </span>
-        </div>
-
-        {/* Ambient controls */}
-        <div className="lg:col-span-5 space-y-5">
-          <div className="space-y-2">
-            <span className="text-[10px] font-mono text-slate-400 block uppercase font-bold">1. Select Ambience Tone</span>
-            <div className="flex flex-col gap-2">
-              {colorPresets.map((c, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setColor(c.val)}
-                  className={`w-full p-2.5 flex items-center gap-2.5 transition-all cockpit-tactile-btn ${
-                    color === c.val ? 'active' : ''
-                  }`}
-                >
-                  <span className="w-3.5 h-3.5 rounded-full border border-white/20" style={{ backgroundColor: c.val, boxShadow: `0 0 8px ${c.val}` }}></span>
-                  <span>{c.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between text-[10px] font-mono text-slate-400 font-bold uppercase">
-              <span>2. Starlight Density</span>
-              <span className="text-white">{density} Stars</span>
-            </div>
-            <input
-              type="range"
-              min="20"
-              max="110"
-              step="10"
-              value={density}
-              onChange={(e) => setDensity(Number(e.target.value))}
-              className="w-full accent-cyan-400"
-            />
-          </div>
         </div>
       </div>
     </div>
@@ -1677,6 +217,702 @@ function OfficialTariffMenu() {
   );
 }
 
+// 13. INDIAN GARAGE — PICK YOUR CAR (THREE.JS HEX-LED STUDIO + GSAP)
+// Cars with `realWork: true` link to actual O3 studio footage of that model.
+// The rest show similar-segment work and say so. Recommended services are
+// looked up by id from the official tariff, so prices never drift.
+const INDIAN_GARAGE = [
+  { id: 'thar', name: 'Thar', maker: 'Mahindra', segment: 'Off-Road SUV', realWork: true, video: 'assets/reels/thar.mp4', accent: '#ff6b3d', why: 'Trail gravel, slush and low branches chew up a Thar\'s paint. Full-body TPU PPF soaks up stone hits; Undershield guards the chassis.', recommend: ['ppf-5yr-gloss-tpu', 'graphene-3yr', 'undershield-2yr'] },
+  { id: 'scorpio', name: 'Scorpio-N', maker: 'Mahindra', segment: 'Full-Size SUV', realWork: true, video: 'assets/reels/scorpio.mp4', accent: '#c9a96e', why: 'Big flat panels show every swirl. Graphene keeps the dark paint deep and sheds Gujarat dust with a rinse.', recommend: ['graphene-5yr', 'undershield-2yr', 'alloy-coating'] },
+  { id: 'fortuner', name: 'Fortuner', maker: 'Toyota', segment: 'Premium SUV', realWork: true, video: 'assets/reels/fortuner.mp4', accent: '#e8e8e8', why: 'Highway-heavy Fortuners collect chips on the bonnet and bumper. Graphene on the body, PPF on the impact zones.', recommend: ['graphene-5yr', 'ppf-5yr-gloss-tpu', 'undershield-2yr'] },
+  { id: 'carens', name: 'Carens', maker: 'Kia', segment: 'Family MPV', realWork: true, video: 'assets/reels/seltos.mp4', accent: '#00d4ff', why: 'Daily city driver? A 3-year ceramic keeps it showroom-glossy with easy weekend washes.', recommend: ['ceramic-3yr', 'alloy-coating', 'ozone-treatment'] },
+  { id: 'brezza', name: 'Brezza', maker: 'Maruti Suzuki', segment: 'Compact SUV', realWork: true, video: 'assets/reels/brezza.mp4', accent: '#4dd2a0', why: 'Graphene shields the clear coat from harsh summer UV and stops colour fading on bright shades.', recommend: ['graphene-3yr', 'compounding-wax', 'ozone-treatment'] },
+  { id: 'xuv700', name: 'XUV700', maker: 'Mahindra', segment: 'Premium SUV', realWork: false, video: 'assets/reels/ugc-ppf.mp4', accent: '#8fb3ff', why: 'Clear PPF keeps the factory colour while blocking chips; leather care protects the light-coloured cabin.', recommend: ['ppf-3yr-clear', 'graphene-5yr', 'leather-care'] },
+  { id: 'creta', name: 'Creta', maker: 'Hyundai', segment: 'Compact SUV', realWork: false, video: 'assets/reels/ppf-install.mp4', accent: '#7fe7ff', why: 'India\'s favourite SUV deserves a ceramic that makes it stand out in the parking lot.', recommend: ['ceramic-3yr', 'ozone-treatment', 'alloy-coating'] },
+  { id: 'harrier', name: 'Harrier / Safari', maker: 'Tata', segment: 'Premium SUV', realWork: false, video: 'assets/reels/edge-tuck.mp4', accent: '#ff9f43', why: 'Bold paint shades and wide bonnets: gloss TPU PPF keeps them flawless for years.', recommend: ['ppf-5yr-gloss-tpu', 'ceramic-3yr', 'leather-care'] },
+  { id: 'nexon', name: 'Nexon', maker: 'Tata', segment: 'Sub-4m SUV', realWork: false, video: 'assets/reels/foam-wash.mp4', accent: '#b6ff5c', why: 'Smart value pick: a 2-year ceramic plus compounding brings back the shine at a sensible budget.', recommend: ['ceramic-2yr', 'compounding-wax', 'undershield-2yr'] },
+  { id: 'innova', name: 'Innova Hycross', maker: 'Toyota', segment: 'Family MPV', realWork: false, video: 'assets/reels/steam.mp4', accent: '#d9d9ff', why: 'Family cabins take a beating. Ozone treatment kills odours; graphene keeps the big body easy to wash.', recommend: ['graphene-3yr', 'leather-care', 'ozone-treatment'] }
+];
+
+const THREE_CDN = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js';
+
+function loadThree() {
+  if (window.THREE) return Promise.resolve(window.THREE);
+  if (!window.__o3ThreePromise) {
+    window.__o3ThreePromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = THREE_CDN;
+      s.async = true;
+      s.onload = () => resolve(window.THREE);
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+  return window.__o3ThreePromise;
+}
+
+// Infinite hexagonal LED cleanroom ceiling with a glossy floor reflection,
+// modelled on the O3 studio's real hex lighting rig.
+function HexStudioScene({ accent }) {
+  const mountRef = useRef(null);
+  const sceneApi = useRef(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
+    let disposed = false;
+    let cleanup = () => {};
+
+    const start = (THREE) => {
+      if (disposed || !THREE) return;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+      mount.appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x05070c, 8, 30);
+      const camera = new THREE.PerspectiveCamera(62, mount.clientWidth / mount.clientHeight, 0.1, 60);
+      camera.position.set(0, 0, 4);
+
+      const R = 1.15;
+      const CEIL = 2.6;
+      const FLOOR = -1.6;
+      const rowStep = Math.sqrt(3) * R;
+      const edgeGeo = new THREE.BoxGeometry(R * 0.93, 0.035, 0.07);
+      const ledMat = new THREE.MeshBasicMaterial({ color: 0xe8fbff });
+      const reflMat = new THREE.MeshBasicMaterial({ color: 0xe8fbff, transparent: true, opacity: 0.22 });
+
+      const edges = [];
+      for (let c = -7; c <= 7; c++) {
+        for (let r = -14; r <= 3; r++) {
+          const cx = c * 1.5 * R;
+          const cz = r * rowStep + (c & 1 ? rowStep / 2 : 0);
+          for (let i = 0; i < 6; i++) {
+            const a1 = (Math.PI / 3) * i;
+            const a2 = (Math.PI / 3) * (i + 1);
+            const x1 = cx + R * Math.cos(a1), z1 = cz + R * Math.sin(a1);
+            const x2 = cx + R * Math.cos(a2), z2 = cz + R * Math.sin(a2);
+            edges.push([(x1 + x2) / 2, (z1 + z2) / 2, -Math.atan2(z2 - z1, x2 - x1)]);
+          }
+        }
+      }
+
+      const build = (mat, y) => {
+        const mesh = new THREE.InstancedMesh(edgeGeo, mat, edges.length);
+        const m = new THREE.Object3D();
+        edges.forEach(([x, z, rot], i) => {
+          m.position.set(x, y, z);
+          m.rotation.set(0, rot, 0);
+          m.updateMatrix();
+          mesh.setMatrixAt(i, m.matrix);
+        });
+        return mesh;
+      };
+      const grid = new THREE.Group();
+      grid.add(build(ledMat, CEIL));
+      grid.add(build(reflMat, 2 * FLOOR - CEIL));
+      scene.add(grid);
+
+      // Glossy dark floor that the reflection shows through
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(60, 60),
+        new THREE.MeshBasicMaterial({ color: 0x05070c, transparent: true, opacity: 0.55 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = FLOOR;
+      scene.add(floor);
+
+      // Accent light streak on the floor, recoloured per selected car
+      const streakMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(accent), transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false });
+      const streak = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 40), streakMat);
+      streak.rotation.x = -Math.PI / 2;
+      streak.position.set(0, FLOOR + 0.01, -10);
+      scene.add(streak);
+
+      const pointer = { x: 0, y: 0 };
+      const onPointer = (e) => {
+        const rect = mount.getBoundingClientRect();
+        pointer.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        pointer.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      };
+      window.addEventListener('pointermove', onPointer, { passive: true });
+
+      const onResize = () => {
+        const w = mount.clientWidth, h = mount.clientHeight;
+        if (!w || !h) return;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      };
+      window.addEventListener('resize', onResize);
+
+      let visible = true;
+      const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { rootMargin: '100px' });
+      io.observe(mount);
+
+      const period = rowStep * 2;
+      let raf;
+      let last = performance.now();
+      const tick = (now) => {
+        raf = requestAnimationFrame(tick);
+        if (!visible) { last = now; return; }
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        if (!reduceMotion) grid.position.z = (grid.position.z + dt * 0.9) % period;
+        camera.position.x += (pointer.x * 0.6 - camera.position.x) * 0.04;
+        camera.position.y += (-pointer.y * 0.3 - camera.position.y) * 0.04;
+        camera.lookAt(0, 0.4, -10);
+        renderer.render(scene, camera);
+      };
+      raf = requestAnimationFrame(tick);
+
+      sceneApi.current = { THREE, ledMat, reflMat, streakMat };
+
+      cleanup = () => {
+        cancelAnimationFrame(raf);
+        io.disconnect();
+        window.removeEventListener('pointermove', onPointer);
+        window.removeEventListener('resize', onResize);
+        edgeGeo.dispose(); ledMat.dispose(); reflMat.dispose(); streakMat.dispose();
+        floor.geometry.dispose(); floor.material.dispose(); streak.geometry.dispose();
+        renderer.dispose();
+        renderer.domElement.remove();
+        sceneApi.current = null;
+      };
+    };
+
+    // Only fetch three.js once the section is about to scroll into view
+    const lazy = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      lazy.disconnect();
+      loadThree().then(start).catch(() => {});
+    }, { rootMargin: '400px' });
+    lazy.observe(mount);
+
+    return () => { disposed = true; lazy.disconnect(); cleanup(); };
+  }, []);
+
+  // Recolour the floor streak and tint the LED rig toward the car's accent
+  useEffect(() => {
+    const api = sceneApi.current;
+    if (!api || !window.gsap) return;
+    const target = new api.THREE.Color(accent);
+    const tint = new api.THREE.Color(0xe8fbff).lerp(target, 0.25);
+    [[api.streakMat.color, target], [api.ledMat.color, tint], [api.reflMat.color, tint]].forEach(([c, t]) => {
+      window.gsap.to(c, { r: t.r, g: t.g, b: t.b, duration: 0.9, ease: 'power2.out' });
+    });
+  }, [accent]);
+
+  return <div ref={mountRef} className="absolute inset-0 pointer-events-none" aria-hidden="true"></div>;
+}
+
+function IndianGarageShowcase({ services, onBookService }) {
+  const [carId, setCarId] = useState('thar');
+  const stageRef = useRef(null);
+  const sectionRef = useRef(null);
+  const car = INDIAN_GARAGE.find(c => c.id === carId);
+  const picks = car.recommend.map(id => services.find(s => s.id === id)).filter(Boolean);
+
+  // Entrance: chips cascade in when the section scrolls into view
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!window.gsap || !el) return;
+    const chips = el.querySelectorAll('.garage-chip');
+    window.gsap.set(chips, { y: 24, opacity: 0 });
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      window.gsap.to(chips, { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: 'power3.out' });
+    }, { threshold: 0.2 });
+    io.observe(el);
+    return () => { io.disconnect(); window.gsap.set(chips, { clearProps: 'all' }); };
+  }, []);
+
+  // Car change: video and spec panel slide in
+  useEffect(() => {
+    if (!window.gsap || !stageRef.current) return;
+    const ctx = window.gsap.context(() => {
+      window.gsap.fromTo('.garage-media', { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out' });
+      window.gsap.fromTo('.garage-reveal', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.07, ease: 'power3.out' });
+    }, stageRef);
+    return () => ctx.revert();
+  }, [carId]);
+
+  return (
+    <section ref={sectionRef} className="relative w-full overflow-hidden py-16 sm:py-20 border-y border-[#cae8e8]/15 bg-[#05070c]">
+      <HexStudioScene accent={car.accent} />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#05070c] via-transparent to-[#05070c] pointer-events-none"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="text-center space-y-2">
+          <span className="pill-capsule font-mono">Made for Indian Roads</span>
+          <div className="overflow-hidden py-3">
+            <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">Pick Your Car. See Our Work.</h2>
+          </div>
+          <p className="text-sm text-slate-400 max-w-xl mx-auto">From Thars that live off-road to family Innovas, choose your model for real O3 studio footage and the treatments we recommend for it.</p>
+        </div>
+
+        <div className="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap sm:justify-center -mx-4 px-4 sm:mx-0 sm:px-0" role="tablist" aria-label="Choose your car">
+          {INDIAN_GARAGE.map(c => (
+            <button
+              key={c.id}
+              role="tab"
+              aria-selected={c.id === carId}
+              onClick={() => setCarId(c.id)}
+              className={`garage-chip shrink-0 px-4 py-2 rounded-full border text-xs font-semibold transition-all duration-300 ${
+                c.id === carId
+                  ? 'bg-white text-[#05070c] border-white shadow-[0_0_24px_rgba(202,232,232,0.55)]'
+                  : 'bg-[#0d111a]/70 text-slate-300 border-[#cae8e8]/25 hover:border-[#00f0ff] hover:text-white'
+              }`}
+            >
+              <span className="opacity-60 font-mono mr-1">{c.maker.split(' ')[0]}</span>{c.name}
+            </button>
+          ))}
+        </div>
+
+        <div ref={stageRef} className="grid lg:grid-cols-12 gap-6 items-stretch">
+          <div className="lg:col-span-7 relative rounded-3xl overflow-hidden border border-[#cae8e8]/25 bg-black aspect-video lg:aspect-auto lg:min-h-[420px] shadow-[0_30px_80px_rgba(0,0,0,0.7)]">
+            <video key={car.video} src={car.video} poster={car.video.replace('.mp4', '.webp')} data-autoplay loop muted playsInline preload="none" className="garage-media absolute inset-0 w-full h-full object-cover"></video>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#05070c]/90 via-transparent to-transparent pointer-events-none"></div>
+            <div className="absolute top-4 left-4 flex gap-2">
+              <span className={`text-[10px] font-mono font-bold px-3 py-1 rounded-full border ${car.realWork ? 'bg-emerald-500/15 border-emerald-400/50 text-emerald-300' : 'bg-[#05070c]/80 border-[#cae8e8]/30 text-slate-300'}`}>
+                {car.realWork ? `● Real O3 job: ${car.name}` : 'Similar-segment O3 work'}
+              </span>
+            </div>
+            <div className="absolute bottom-5 left-5 right-5">
+              <div className="text-xs font-mono uppercase tracking-widest" style={{ color: car.accent }}>{car.maker} · {car.segment}</div>
+              <div className="text-3xl sm:text-5xl font-black text-white tracking-tight">{car.name}</div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5 glass-surface p-6 sm:p-7 border border-[#cae8e8]/25 bg-[#0d111a]/85 flex flex-col gap-5 text-left">
+            <div className="garage-reveal space-y-2">
+              <span className="text-xs uppercase tracking-widest font-mono font-bold text-[#cae8e8]">Why this combo</span>
+              <p className="text-sm text-slate-300 leading-relaxed">{car.why}</p>
+            </div>
+
+            <div className="space-y-3">
+              {picks.map(s => (
+                <div key={s.id} className="garage-reveal flex items-center justify-between gap-3 p-3 rounded-2xl bg-[#05070c]/80 border border-[#cae8e8]/15 hover:border-[#00f0ff]/60 transition-colors">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-xl shrink-0">{s.icon}</span>
+                    <div className="min-w-0">
+                      <div className="text-sm font-bold text-white truncate">{s.title}</div>
+                      <div className="text-[11px] text-slate-400 truncate">{s.durability || s.warranty}</div>
+                    </div>
+                  </div>
+                  <div className="text-sm font-mono font-extrabold text-[#00f0ff] shrink-0">{s.price}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="garage-reveal mt-auto space-y-2">
+              <button onClick={() => onBookService(`${car.maker} ${car.name}: ${picks.map(p => p.title).join(' + ')}`)} className="btn-primary w-full justify-center text-xs !py-3">
+                <span>Book this for my {car.name}</span>
+                <span>→</span>
+              </button>
+              <p className="text-[10px] text-slate-500 font-mono text-center">Prices from O3's official tariff. Final quote after paint inspection.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// 14. SCROLL-VELOCITY MARQUEE — speeds up, reverses and skews with your scroll
+function VelocityMarquee() {
+  const rootRef = useRef(null);
+  const rows = [
+    { items: ['Thar', 'Scorpio-N', 'Fortuner', 'Creta', 'XUV700', 'Seltos', 'Brezza', 'Harrier', 'Nexon', 'Innova Hycross'], outline: false },
+    { items: ['Ceramic 9H', 'Graphene Armor', 'Self-Healing PPF', 'Paint Correction', 'Steam Interior', 'Ozone Treatment', 'Undershield'], outline: true }
+  ];
+
+  useEffect(() => {
+    const gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
+    if (!gsap || !ScrollTrigger || !rootRef.current) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = gsap.context(() => {
+      const tracks = gsap.utils.toArray('.marquee-track');
+      const loops = tracks.map((track, i) => i % 2
+        ? gsap.fromTo(track, { xPercent: -50 }, { xPercent: 0, duration: 45, ease: 'none', repeat: -1 })
+        : gsap.fromTo(track, { xPercent: 0 }, { xPercent: -50, duration: 40, ease: 'none', repeat: -1 }));
+      const skew = gsap.quickTo(tracks, 'skewX', { duration: 0.5, ease: 'power3' });
+      ScrollTrigger.create({
+        trigger: rootRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        onUpdate: (self) => {
+          const v = self.getVelocity();
+          const boost = gsap.utils.clamp(1, 5, Math.abs(v) / 300) * self.direction;
+          loops.forEach(l => gsap.to(l, { timeScale: boost, duration: 0.2, overwrite: true }));
+          loops.forEach(l => gsap.to(l, { timeScale: self.direction, duration: 1.2, delay: 0.25, overwrite: false }));
+          skew(gsap.utils.clamp(-12, 12, v / -250));
+        }
+      });
+    }, rootRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={rootRef} className="no-scroll-reveal relative w-full overflow-hidden py-6 space-y-2 select-none" aria-label="Cars we detail and services we offer">
+      {rows.map((row, i) => (
+        <div key={i} className="overflow-hidden whitespace-nowrap">
+          <div className="marquee-track inline-flex will-change-transform">
+            {[0, 1].map(copy => (
+              <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
+                {row.items.map(item => (
+                  <span key={item} className={`px-6 text-4xl sm:text-6xl font-black uppercase tracking-tight ${row.outline ? 'marquee-outline' : 'text-white/90'}`}>
+                    {item}<span className="inline-block align-middle w-3 h-3 sm:w-4 sm:h-4 mx-6 rotate-45 bg-[#00f0ff] shadow-[0_0_14px_#00f0ff]"></span>
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+// 16. PINNED HORIZONTAL PROCESS — the page pins and the 5 stages slide sideways
+const O3_PROCESS = [
+  { n: '01', title: 'Inspect', line: 'Paint-depth gauge and 6500K LED scan of every panel. We find what the eye can\'t.', img: 'assets/process/inspect.webp' },
+  { n: '02', title: 'Decontaminate', line: 'Snow-foam bath, iron fallout remover and clay bar strip years of road grime.', img: 'assets/process/decon.webp' },
+  { n: '03', title: 'Correct', line: 'Multi-stage machine compounding removes swirls, haze and light scratches.', img: 'assets/process/correct.webp' },
+  { n: '04', title: 'Protect', line: 'Ceramic, graphene or self-healing PPF, hand-applied and IR-cured in the bay.', img: 'assets/process/protect.webp' },
+  { n: '05', title: 'Deliver', line: 'Final inspection under studio lights, care guide and warranty card in your hand.', img: 'assets/process/deliver.webp' }
+];
+
+function PinnedProcessScroller() {
+  const rootRef = useRef(null);
+  const trackRef = useRef(null);
+
+  useEffect(() => {
+    const gsap = window.gsap;
+    if (!gsap || !window.ScrollTrigger || !rootRef.current) return;
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+      const track = trackRef.current;
+      const distance = () => track.scrollWidth - window.innerWidth;
+      const tween = gsap.to(track, {
+        x: () => -distance(), ease: 'none',
+        scrollTrigger: {
+          trigger: rootRef.current, start: 'top top', end: () => '+=' + distance(),
+          pin: true, scrub: true, invalidateOnRefresh: true, anticipatePin: 1
+        }
+      });
+      gsap.fromTo('.process-progress', { scaleX: 0 }, {
+        scaleX: 1, ease: 'none',
+        scrollTrigger: { trigger: rootRef.current, start: 'top top', end: () => '+=' + distance(), scrub: true, invalidateOnRefresh: true }
+      });
+      // Each panel's image drifts against the scroll direction for depth
+      gsap.utils.toArray('.process-panel').forEach((panel) => {
+        gsap.fromTo(panel.querySelector('img'), { xPercent: -8 }, {
+          xPercent: 8, ease: 'none',
+          scrollTrigger: { trigger: panel, containerAnimation: tween, start: 'left right', end: 'right left', scrub: true }
+        });
+        gsap.from(panel.querySelectorAll('.process-copy > *'), {
+          y: 40, opacity: 0, stagger: 0.08, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: panel, containerAnimation: tween, start: 'left 70%' }
+        });
+      });
+    });
+    return () => mm.revert();
+  }, []);
+
+  return (
+    <section ref={rootRef} className="no-scroll-reveal relative w-full overflow-hidden bg-[#05070c] md:h-screen flex flex-col justify-center py-12 md:py-0">
+      <div className="px-4 sm:px-8 lg:px-12 mb-8 flex items-end justify-between gap-6">
+        <div>
+          <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">The O3 Process</span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2">Five stages. Zero shortcuts.</h2>
+        </div>
+        <div className="hidden md:block w-56 h-[2px] bg-white/10 rounded-full overflow-hidden">
+          <div className="process-progress h-full bg-gradient-to-r from-[#00f0ff] to-[#cae8e8] origin-left"></div>
+        </div>
+      </div>
+
+      <div ref={trackRef} className="flex flex-col md:flex-row gap-6 px-4 sm:px-8 lg:px-12 md:w-max will-change-transform">
+        {O3_PROCESS.map(step => (
+          <article key={step.n} className="process-panel relative md:w-[38vw] lg:w-[30vw] h-[70vh] md:h-[72vh] shrink-0 rounded-3xl overflow-hidden border border-[#cae8e8]/20 bg-black">
+            <img src={step.img} alt={step.title} className="absolute inset-0 w-[116%] max-w-none h-full object-cover -left-[8%] opacity-80" loading="lazy" decoding="async" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-[#05070c]/40 to-transparent"></div>
+            <div className="process-copy absolute bottom-0 left-0 right-0 p-6 sm:p-10 space-y-3">
+              <div className="text-7xl sm:text-8xl font-black text-transparent leading-none" style={{ WebkitTextStroke: '1px rgba(0,240,255,0.6)' }}>{step.n}</div>
+              <h3 className="text-3xl sm:text-4xl font-extrabold text-white">{step.title}</h3>
+              <p className="text-sm sm:text-base text-slate-300 max-w-md leading-relaxed">{step.line}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// 17. SCROLL-SCRUBBED SWIRL CORRECTION — scrolling polishes the paint
+function SwirlCorrectionReveal({ onBook }) {
+  const rootRef = useRef(null);
+
+  useEffect(() => {
+    const gsap = window.gsap;
+    if (!gsap || !window.ScrollTrigger || !rootRef.current) return;
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: rootRef.current, start: 'top top', end: '+=140%', pin: true, scrub: true, anticipatePin: 1 }
+      });
+      // Transform-only wipe (GPU composited): the mask slides in from the left
+      // while the image inside counter-slides so it stays put. No clip-path
+      // repaints or layout-triggering `left` changes per frame.
+      tl.fromTo('.swirl-mask', { xPercent: -100 }, { xPercent: 0, ease: 'none' }, 0)
+        .fromTo('.swirl-mask-inner', { xPercent: 100 }, { xPercent: 0, ease: 'none' }, 0)
+        .fromTo('.swirl-pad', { x: 0 }, { x: () => rootRef.current.offsetWidth, ease: 'none' }, 0)
+        .fromTo('.swirl-stage-label', { opacity: 1 }, { opacity: 0, duration: 0.2 }, 0.1)
+        .fromTo('.swirl-done', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, 0.8);
+    });
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set(['.swirl-mask', '.swirl-mask-inner'], { xPercent: 0 });
+      gsap.set('.swirl-done', { opacity: 1 });
+    });
+    return () => mm.revert();
+  }, []);
+
+  return (
+    <section ref={rootRef} className="no-scroll-reveal relative w-full h-screen overflow-hidden bg-black">
+      <img src="assets/o3_swirl_before.webp" alt="Paint with swirl marks before correction" className="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" />
+      <div className="swirl-mask absolute inset-0 overflow-hidden will-change-transform">
+        <div className="swirl-mask-inner absolute inset-0 will-change-transform">
+          <img src="assets/o3_swirl_after.webp" alt="Same paint after O3 correction" className="absolute inset-0 w-full h-full object-cover" decoding="async" />
+        </div>
+      </div>
+      <div className="swirl-pad absolute top-0 bottom-0 left-0 w-[2px] -ml-px bg-[#00f0ff] shadow-[0_0_30px_8px_rgba(0,240,255,0.55)] pointer-events-none will-change-transform"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#05070c]/80 via-transparent to-[#05070c]/90 pointer-events-none"></div>
+
+      <div className="absolute top-10 left-4 right-4 sm:left-10 sm:right-10 flex items-start justify-between gap-6">
+        <div>
+          <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">Paint Correction</span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2 max-w-xl">Scroll to polish.</h2>
+          <p className="swirl-stage-label text-sm text-slate-300 mt-2">Keep scrolling: watch the swirl marks disappear.</p>
+        </div>
+        <div className="shrink-0 flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest">
+          <span className="px-3 py-1 rounded-full bg-black/60 text-slate-300">Before</span>
+          <span className="text-[#00f0ff]">→</span>
+          <span className="px-3 py-1 rounded-full bg-[#00f0ff] text-[#05070c]">After</span>
+        </div>
+      </div>
+
+      <div className="swirl-done absolute bottom-10 left-4 right-4 sm:left-10 sm:right-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 opacity-0">
+        <p className="text-base sm:text-lg text-white max-w-md font-semibold">Multi-stage correction plus a ceramic or graphene layer, done in our Anand studio.</p>
+        <button onClick={() => onBook('Paint Correction + Coating')} className="btn-primary text-xs !py-3 !px-6 self-start sm:self-auto">
+          <span>Book a correction</span><span>→</span>
+        </button>
+      </div>
+    </section>
+  );
+}
+
+// 18. REEL FILM-STRIP — real O3 phone reels drift sideways as you scroll.
+// Only the card nearest the centre plays; the rest show a still. Active card is
+// worked out from scroll progress maths (no per-frame layout reads).
+const O3_REELS = [
+  { id: 'thar', car: 'Mahindra Thar', job: 'Full-body PPF' },
+  { id: 'fortuner', car: 'Toyota Fortuner', job: 'Ceramic coating' },
+  { id: 'scorpio', car: 'Mahindra Scorpio-N', job: 'Graphene coating' },
+  { id: 'seltos', car: 'Kia Carens', job: 'Polish + coating' },
+  { id: 'brezza', car: 'Maruti Brezza', job: 'Graphene coating' },
+  { id: 'mercedes-ppf', car: 'Mercedes-Benz', job: 'PPF installation' },
+  { id: 'foam-wash', car: 'Studio wash', job: 'Foam decontamination' },
+  { id: 'edge-tuck', car: 'PPF detail', job: 'Edge tucking' },
+  { id: 'steam', car: 'Interior', job: 'Steam sanitising' },
+  { id: 'bmw', car: 'BMW', job: 'Polish & finish' }
+];
+
+function ReelFilmStrip({ onOpenGallery }) {
+  const rootRef = useRef(null);
+  const trackRef = useRef(null);
+  const videoRefs = useRef([]);
+  const [active, setActive] = useState(0);
+  const activeRef = useRef(0);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { rootMargin: '100px' });
+    io.observe(rootRef.current);
+    return () => io.disconnect();
+  }, []);
+
+  // Play only the active reel, and only while the strip is on screen
+  useEffect(() => {
+    videoRefs.current.forEach((v, i) => {
+      if (!v) return;
+      if (inView && i === active) { const p = v.play(); if (p) p.catch(() => {}); }
+      else v.pause();
+    });
+  }, [active, inView]);
+
+  useEffect(() => {
+    const gsap = window.gsap;
+    const root = rootRef.current, track = trackRef.current;
+    if (!gsap || !window.ScrollTrigger || !root || !track) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let geo = { start: 0, end: 0, step: 1, first: 0 };
+    const measure = () => {
+      const cards = track.children;
+      const vw = window.innerWidth;
+      const step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1;
+      geo = {
+        start: vw * 0.25,
+        end: -(track.scrollWidth - vw * 0.75),
+        step,
+        first: cards[0].offsetLeft + cards[0].offsetWidth / 2
+      };
+    };
+    measure();
+    const pick = (x) => {
+      const centre = window.innerWidth / 2 - x;
+      const idx = Math.max(0, Math.min(O3_REELS.length - 1, Math.round((centre - geo.first) / geo.step)));
+      if (idx !== activeRef.current) { activeRef.current = idx; setActive(idx); }
+    };
+    const ctx = gsap.context(() => {
+      if (reduce) return;
+      gsap.fromTo(track, { x: () => geo.start }, {
+        x: () => geo.end,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root, start: 'top bottom', end: 'bottom top', scrub: true,
+          invalidateOnRefresh: true, onRefreshInit: measure,
+          onUpdate: (self) => pick(geo.start + (geo.end - geo.start) * self.progress)
+        }
+      });
+    }, root);
+    // Reduced motion / no-GSAP fallback: native horizontal scrolling
+    let onScroll;
+    if (reduce) {
+      onScroll = () => pick(-track.parentElement.scrollLeft);
+      track.parentElement.addEventListener('scroll', onScroll, { passive: true });
+    }
+    return () => { ctx.revert(); if (onScroll) track.parentElement.removeEventListener('scroll', onScroll); };
+  }, []);
+
+  return (
+    <section ref={rootRef} className="no-scroll-reveal relative w-full py-16 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">Straight from the bay</span>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2">Real cars. Real reels.</h2>
+          <p className="text-sm text-slate-400 mt-2 max-w-md">Unedited phone footage from our Anand studio. Scroll and the reel in the middle plays.</p>
+        </div>
+        <button onClick={onOpenGallery} className="btn-secondary text-xs self-start sm:self-auto">See all work →</button>
+      </div>
+
+      <div className="overflow-x-auto motion-safe:overflow-visible no-scrollbar">
+        <div ref={trackRef} className="flex gap-5 sm:gap-7 w-max will-change-transform px-4">
+          {O3_REELS.map((r, i) => (
+            <figure
+              key={r.id}
+              className={`relative shrink-0 w-[62vw] sm:w-[260px] lg:w-[280px] aspect-[9/16] rounded-[28px] overflow-hidden bg-[#0d111a] border transition-[transform,opacity,border-color] duration-500 ease-out ${
+                i === active ? 'scale-100 opacity-100 border-[#00f0ff]/60 shadow-[0_30px_70px_rgba(0,240,255,0.18)]' : 'scale-[0.88] opacity-50 border-white/10'
+              }`}
+            >
+              <video
+                ref={el => (videoRefs.current[i] = el)}
+                src={`assets/reels/${r.id}.mp4`}
+                poster={`assets/reels/${r.id}.webp`}
+                muted loop playsInline preload="none"
+                className="absolute inset-0 w-full h-full object-cover"
+              ></video>
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
+              <figcaption className="absolute bottom-0 left-0 right-0 p-5">
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#00f0ff]">{r.job}</div>
+                <div className="text-lg font-extrabold text-white leading-tight">{r.car}</div>
+              </figcaption>
+              {i === active && (
+                <span className="absolute top-4 left-4 flex items-center gap-1.5 text-[10px] font-mono font-bold text-white bg-black/60 px-2.5 py-1 rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>PLAYING
+                </span>
+              )}
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// 19. CERAMIC vs GRAPHENE vs PPF — plain-language comparison with official prices
+const COMPARE_OPTIONS = [
+  { id: 'ceramic-3yr', name: 'Ceramic', tone: '#cae8e8', bestFor: 'Daily drivers that want easy washing and lasting gloss' },
+  { id: 'graphene-3yr', name: 'Graphene', tone: '#00f0ff', bestFor: 'Dark paint, open parking, harsh summer sun', pick: true },
+  { id: 'ppf-5yr-gloss-tpu', name: 'PPF Film', tone: '#ffffff', bestFor: 'New cars, highway use, bonnets and bumpers that take stone hits' }
+];
+const COMPARE_ROWS = [
+  { label: 'Deep gloss & colour depth', v: [true, true, true] },
+  { label: 'UV & fading protection', v: [true, true, true] },
+  { label: 'Water beading, easy washing', v: [true, true, true] },
+  { label: 'Fewer water spots in heat', v: [false, true, false] },
+  { label: 'Stops stone chips', v: [false, false, true] },
+  { label: 'Light scratches heal with heat', v: [false, false, true] }
+];
+
+function CoatingCompare({ services, onBook }) {
+  const rootRef = useRef(null);
+  const opts = COMPARE_OPTIONS.map(o => ({ ...o, svc: services.find(s => s.id === o.id) }));
+
+  useEffect(() => {
+    const gsap = window.gsap;
+    if (!gsap || !window.ScrollTrigger || !rootRef.current) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ scrollTrigger: { trigger: rootRef.current, start: 'top 70%', once: true } });
+      tl.from('.cmp-col', { y: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out' })
+        .from('.cmp-tick', { scale: 0, opacity: 0, duration: 0.35, stagger: 0.03, ease: 'back.out(2.5)' }, '-=0.4')
+        .from('.cmp-price', { y: 12, opacity: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' }, '-=0.3');
+    }, rootRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={rootRef} className="no-scroll-reveal max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center mb-10">
+        <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">Which one do I need?</span>
+        <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2">Ceramic vs Graphene vs PPF</h2>
+        <p className="text-sm text-slate-400 mt-3 max-w-xl mx-auto">The question we hear most at the studio, answered on one screen.</p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-5">
+        {opts.map((o, ci) => (
+          <div key={o.id} className={`cmp-col relative rounded-3xl p-6 sm:p-7 flex flex-col gap-5 border ${o.pick ? 'bg-[#0b1a22] border-[#00f0ff]/50' : 'bg-[#0d111a] border-white/10'}`}>
+            {o.pick && <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold bg-[#00f0ff] text-[#05070c] px-3 py-1 rounded-full">MOST CHOSEN</span>}
+            <div>
+              <h3 className="text-2xl font-black" style={{ color: o.tone }}>{o.name}</h3>
+              <div className="cmp-price mt-1 flex items-baseline gap-2">
+                <span className="text-3xl font-black font-mono text-white">{o.svc ? o.svc.price : ''}</span>
+                <span className="text-xs text-slate-400">{o.svc ? o.svc.durability : ''}</span>
+              </div>
+            </div>
+            <ul className="space-y-2.5 text-sm">
+              {COMPARE_ROWS.map(row => (
+                <li key={row.label} className="flex items-center gap-3">
+                  <span className={`cmp-tick inline-flex w-5 h-5 shrink-0 rounded-full items-center justify-center text-[11px] font-black ${row.v[ci] ? 'bg-[#00f0ff] text-[#05070c]' : 'bg-white/5 text-slate-600'}`}>{row.v[ci] ? '✓' : '–'}</span>
+                  <span className={row.v[ci] ? 'text-slate-200' : 'text-slate-500'}>{row.label}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-slate-400 border-t border-white/10 pt-4"><span className="text-slate-200 font-semibold">Best for: </span>{o.bestFor}</p>
+            <button onClick={() => onBook(o.svc ? o.svc.title : o.name)} className={`${o.pick ? 'btn-primary' : 'btn-secondary'} text-xs justify-center mt-auto`}>
+              <span>Book {o.name}</span><span>→</span>
+            </button>
+          </div>
+        ))}
+      </div>
+      <p className="text-center text-[11px] text-slate-500 font-mono mt-6">Many owners combine them: PPF on the front, graphene on the rest. Prices from O3's official tariff; final quote after inspection.</p>
+    </section>
+  );
+}
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
@@ -1725,6 +961,7 @@ function App() {
   // Before/After Slider Position
   const [sliderPos, setSliderPos] = useState(50);
   const isDraggingRef = useRef(false);
+  const lenisRef = useRef(null);
 
   const canvasRef = useRef(null);
 
@@ -1799,7 +1036,7 @@ function App() {
     "icon": "\ud83d\udebf",
     "tagline": "Complete Exterior Snow Foam Wash & Interior Vacuuming",
     "summary": "Multi-stage safe wash procedure using high-pressure foam cannons, grit-guard wash mitts, wheel arch cleaning, and full interior cabin vacuuming.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.webp",
     "warranty": "Cleanliness Guarantee",
     "durability": "Per Wash",
     "equipment": "K\u00e4rcher High-Pressure Washer, Snow Foam Lance, Industrial Vacuum",
@@ -1820,7 +1057,7 @@ function App() {
     "icon": "\ud83e\ude91",
     "tagline": "Deep Interior Extraction, Dashboard & Leather Dressing",
     "summary": "Deep interior sanitization treatment extracting ground-in dirt from carpets, upholstery, dashboard seams, and door trims using hot steam & specialized leather dressings.",
-    "img": "assets/o3_int_after.png",
+    "img": "assets/o3_int_after.webp",
     "warranty": "Sanitization Certificate",
     "durability": "6 Months Cleanliness",
     "equipment": "Hot Water Extractor, Dry Steam Vapor Machine, Leather Care Balms",
@@ -1841,7 +1078,7 @@ function App() {
     "icon": "\ud83c\udf00",
     "tagline": "O3 Cabin Sanitization & Bacteria Elimination",
     "summary": "High-output O3 ozone gas flooding that oxidizes and destroys airborne bacteria, mold spores, smoke smells, and persistent cabin odors.",
-    "img": "assets/o3_equipment_lab.png",
+    "img": "assets/o3_equipment_lab.webp",
     "warranty": "99.9% Bacteria Free",
     "durability": "3 \u2013 6 Months",
     "equipment": "High-Output O3 Ozone Generator, HEPA Cabin Recirculation Unit",
@@ -1861,7 +1098,7 @@ function App() {
     "icon": "\ud83d\udcbc",
     "tagline": "Nourishing Leather Conditioner & UV Shield",
     "summary": "Specialized leather cleansing and oil-nourishing treatment that restores natural suppleness, prevents cracking, and shields against sun UV fading.",
-    "img": "assets/product_interior_leather.png",
+    "img": "assets/product_interior_leather.webp",
     "warranty": "Supple Finish Guarantee",
     "durability": "3 \u2013 4 Months",
     "equipment": "Soft Horsehair Brushes, Ma-Fra Italian Leather Care Cream",
@@ -1881,7 +1118,7 @@ function App() {
     "icon": "\ud83d\udca1",
     "tagline": "Oxidation Removal & UV Clear Sealant",
     "summary": "Multi-stage wet sanding and micro-compounding technique that permanently strips yellow oxidation and haze from polycarbonate headlight lenses.",
-    "img": "assets/o3_studio_environment.png",
+    "img": "assets/o3_studio_environment.webp",
     "warranty": "1 Year Clarity Warranty",
     "durability": "12 Months",
     "equipment": "2000/3000 Grit Wet Sanding Discs, Rotary Polisher, UV Clear Sealant",
@@ -1901,7 +1138,7 @@ function App() {
     "icon": "\ud83d\udc00",
     "tagline": "Engine Bay Wire & Pipe Rodent Protection",
     "summary": "Heavy-duty heat-resistant bitter spray formulation applied to engine bay wiring harnesses, rubber hoses, and cables to prevent rodent chewing damage.",
-    "img": "assets/o3_coating_worker.png",
+    "img": "assets/o3_coating_worker.webp",
     "warranty": "6 Months Rodent Shield",
     "durability": "6 Months",
     "equipment": "High-Temp Bitter Polymer Coating, Engine Bay Prep Washer",
@@ -1921,7 +1158,7 @@ function App() {
     "icon": "\u2699\ufe0f",
     "tagline": "Degreasing, Thermal Bay Dressing & Electrical Seal",
     "summary": "Complete engine bay steam restoration and heat-resistant protective clear lacquer application that keeps plastic covers, hoses, and metal components looking showroom new.",
-    "img": "assets/o3_coating_worker.png",
+    "img": "assets/o3_coating_worker.webp",
     "warranty": "1 Year Bay Shield",
     "durability": "12 Months",
     "equipment": "Steam Jet Cleaner, W\u00fcrth German Heat Lacquer",
@@ -1941,7 +1178,7 @@ function App() {
     "icon": "\ud83d\udede",
     "tagline": "Brake Dust Repellent & Heat-Resistant Silica Layer",
     "summary": "Ultra-high temperature 9H quartz ceramic coating engineered to withstand 800\u00b0C brake temperatures, preventing corrosive brake dust etching into alloy rims.",
-    "img": "assets/product_tools_accessories.png",
+    "img": "assets/product_tools_accessories.webp",
     "warranty": "2 Years Rim Guard",
     "durability": "2 Years",
     "equipment": "Iron Fallout Chemical Remover, 800\u00b0C Heat Quartz Coating",
@@ -1961,7 +1198,7 @@ function App() {
     "icon": "\ud83c\udf27\ufe0f",
     "tagline": "Rain Repellent & Night Glare Hydrophobic Shield",
     "summary": "Fluoropolymer glass coating that chemically bonds to glass, allowing rainwater to bead and fly off at speeds above 40 km/h for dramatically improved night rain visibility.",
-    "img": "assets/o3_studio_environment.png",
+    "img": "assets/o3_studio_environment.webp",
     "warranty": "1 Year Warranty",
     "durability": "12 Months",
     "equipment": "Cerium Oxide Glass Polish, Kisho Japanese Fluorine Glass Shield",
@@ -1981,7 +1218,7 @@ function App() {
     "icon": "\ud83d\udecb\ufe0f",
     "tagline": "Hydrophobic & Stain Barrier for Leather Seats",
     "summary": "Advanced breathable ceramic coating formulated for genuine leather seats that prevents liquid penetration, UV fading, and dye transfer from blue jeans.",
-    "img": "assets/product_interior_leather.png",
+    "img": "assets/product_interior_leather.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "Nanotechnology Leather Coating, Micro Suede Applicators",
@@ -2001,7 +1238,7 @@ function App() {
     "icon": "\ud83e\uddf5",
     "tagline": "Liquid Repellent Barrier for Fabric Upholstery",
     "summary": "Hydrophobic textile barrier coating that coats individual fabric fibers, causing coffee, soda, and water spills to bead up on top of seats without soaking in.",
-    "img": "assets/o3_int_after.png",
+    "img": "assets/o3_int_after.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "Nano-Textile Spray Coating, Thermal Curing Guns",
@@ -2020,7 +1257,7 @@ function App() {
     "icon": "\ud83d\udda4",
     "tagline": "Restores Plastic Cladding & Prevents UV Fading",
     "summary": "Permanent plastic restoration ceramic coating that penetrates deep into oxidized unpainted exterior trim and bumpers, restoring rich dark matte color with 2-year UV defense.",
-    "img": "assets/product_exterior_care.png",
+    "img": "assets/product_exterior_care.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "Trim Restorer Coating, Suede Applicator Blocks",
@@ -2039,7 +1276,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "Single-Stage Gloss Enhancement & Carnauba Wax",
     "summary": "Single-stage orbital machine polish that restores paint clarity, removes light haze, and applies a rich protective synthetic wax layer.",
-    "img": "assets/o3_paint_correction.png",
+    "img": "assets/o3_paint_correction.webp",
     "warranty": "High Gloss Guarantee",
     "durability": "6 Months",
     "equipment": "Rupes Orbital Polisher, Meguiar\u2019s Finishing Polish & Synthetic Wax",
@@ -2058,7 +1295,7 @@ function App() {
     "icon": "\ud83d\udd0d",
     "tagline": "Swirl Mark Reduction & High-Gloss Sealant",
     "summary": "Two-stage paint correction process combining heavy compounding scratch reduction with fine finishing polish and a high-durability hybrid wax sealant.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "1 Year Swirl Reduction",
     "durability": "12 Months",
     "equipment": "Menzerna Heavy Cut 400, Microfiber Cutting Pads, Dual Action Polisher",
@@ -2077,7 +1314,7 @@ function App() {
     "icon": "\ud83d\udc8e",
     "tagline": "3-Stage Paint Leveling & Deep Gloss Conservation",
     "summary": "Flagship 3-step studio paint correction and leveling treatment that measures clear coat depth, removes multi-layer defects, and applies O3 silica protective coating.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "3-Pass Rupes Compounding System, Ultrasonic Depth Gauge, O3 Silica Sealant",
@@ -2097,7 +1334,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "Entry-Level Liquid Quartz Gloss & Hydrophobic Barrier",
     "summary": "Professional 9H SiO2 ceramic glass coating providing 12 months of high-gloss shine, rain repellency, and chemical resistance.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "1 Year Warranty",
     "durability": "12 Months",
     "equipment": "Rupes Orbital Polishers, 9H Silica Quartz, IR Curing Lamp Rig",
@@ -2117,7 +1354,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "24-Month Quartz Hardness & Mirror Surface Gloss",
     "summary": "Double-layer 9H SiO2 quartz coating that bonds to clear coat, preserving deep mirror gloss and UV protection for 2 full years.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "2 Years Warranty",
     "durability": "24 Months",
     "equipment": "Scangrip Daylight LED, 9H Silica Quartz, Hedson IR Curing",
@@ -2137,7 +1374,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "36-Month High-Density Quartz Surface Protection",
     "summary": "High-density 9H SiO2 ceramic formulation with enhanced chemical resistance against bird droppings, tree sap, and acid rain.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Rupes BigFoot, High-Density Quartz, Shortwave IR Rig",
@@ -2157,7 +1394,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "5-Year Ultra-Durable SiO2 Quartz Flagship Coating",
     "summary": "Flagship 5-year multi-layer ceramic matrix coating offering ultimate scratch resistance, deep wet-look reflection, and hyper-hydrophobic water repellency.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "DeFelsko Gauge, Multi-Layer 9H Quartz, Hedson IR Curing",
@@ -2177,7 +1414,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 1 Free Maintenance CoatCare Service",
     "summary": "Complete 2-year ceramic coating package bundled with 1 complimentary annual studio CoatCare decontamination & top-up maintenance service.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "2 Years Warranty + 1 Maintenance",
     "durability": "2 Years",
     "equipment": "9H Quartz, CoatCare Booster Spray, IR Curing",
@@ -2196,7 +1433,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 2 Free Maintenance CoatCare Services",
     "summary": "Premium 3-year ceramic shield bundle backed by 2 complimentary annual studio CoatCare maintenance sessions for long-term gloss retention.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "3 Years Warranty + 2 Maintenances",
     "durability": "3 Years",
     "equipment": "9H SiO2 Quartz, IR Curing Rig",
@@ -2215,7 +1452,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Includes 4 Free Annual CoatCare Services",
     "summary": "Ultimate 5-year ceramic protection program bundled with 4 full annual studio CoatCare maintenance passes for total peace of mind.",
-    "img": "assets/o3_ceramic_coating.png",
+    "img": "assets/o3_ceramic_coating.webp",
     "warranty": "5 Years Warranty + 4 Maintenances",
     "durability": "5 Years",
     "equipment": "Multi-Layer Quartz, Hedson IR Curing",
@@ -2234,7 +1471,7 @@ function App() {
     "icon": "\u26a1",
     "tagline": "Reduced Water Spotting & Enhanced Hardness",
     "summary": "Reduced Graphene Oxide (rGO) matrix coating delivering high thermal dissipation, lower water spot etching, and slick hydrophobic protection.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "rGO Graphene Oxide Matrix, IR Curing Rig",
@@ -2254,7 +1491,7 @@ function App() {
     "icon": "\u26a1",
     "tagline": "36-Month Thermal Dissipation & Hydrophobic Slickness",
     "summary": "3-year high-durability graphene matrix coating engineered for hot Indian summer road conditions, repelling water spots & road grime.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Scangrip Daylight, rGO Graphene Matrix, IR Curing",
@@ -2274,7 +1511,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "5-Year Ultra Graphene Hardness Matrix Flagship",
     "summary": "Flagship 5-year graphene matrix protection providing unmatched contact angle water beading, extreme scratch resistance, and wet gloss.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Multi-Layer Graphene Oxide, Hedson IR Curing",
@@ -2294,7 +1531,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 1 Free Maintenance CoatCare Service",
     "summary": "2-year graphene armor package bundled with 1 complimentary annual studio CoatCare decontamination & top-up service.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "2 Years Warranty + 1 Maintenance",
     "durability": "2 Years",
     "equipment": "rGO Graphene Coating, CoatCare Booster, IR Curing",
@@ -2313,7 +1550,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 2 Free Maintenance CoatCare Services",
     "summary": "3-year graphene matrix coating bundle including 2 complimentary annual studio CoatCare maintenance sessions.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "3 Years Warranty + 2 Maintenances",
     "durability": "3 Years",
     "equipment": "Graphene Oxide Matrix, IR Curing Rig",
@@ -2332,7 +1569,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Includes 4 Free Annual CoatCare Services",
     "summary": "Ultimate 5-year graphene matrix program bundled with 4 full annual studio CoatCare maintenance passes.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "warranty": "5 Years Warranty + 4 Maintenances",
     "durability": "5 Years",
     "equipment": "Multi-Layer Graphene Oxide, Hedson IR Curing",
@@ -2351,7 +1588,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "Clear Self-Healing Protective Film (3 Years)",
     "summary": "Entry-level clear self-healing protective film engineered to shield factory paint against stone chips, scratches, and road debris.",
-    "img": "assets/o3_ppf_protection.png",
+    "img": "assets/o3_ppf_protection.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Plotter Pre-Cut Film, Alcohol Prep Solution, Steam Edge-Tuckers",
@@ -2372,7 +1609,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "5-Year Clear Self-Healing Hybrid Protective Armor",
     "summary": "High-durability clear TPH film offering 5 years of self-healing scratch defense and optical paint clarity.",
-    "img": "assets/o3_ppf_protection.png",
+    "img": "assets/o3_ppf_protection.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Plotter Pre-Cut Film, Steam Edge-Tuckers",
@@ -2391,7 +1628,7 @@ function App() {
     "icon": "\ud83d\udc8e",
     "tagline": "Premium Optical Grade Self-Healing TPU Film",
     "summary": "Premium 100% optical-grade TPU film with instant heat-activated self-healing, hyper-gloss clarity, and non-yellowing adhesive layer.",
-    "img": "assets/o3_ppf_protection.png",
+    "img": "assets/o3_ppf_protection.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Optical TPU Film, Steam Edge Tuckers, Plotter Pre-Cut",
@@ -2410,7 +1647,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Flagship Optical Grade Self-Healing TPU Film (7 Years)",
     "summary": "Ultra-thick 7-year flagship TPU self-healing armor providing maximum protection against high-speed gravel hits and key scratches.",
-    "img": "assets/o3_ppf_protection.png",
+    "img": "assets/o3_ppf_protection.webp",
     "warranty": "7 Years Warranty",
     "durability": "7 Years",
     "equipment": "Flagship Optical TPU, Plotter Pre-Cut, Steam Edge Tuckers",
@@ -2429,7 +1666,7 @@ function App() {
     "icon": "\ud83d\udda4",
     "tagline": "Stealth Satin Finish Self-Healing Film (3 Years)",
     "summary": "Converts glossy paint into a sleek matte/satin finish while providing full self-healing stone chip protection.",
-    "img": "assets/o3_rolls_royce_black.png",
+    "img": "assets/o3_rolls_royce_black.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Matte TPH Film, Steam Edge Tuckers",
@@ -2448,7 +1685,7 @@ function App() {
     "icon": "\ud83d\udda4",
     "tagline": "Stealth Satin Finish Optical TPU Self-Healing Film",
     "summary": "Premium optical-grade matte TPU film offering smooth satin texture, self-healing capability, and 5 years of anti-scratch armor.",
-    "img": "assets/o3_rolls_royce_black.png",
+    "img": "assets/o3_rolls_royce_black.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Matte Optical TPU, Computerized Plotter Pre-Cut",
@@ -2467,7 +1704,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Flagship Satin TPU Stealth Protection Film (7 Years)",
     "summary": "Top-of-the-line 7-year matte TPU armor for luxury supercars and SUVs seeking a custom satin look with ultimate paint defense.",
-    "img": "assets/o3_rolls_royce_black.png",
+    "img": "assets/o3_rolls_royce_black.webp",
     "warranty": "7 Years Warranty",
     "durability": "7 Years",
     "equipment": "Flagship Matte TPU, Steam Edge Tuckers",
@@ -2486,7 +1723,7 @@ function App() {
     "icon": "\ud83c\udfce\ufe0f",
     "tagline": "Gloss Black Roof & Accent Protection Film",
     "summary": "Deep mirror gloss black TPH film designed for dual-tone roof wraps, pillars, mirrors, and hood accents with self-healing defense.",
-    "img": "assets/o3_mercedes_amg.png",
+    "img": "assets/o3_mercedes_amg.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Gloss Black TPH Film, Heat Guns",
@@ -2505,7 +1742,7 @@ function App() {
     "icon": "\ud83c\udfce\ufe0f",
     "tagline": "5-Year Gloss Black Self-Healing Accent Film",
     "summary": "High-durability gloss black TPH protective film for full body or accent panel transformations.",
-    "img": "assets/o3_mercedes_amg.png",
+    "img": "assets/o3_mercedes_amg.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Gloss Black TPH, Steam Tuckers",
@@ -2524,7 +1761,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Flagship Black TPU Self-Healing Armor (7 Years)",
     "summary": "Flagship black TPU film combining deep piano-black mirror shine with heavy-duty anti-scratch self-healing armor.",
-    "img": "assets/o3_mercedes_amg.png",
+    "img": "assets/o3_mercedes_amg.webp",
     "warranty": "7 Years Warranty",
     "durability": "7 Years",
     "equipment": "Piano Black TPU, Plotter Pre-Cut",
@@ -2543,7 +1780,7 @@ function App() {
     "icon": "\ud83c\udfa8",
     "tagline": "Colored Custom Wrap Protection Film",
     "summary": "Custom colored TPH protection film allowing complete vehicle color transformations with built-in stone chip defense.",
-    "img": "assets/o3_rolls_royce_cyan.png",
+    "img": "assets/o3_rolls_royce_cyan.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Color TPH Film, Heat Guns, Edge Tuckers",
@@ -2562,7 +1799,7 @@ function App() {
     "icon": "\ud83d\udd04",
     "tagline": "Quick Top-Up Hydrophobic Boost",
     "summary": "Single-pass studio maintenance wash & SiO2 hydrophobic booster spray application to revive ceramic/wax water beading.",
-    "img": "assets/product_coating_kit.png",
+    "img": "assets/product_coating_kit.webp",
     "warranty": "Gloss Booster Guarantee",
     "durability": "3 Months",
     "equipment": "SiO2 Spray Booster, Microfiber Towels",
@@ -2581,7 +1818,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "Complete Decontamination & Ceramic Re-Load",
     "summary": "Full studio ceramic maintenance session including iron decontamination wash, clay bar pass, and ceramic reload coating top-up.",
-    "img": "assets/product_coating_kit.png",
+    "img": "assets/product_coating_kit.webp",
     "warranty": "Annual Re-Load Certificate",
     "durability": "12 Months",
     "equipment": "Iron Remover, Clay Bar, Ceramic Re-Load Spray",
@@ -2600,7 +1837,7 @@ function App() {
     "icon": "\u26a1",
     "tagline": "Complete Decontamination & Graphene Re-Load",
     "summary": "Complete studio graphene maintenance treatment reviving slickness, gloss, and water spot defense on graphene-coated vehicles.",
-    "img": "assets/product_coating_kit.png",
+    "img": "assets/product_coating_kit.webp",
     "warranty": "Annual Re-Load Certificate",
     "durability": "12 Months",
     "equipment": "Graphene Booster, Clay Bar, IR Lamp",
@@ -2619,7 +1856,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "Monthly Detailing Snow Foam Wash Package",
     "summary": "12 high-pressure snow foam detailing washes valid over 12 months with interior vacuuming and tire gel dressing.",
-    "img": "assets/o3_on_wheels.png",
+    "img": "assets/o3_on_wheels.webp",
     "warranty": "12 Washes Pass",
     "durability": "12 Months",
     "equipment": "K\u00e4rcher Washer, Snow Foam Lance",
@@ -2638,7 +1875,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "Bi-Monthly Detailing Snow Foam Wash Package",
     "summary": "24 detailing snow foam washes valid over 24 months for complete vehicle maintenance.",
-    "img": "assets/o3_on_wheels.png",
+    "img": "assets/o3_on_wheels.webp",
     "warranty": "24 Washes Pass",
     "durability": "24 Months",
     "equipment": "K\u00e4rcher Washer, Industrial Vacuum",
@@ -2656,7 +1893,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "3-Year VIP Detailing Wash Package",
     "summary": "36 detailing washes valid over 3 years with complimentary underbody flush sessions.",
-    "img": "assets/o3_on_wheels.png",
+    "img": "assets/o3_on_wheels.webp",
     "warranty": "36 Washes Pass",
     "durability": "36 Months",
     "equipment": "High-Pressure Washer, Vacuum",
@@ -2674,7 +1911,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "5-Year VIP Unlimited Detailing Wash Package",
     "summary": "Ultimate 60-wash subscription over 5 years keeping your vehicle pristine with high-glow foam washes.",
-    "img": "assets/o3_on_wheels.png",
+    "img": "assets/o3_on_wheels.webp",
     "warranty": "60 Washes Pass",
     "durability": "60 Months",
     "equipment": "K\u00e4rcher Washer, Snow Foam Cannon",
@@ -2692,7 +1929,7 @@ function App() {
     "icon": "\ud83d\ude9c",
     "tagline": "Heavy-Duty Rubberized Anti-Rust Chassis Coating",
     "summary": "Heavy-duty rubberized underbody coating applied on hydraulic lift to frame rails and wheel wells to prevent monsoon rust & gravel noise.",
-    "img": "assets/o3_on_wheels.png",
+    "img": "assets/o3_on_wheels.webp",
     "warranty": "2 Years Rust-Proof Warranty",
     "durability": "2 Years",
     "equipment": "Hydraulic Hoist, Rubberized Spray Gun",
@@ -2826,96 +2063,132 @@ function App() {
     setCurrentView(view);
     window.location.hash = view;
     setIsMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Oxygen Canvas Animation
+  // Videos only play (and only download) while near the screen.
+  // Use data-autoplay instead of autoPlay so off-screen videos never download up front.
+  // Autoplay videos only play while on screen — dozens of looping videos
+  // decoding at once was the other big source of lag
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const particles = Array.from({ length: 35 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() * 2.5 + 1,
-      color: Math.random() > 0.5 ? 'rgba(202, 232, 232, ' : 'rgba(0, 240, 255, ',
-      alpha: Math.random() * 0.4 + 0.1,
-      speedX: (Math.random() - 0.5) * 0.4,
-      speedY: (Math.random() - 0.5) * 0.4 - 0.2
-    }));
-
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach((p) => {
-        p.x += p.speedX;
-        p.y += p.speedY;
-
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = canvas.height;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `${p.color}${p.alpha})`;
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = '#cae8e8';
-        ctx.fill();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (isIntersecting) { const p = target.play(); if (p) p.catch(() => {}); }
+        else target.pause();
       });
-      animationFrameId = requestAnimationFrame(render);
-    };
-    render();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
-    };
+    }, { rootMargin: '200px' });
+    const watch = () => document.querySelectorAll('video[autoplay], video[data-autoplay]').forEach(v => {
+      if (!v.__o3Watched) { v.__o3Watched = true; io.observe(v); }
+    });
+    watch();
+    const mo = new MutationObserver(watch);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => { mo.disconnect(); io.disconnect(); };
   }, []);
 
-  // GSAP ScrollTrigger Animations
+  // GSAP ScrollTrigger Animations (runs for every view once the preloader is gone)
   useEffect(() => {
-    if (currentView === 'home' && window.gsap && window.ScrollTrigger) {
-      window.gsap.registerPlugin(window.ScrollTrigger);
+    const gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
+    if (isLoading || !gsap || !ScrollTrigger) return;
+    gsap.registerPlugin(ScrollTrigger);
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      window.gsap.to('.gsap-hero-title', {
-        scrollTrigger: {
-          trigger: '.gsap-hero-title',
-          start: 'top 30%',
-          end: 'bottom top',
-          scrub: 1
-        },
-        y: -25,
-        opacity: 0.85
+    const ctx = gsap.context(() => {
+      // Reading progress bar
+      gsap.fromTo('.scroll-progress-bar', { scaleX: 0 }, {
+        scaleX: 1, ease: 'none',
+        scrollTrigger: { trigger: document.documentElement, start: 'top top', end: 'bottom bottom', scrub: 0.3 }
       });
 
-      // Masked Title Stagger Reveals
-      window.gsap.utils.toArray('.gsap-stagger-title').forEach((title) => {
-        window.gsap.fromTo(title,
-          { y: 80, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1.4,
-            ease: 'power4.out',
-            scrollTrigger: {
-              trigger: title,
-              start: 'top 90%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
+      if (reduceMotion) return;
+
+      // Hero: video pushes in and text lifts away as you scroll past
+      if (document.querySelector('.hero-video-bg-clear')) {
+        const heroTl = gsap.timeline({
+          scrollTrigger: { trigger: '.hero-video-stage-clear', start: 'top top', end: 'bottom top', scrub: true }
+        });
+        heroTl.to('.hero-video-bg-clear', { scale: 1.18, yPercent: 12, ease: 'none' }, 0)
+          .to('.gsap-hero-copy', { yPercent: -40, opacity: 0, ease: 'none' }, 0);
+
+        gsap.from('.gsap-hero-copy > *', { y: 40, opacity: 0, duration: 1.1, stagger: 0.12, ease: 'power4.out', delay: 0.15 });
+      }
+
+      // Masked title reveals
+      gsap.utils.toArray('.gsap-stagger-title').forEach((title) => {
+        gsap.fromTo(title, { yPercent: 100, opacity: 0 }, {
+          yPercent: 0, opacity: 1, duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: title, start: 'top 92%', once: true }
+        });
       });
-    }
-  }, [currentView]);
+
+      // Section intro pills and paragraphs
+      gsap.utils.toArray('main .pill-capsule').forEach((el) => {
+        if (el.closest('.hero-video-stage-clear')) return;
+        gsap.from(el, { y: 16, opacity: 0, duration: 0.7, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
+      });
+
+      // Cards rise in, in batches, wherever they appear on the page.
+      // Their own CSS hover transitions are paused during the tween so they don't fight GSAP.
+      const cards = gsap.utils.toArray('main .glass-surface, main .pillar-floating-item').filter(el => !el.closest('.no-scroll-reveal'));
+      gsap.set(cards, { y: 50, opacity: 0, transition: 'none' });
+      ScrollTrigger.batch(cards, {
+        start: 'top 90%',
+        once: true,
+        onEnter: (batch) => gsap.to(batch, {
+          y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out',
+          onComplete: () => gsap.set(batch, { clearProps: 'transform,opacity,transition' })
+        })
+      });
+
+      // Trust-strip count-up ("5,000+" → counts from 0, keeps its suffix)
+      gsap.utils.toArray('.gsap-counter').forEach((el) => {
+        const match = el.textContent.match(/^([\d,]+)(.*)$/);
+        if (!match) return;
+        const target = parseInt(match[1].replace(/,/g, ''), 10);
+        const suffix = match[2];
+        const obj = { v: 0 };
+        gsap.to(obj, {
+          v: target, duration: 2, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+          onUpdate: () => { el.textContent = Math.round(obj.v).toLocaleString('en-IN') + suffix; }
+        });
+      });
+    });
+
+    // Layout shifts after fonts/videos load; re-measure so triggers fire at the right spots
+    const refresh = () => ScrollTrigger.refresh();
+    const t = setTimeout(refresh, 300);
+    window.addEventListener('load', refresh);
+    return () => { clearTimeout(t); window.removeEventListener('load', refresh); ctx.revert(); };
+  }, [currentView, isLoading]);
+
+  // Lenis smooth scrolling, driven by GSAP's ticker so ScrollTrigger stays in sync
+  useEffect(() => {
+    const gsap = window.gsap, ScrollTrigger = window.ScrollTrigger;
+    if (!window.Lenis || !gsap || !ScrollTrigger) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const lenis = new window.Lenis({
+      lerp: 0.1,
+      smoothWheel: true,
+      // Let modals, drawers and lightboxes (all position: fixed) scroll natively
+      prevent: (node) => node instanceof Element && getComputedStyle(node).position === 'fixed'
+    });
+    lenisRef.current = lenis;
+    lenis.on('scroll', ScrollTrigger.update);
+    const raf = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(raf);
+    gsap.ticker.lagSmoothing(0);
+    return () => { gsap.ticker.remove(raf); lenis.destroy(); lenisRef.current = null; };
+  }, []);
+
+  // Freeze page scrolling while any modal or drawer is open (lets the modal scroll itself)
+  const anyOverlayOpen = isBookingOpen || isFranchiseModalOpen || isDrawerOpen || isMobileMenuOpen || !!activeServiceDetail || !!selectedProduct || !!lightboxMedia;
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (!lenis) return;
+    if (anyOverlayOpen) lenis.stop(); else lenis.start();
+  }, [anyOverlayOpen]);
 
   // Before/After slider
   const handleSliderMove = (clientX, containerRect) => {
@@ -2949,8 +2222,9 @@ function App() {
       {/* LUXURY PRELOADER SCREEN */}
       <O3Preloader progress={loadProgress} isFinished={!isLoading} />
 
-      {/* Background Oxygen Canvas */}
-      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+      {/* Scroll progress bar */}
+      <div className="scroll-progress-bar" aria-hidden="true"></div>
+
 
       {/* FLOATING DIRECT WHATSAPP ACTION TOGGLE BUTTON (PURE ROUND CIRCLE) */}
       <a 
@@ -2973,9 +2247,9 @@ function App() {
             onClick={() => navigateTo('home')} 
             className="cursor-pointer flex items-center gap-3 group"
           >
-            <img src="assets/o3_official_logo.png" 
+            <img src="assets/brand/o3-logo-white.svg" 
               alt="O3 CAR-SPA Premium Car Detailing Studio Official Logo" 
-              className="logo-blend h-11 sm:h-12 w-auto group-hover:scale-103 transition-transform"
+              className="logo-blend h-12 sm:h-14 w-auto group-hover:scale-103 transition-transform"
              loading="lazy" decoding="async" />
           </div>
 
@@ -3010,7 +2284,7 @@ function App() {
             {/* Mobile Hamburger Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden flex items-center gap-2 bg-[#0d111a]/90 backdrop-blur-xl border border-[#00f0ff]/40 text-[#00f0ff] px-4 py-2 rounded-full font-mono text-xs font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)] active:scale-95 transition-all"
+              className="lg:hidden flex items-center gap-2 bg-[#0d111a]/90 border border-[#00f0ff]/40 text-[#00f0ff] px-4 py-2 rounded-full font-mono text-xs font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)] active:scale-95 transition-all"
             >
               <span>☰</span>
               <span>MENU</span>
@@ -3053,7 +2327,8 @@ function App() {
               <div className="hero-video-stage-clear min-h-[85vh] sm:min-h-[90vh]">
                 
                 <video 
-                  src="assets/hero_section.mp4" 
+                  src="assets/hero_web.mp4"
+                  poster="assets/hero_poster.webp"
                   autoPlay 
                   loop 
                   muted 
@@ -3063,10 +2338,10 @@ function App() {
 
                 <div className="hero-video-overlay-light"></div>
 
-                <div className="absolute bottom-10 left-0 right-0 z-20 w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-none">
+                <div className="gsap-hero-copy absolute bottom-10 left-0 right-0 z-20 w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row md:items-end justify-between gap-6 pointer-events-none">
                   
                   <div className="space-y-3 max-w-lg text-left pointer-events-auto">
-                    <div className="pill-capsule backdrop-blur-xl bg-[#05070c]/70 border-[#cae8e8]/40 shadow-2xl !py-1 !px-3.5 !text-[11px]">
+                    <div className="pill-capsule bg-[#05070c]/70 border-[#cae8e8]/40 shadow-2xl !py-1 !px-3.5 !text-[11px]">
                       <span className="font-bold">⭐ 13+ Years Detailing Expertise</span>
                       <span className="text-[#cae8e8]/40">|</span>
                       <span className="font-mono text-emerald-400 font-semibold">Sharanpal Sodhi</span>
@@ -3096,324 +2371,11 @@ function App() {
               </div>
             </section>
 
-            {/* 2. OFFICIAL BRAND PILLARS */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-10 space-y-2">
-                <span className="pill-capsule font-mono">Official Brand Standards</span>
-                <div className="overflow-hidden py-3">
-                  <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">Our Core Brand System</h2>
-                </div>
-              </div>
+            {/* SCROLL-VELOCITY MARQUEE */}
+            <VelocityMarquee />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {[
-                  { num: '01', title: 'PROTECT', desc: 'LONG LASTING PROTECTION against rock chips, UV ray fading & chemical contaminants.' },
-                  { num: '02', title: 'ENHANCE', desc: 'BRING OUT THE BEST deep mirror clarity and vivid color saturation on every panel.' },
-                  { num: '03', title: 'RESTORE', desc: 'RENEW EVERY DETAIL of interior upholstery, leather, glass, and swirl marks.' },
-                  { num: '04', title: 'CARE', desc: 'WE CARE FOR YOUR RIDE with bespoke studio treatment directed by Sharanpal Sir.' },
-                ].map((pillar, idx) => (
-                  <div key={idx} className="pillar-floating-item space-y-3">
-                    <span className="pillar-number">{pillar.num}</span>
-                    <h3 className="text-lg font-extrabold text-white tracking-widest uppercase flex items-center gap-2">
-                      <span>{pillar.title}</span>
-                    </h3>
-                    <p className="text-xs text-slate-400 leading-relaxed font-light">{pillar.desc}</p>
-                    <div className="pillar-hover-bar"></div>
-                    {idx < 3 && <div className="pillar-divider-line"></div>}
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            
-            {/* TRUST STRIP SECTION [NEW] */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="glass-surface p-6 sm:p-8 border border-[#cae8e8]/30 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                <div className="space-y-1">
-                  <div className="text-3xl font-extrabold text-[#00f0ff] font-mono">10+ Years</div>
-                  <div className="text-xs text-slate-300 font-medium">Detailing Experience</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-3xl font-extrabold text-[#00f0ff] font-mono">5,000+</div>
-                  <div className="text-xs text-slate-300 font-medium">Cars Detailed</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-3xl font-extrabold text-[#00f0ff] font-mono">Trusted</div>
-                  <div className="text-xs text-slate-300 font-medium">Global Brands Only</div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-3xl font-extrabold text-[#00f0ff] font-mono">Two</div>
-                  <div className="text-xs text-slate-300 font-medium">Studio Locations</div>
-                </div>
-              </div>
-            </section>
-
-            {/* 3. INTERACTIVE 3D 4K CINEMA SHOWCASE (MOVED UP FOR MAXIMUM VISUAL IMPACT) */}
-            <section className="gsap-cinema-trigger max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-              <div className="text-center max-w-3xl mx-auto space-y-3">
-                <span className="pill-capsule font-mono">⚡ Interactive 4K Cinema Database</span>
-                <div className="overflow-hidden py-3">
-                  <h2 className="gsap-stagger-title text-3xl sm:text-5xl font-extrabold text-white">Experience O3 Studio In Motion</h2>
-                </div>
-                <p className="text-slate-300 text-sm">Select any of the 6 studio productions below to stream live 4K detailing craftsmanship.</p>
-              </div>
-
-              <div className="grid lg:grid-cols-12 gap-8 items-center">
-                <div className="lg:col-span-8">
-                  <div className="gsap-cinema-main video-glass-3d h-[450px]">
-                    <video 
-                      key={activeCinemaVideo}
-                      src={videoGalleryData[activeCinemaVideo].src} 
-                      autoPlay 
-                      loop 
-                      muted 
-                      controls
-                      playsInline
-                    ></video>
-                  </div>
-                </div>
-
-                <div className="lg:col-span-4 space-y-2.5">
-                  <div className="text-xs font-bold text-[#cae8e8] uppercase font-mono mb-2">6 Studio 4K Highlights:</div>
-                  {videoGalleryData.map((v) => (
-                    <button
-                      key={v.id}
-                      onClick={() => setActiveCinemaVideo(v.id)}
-                      className={`w-full p-3 rounded-2xl border text-left transition-all ${
-                        activeCinemaVideo === v.id
-                          ? 'bg-[#cae8e8] text-[#05070c] border-[#cae8e8] shadow-[0_0_25px_rgba(202,232,232,0.4)]'
-                          : 'bg-[#0d111a] text-slate-300 border-[#cae8e8]/20 hover:border-[#cae8e8]/50'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-[11px] font-mono font-bold mb-1">
-                        <span>{v.badge}</span>
-                        <span>{activeCinemaVideo === v.id ? 'NOW PLAYING ▶' : 'PLAY'}</span>
-                      </div>
-                      <h4 className="text-xs font-bold leading-tight">{v.title}</h4>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </section>
-
-            {/* WORKFLOW TIMELINE SECTION */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <DetailingWorkflowTimeline />
-            </section>
-
-            {/* 4. ABOUT & LEADERSHIP HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-br from-[#0a0e17] via-[#0f1726] to-[#05070c]">
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#cae8e8]/20">
-                  <div>
-                    <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">ABOUT HIGHLIGHT</span>
-                    <div className="overflow-hidden py-3">
-                      <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">13+ Years Master Detailing Heritage</h2>
-                    </div>
-                  </div>
-                  <button onClick={() => navigateTo('about')} className="btn-secondary text-xs mt-4 md:mt-0">
-                    Explore Full About Story →
-                  </button>
-                </div>
-
-                <div className="grid lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-5 space-y-4">
-                    <img src="assets/sharanpal_sodhi_founder.png" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-                    <div className="space-y-1">
-                      <h3 className="text-xl font-bold text-white">Mr. Sharanpal Sodhi</h3>
-                      <p className="text-xs text-[#cae8e8] font-mono">Founder & Master Detailer (Sharanpal Sir)</p>
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-7 space-y-5">
-                    <div className="relative rounded-3xl overflow-hidden border border-[#cae8e8]/30 shadow-2xl h-72">
-                      <video src="assets/porsche_studio_bay_video.mp4" autoPlay loop muted playsInline preload="metadata" className="w-full h-full object-cover rounded-2xl"></video>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      "At O3 Car Spa, detailing is an exact science. From supercars to daily commuters, every panel undergoes multi-stage compound polishing and molecular quartz ceramic bonding inside our 6500K daylight cleanroom."
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* 5. SERVICES SHOWCASE HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-              <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-[#cae8e8]/20">
-                <div>
-                  <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">SERVICES MENU HIGHLIGHT</span>
-                  <div className="overflow-hidden py-3">
-                    <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">11 Precision Treatment Categories</h2>
-                  </div>
-                </div>
-                <button onClick={() => navigateTo('services')} className="btn-secondary text-xs mt-4 md:mt-0">
-                  View All 11 Services →
-                </button>
-              </div>
-
-              <div className="grid md:grid-cols-3 gap-8">
-                {allServicesData.slice(0, 3).map((s) => (
-                  <div key={s.id} className="glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group">
-                    <div className="space-y-3">
-                      <div className="relative overflow-hidden rounded-2xl">
-                        <img src={s.img} alt={s.title} className="w-full h-48 object-cover group-hover:scale-103 transition-all"  loading="lazy" decoding="async" />
-                        <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md">
-                          {s.warranty}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl">{s.icon}</span>
-                        <span className="text-[10px] font-mono text-[#cae8e8] uppercase">{s.category}</span>
-                      </div>
-
-                      <h3 className="text-xl font-bold text-white group-hover:text-[#cae8e8] transition-colors">{s.title}</h3>
-                      <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{s.tagline}</p>
-                    </div>
-
-                    <div className="pt-3 border-t border-[#cae8e8]/15 flex items-center gap-3">
-                      <button 
-                        onClick={() => setActiveServiceDetail(s)} 
-                        className="btn-secondary text-xs flex-1 justify-center py-2.5"
-                      >
-                        <span>Open Specs 🔍</span>
-                      </button>
-                      <button 
-                        onClick={() => handleOpenBookingWithService(s.title)} 
-                        className="btn-primary text-xs flex-1 justify-center py-2.5"
-                      >
-                        <span>Book Now</span>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* VEHICLE CONFIGURATOR HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <VehicleStudioConfigurator />
-            </section>
-
-            {/* 6. GALLERY HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-              <div className="glass-surface p-8 border border-[#cae8e8]/30 space-y-6">
-                <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-[#cae8e8]/20 pb-4">
-                  <div>
-                    <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">GALLERY HIGHLIGHT</span>
-                    <div className="overflow-hidden py-3">
-                      <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">Paint Correction & Hydrophobic Beading Visualizer</h2>
-                    </div>
-                  </div>
-                  <button onClick={() => navigateTo('gallery')} className="btn-secondary text-xs mt-4 md:mt-0">
-                    Open Full Gallery →
-                  </button>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8">
-                  <PaintGlowVisualizer />
-                  <HydrophobicRainCanvas />
-                </div>
-              </div>
-            </section>
-
-            {/* SCRATCH REPAIR SIMULATOR SECTION */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <PaintScratchHealSimulator />
-            </section>
-
-            {/* BESPOKE STUDIO TRANSFORMATION SHOWCASE SECTION */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <LuxuryCarBeforeAfterShowcase />
-            </section>
-
-            {/* 7. STUDIO CLEANROOM & PAINT TELEMETRY HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-              <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-br from-[#0a0e17] via-[#0f1726] to-[#05070c]">
-                <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#cae8e8]/20">
-                  <div>
-                    <span className="text-xs uppercase tracking-widest text-cyan-400 font-mono font-bold">STUDIO HIGHLIGHT</span>
-                    <div className="overflow-hidden py-3">
-                      <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">Hexagonal 6500K LED Cleanroom</h2>
-                    </div>
-                  </div>
-                  <button onClick={() => navigateTo('studio')} className="btn-secondary text-xs mt-4 md:mt-0">
-                    Inspect Studio Tech →
-                  </button>
-                </div>
-
-                <div className="grid lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-6 space-y-4">
-                    <img src="assets/o3_studio_environment.png" alt="O3 Cleanroom Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-                  </div>
-
-                  <div className="lg:col-span-6 space-y-6 text-xs text-slate-300">
-                    <CleanroomClimateHud />
-
-                    <div className="grid sm:grid-cols-3 gap-4 pt-2">
-                      <div className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-1 col-span-3 sm:col-span-1">
-                        <strong className="text-white text-xs block">💡 6500K LED Rig</strong>
-                        <p className="text-[10px] text-slate-400">Daylight calibrated paint defect scans.</p>
-                      </div>
-                      <div className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-1 col-span-3 sm:col-span-1">
-                        <strong className="text-white text-xs block">🌀 Climate HEPA</strong>
-                        <p className="text-[10px] text-slate-400">Dust-free 22°C ambient bonding.</p>
-                      </div>
-                      <div className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-1 col-span-3 sm:col-span-1">
-                        <strong className="text-white text-xs block">🔥 IR Curing</strong>
-                        <p className="text-[10px] text-slate-400">80°C accelerated curing.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Paint Thickness Hotspot Telemetry Dashboard */}
-              <PaintThicknessHotspots />
-
-              {/* Gloss Unit GU Curve Telemetry Chart */}
-              <GlossTelemetryChart />
-            </section>
-
-            {/* CABIN STARLIGHT SHOWCASE SECTION */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <StarlightCabinCustomizer />
-            </section>
-
-            {/* 8. CONCIERGE DOORSTEP HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-r from-[#0d111a] via-[#101726] to-[#05070c]">
-                <div className="grid lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-7 space-y-5">
-                    <span className="inline-block bg-[#cae8e8]/15 text-[#cae8e8] px-4 py-1 rounded-full text-xs font-mono font-bold">
-                      CONCIERGE HIGHLIGHT
-                    </span>
-                    <div className="overflow-hidden py-3">
-                      <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">
-                        Doorstep Mobile Detailing "O3 On Wheels"
-                      </h2>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      Equipped with onboard silent power generators, de-ionized pure water filtration, and Kärcher high-pressure wash systems — bringing the studio directly to your garage.
-                    </p>
-
-                    <div className="flex gap-4 pt-2">
-                      <button onClick={() => setIsBookingOpen(true)} className="btn-primary text-xs">
-                        Book Doorstep Visit
-                      </button>
-                      <button onClick={() => navigateTo('concierge')} className="btn-secondary text-xs">
-                        Explore Concierge →
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="lg:col-span-5">
-                    <img src="assets/o3_on_wheels.png" alt="O3 On Wheels Mobile Concierge Truck" className="w-full h-64 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* INDIAN GARAGE: PICK YOUR CAR */}
+            <IndianGarageShowcase services={allServicesData} onBookService={handleOpenBookingWithService} />
 
             {/* 9. CUSTOMER REVIEWS & TESTIMONIALS HIGHLIGHT */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -3454,39 +2416,87 @@ function App() {
               </div>
             </section>
 
-            {/* 10. FRANCHISE HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-              <div className="glass-surface p-8 border border-[#cae8e8]/30 space-y-6 bg-[#0d111a]">
-                <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-[#cae8e8]/20 pb-4">
+            {/* REAL REELS FILM-STRIP */}
+            <ReelFilmStrip onOpenGallery={() => navigateTo('gallery')} />
+
+            {/* PINNED HORIZONTAL PROCESS */}
+            <PinnedProcessScroller />
+
+            {/* CERAMIC vs GRAPHENE vs PPF */}
+            <CoatingCompare services={allServicesData} onBook={handleOpenBookingWithService} />
+
+            {/* SCROLL-SCRUBBED SWIRL CORRECTION */}
+            <SwirlCorrectionReveal onBook={handleOpenBookingWithService} />
+
+            {/* 4. ABOUT & LEADERSHIP HIGHLIGHT */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-br from-[#0a0e17] via-[#0f1726] to-[#05070c]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-4 border-b border-[#cae8e8]/20">
                   <div>
-                    <span className="text-xs uppercase tracking-widest text-purple-400 font-mono font-bold">FRANCHISE HIGHLIGHT</span>
+                    <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">ABOUT HIGHLIGHT</span>
                     <div className="overflow-hidden py-3">
-                      <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">Partner with O3 Car-Spa (₹5L & ₹10L Models)</h2>
+                      <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">13+ Years Master Detailing Heritage</h2>
                     </div>
                   </div>
-                  <button onClick={() => navigateTo('franchise')} className="btn-secondary text-xs mt-4 md:mt-0">
-                    Explore Franchise Program →
+                  <button onClick={() => navigateTo('about')} className="btn-secondary text-xs mt-4 md:mt-0">
+                    Explore Full About Story →
                   </button>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="p-6 rounded-3xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3">
-                    <img src="assets/o3_on_wheels.png" alt="Mobile Unit Franchise" className="w-full h-40 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
-                    <h4 className="text-lg font-bold text-white">Doorstep Detailing Franchise (₹5 Lakhs)</h4>
-                    <p className="text-xs text-slate-400">Fully equipped mobile van setup with generator, pure water tank, and German Würth compounds.</p>
+                <div className="grid lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-5 space-y-4">
+                    <img src="assets/sharanpal_sodhi_founder.webp" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-bold text-white">Mr. Sharanpal Sodhi</h3>
+                      <p className="text-xs text-[#cae8e8] font-mono">Founder & Master Detailer (Sharanpal Sir)</p>
+                    </div>
                   </div>
-                  <div className="p-6 rounded-3xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3">
-                    <img src="assets/o3_studio_environment.png" alt="Full Studio Franchise" className="w-full h-40 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
-                    <h4 className="text-lg font-bold text-white">Turnkey Precision Studio (₹10 Lakhs)</h4>
-                    <p className="text-xs text-slate-400">Complete studio architecture, 6500K LED lighting rig, Rupes polishers, and staff training by Sharanpal Sir.</p>
+
+                  <div className="lg:col-span-7 space-y-5">
+                    <div className="relative rounded-3xl overflow-hidden border border-[#cae8e8]/30 shadow-2xl h-72">
+                      <video src="assets/reels/scorpio-polish.mp4" poster="assets/reels/scorpio-polish.webp" data-autoplay loop muted playsInline preload="none" className="w-full h-full object-cover rounded-2xl"></video>
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      "At O3 Car Spa, detailing is an exact science. From supercars to daily commuters, every panel undergoes multi-stage compound polishing and molecular quartz ceramic bonding inside our 6500K daylight cleanroom."
+                    </p>
                   </div>
                 </div>
               </div>
             </section>
 
-            {/* 11. SMART TREATMENT CONFIGURATOR & ROI CALCULATOR */}
+            {/* 8. CONCIERGE DOORSTEP HIGHLIGHT */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <TreatmentConfigurator onBookService={handleOpenBookingWithService} />
+              <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-r from-[#0d111a] via-[#101726] to-[#05070c]">
+                <div className="grid lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-7 space-y-5">
+                    <span className="inline-block bg-[#cae8e8]/15 text-[#cae8e8] px-4 py-1 rounded-full text-xs font-mono font-bold">
+                      CONCIERGE HIGHLIGHT
+                    </span>
+                    <div className="overflow-hidden py-3">
+                      <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">
+                        Doorstep Mobile Detailing "O3 On Wheels"
+                      </h2>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                      Equipped with onboard silent power generators, de-ionized pure water filtration, and Kärcher high-pressure wash systems — bringing the studio directly to your garage.
+                    </p>
+
+                    <div className="flex gap-4 pt-2">
+                      <button onClick={() => setIsBookingOpen(true)} className="btn-primary text-xs">
+                        Book Doorstep Visit
+                      </button>
+                      <button onClick={() => navigateTo('concierge')} className="btn-secondary text-xs">
+                        Explore Concierge →
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-5">
+                    <img src="assets/o3_on_wheels.webp" alt="O3 On Wheels Mobile Concierge Truck" className="w-full h-64 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                  </div>
+                </div>
+              </div>
             </section>
 
             {/* 12. REDESIGNED BEAUTIFUL GLASS FAQ HIGHLIGHT SECTION */}
@@ -3737,9 +2747,9 @@ function App() {
               
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_studio_environment.png" alt="How It Started" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                  <img src="assets/o3_studio_environment.webp" alt="How It Started" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
-                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
+                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 01 · Origin
                   </span>
                 </div>
@@ -3757,9 +2767,9 @@ function App() {
 
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_equipment_lab.png" alt="Meaning Behind Our Name" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                  <img src="assets/o3_equipment_lab.webp" alt="Meaning Behind Our Name" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
-                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
+                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 02 · Identity
                   </span>
                 </div>
@@ -3777,9 +2787,9 @@ function App() {
 
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_mercedes_amg.png" alt="Where We Are Today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                  <img src="assets/o3_mercedes_amg.webp" alt="Where We Are Today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
-                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
+                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 03 · Excellence
                   </span>
                 </div>
@@ -3806,7 +2816,7 @@ function App() {
 
               <div className="grid md:grid-cols-4 gap-6 text-left">
                 <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2011 — FOUNDATION</span>
+                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2013 — FOUNDATION</span>
                   <h4 className="text-base font-bold text-white">First Studio Opening</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">Sharanpal Sir establishes Anand's first specialized car spa bay in GIDC, Vallabh Vidyanagar.</p>
                 </div>
@@ -3833,7 +2843,7 @@ function App() {
               <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">MEET THE FOUNDER</span>
               <div className="grid lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-4 space-y-3">
-                  <img src="assets/sharanpal_sodhi_founder.png" alt="Sharanpal Sodhi — Founder, O3 Car Spa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                  <img src="assets/sharanpal_sodhi_founder.webp" alt="Sharanpal Sodhi — Founder, O3 Car Spa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                   <div>
                     <h3 className="text-2xl font-bold text-white">Sharanpal Sodhi</h3>
                     <p className="text-xs text-[#00f0ff] font-mono">Founder, O3 Car Spa</p>
@@ -3862,7 +2872,7 @@ function App() {
             
             {/* BRAND VISION HEADER */}
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
               <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES</span>
               <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
                 About <span className="text-gradient-ocean font-black">O3 Car Spa</span>
@@ -3927,7 +2937,7 @@ function App() {
             {/* FOUNDER & STUDIO PHOTO SPOTLIGHT */}
             <div className="grid md:grid-cols-3 gap-8">
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/sharanpal_sodhi_founder.png" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/sharanpal_sodhi_founder.webp" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">Mr. Sharanpal Sodhi</h3>
                   <span className="text-xs text-[#00f0ff] font-mono">Founder & Master Detailer (13+ Yrs)</span>
@@ -3938,7 +2948,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/o3_detailers_team.png" alt="O3 Certified Detailers Team" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/o3_detailers_team.webp" alt="O3 Certified Detailers Team" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">Master Technicians</h3>
                   <span className="text-xs text-[#00f0ff] font-mono">Rupes Italian Certified Craftsmen</span>
@@ -3949,7 +2959,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/o3_equipment_lab.png" alt="O3 Detailing Equipment & Lab Setup" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/o3_equipment_lab.webp" alt="O3 Detailing Equipment & Lab Setup" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">German & Italian Tools</h3>
                   <span className="text-xs text-[#00f0ff] font-mono">Würth & Rupes BigFoot System</span>
@@ -3970,15 +2980,15 @@ function App() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 text-left text-xs">
                 {[
-                  { name: "Meguiar's", note: "Trusted since 1901", logo: "assets/logos/meguiars.png" },
-                  { name: "Menzerna", note: "Polishing compounds", logo: "assets/logos/menzerna.png" },
-                  { name: "Paicristal Italia", note: "Masters in polishing since 1965", logo: "assets/logos/paicristal.png" },
-                  { name: "Kisho", note: "Japanese craftsmanship since 1965", logo: "assets/logos/kisho.png" },
-                  { name: "Würth", note: "German car care compounds", logo: "assets/logos/wurth.png" },
-                  { name: "Ma-Fra", note: "Cosmetics for your car", logo: "assets/logos/mafra.png" },
-                  { name: "3M Car Care", note: "Keep your car looking new", logo: "assets/logos/3m.png" },
-                  { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.png" },
-                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.png" },
+                  { name: "Meguiar's", note: "Trusted since 1901", logo: "assets/logos/meguiars.webp" },
+                  { name: "Menzerna", note: "Polishing compounds", logo: "assets/logos/menzerna.webp" },
+                  { name: "Paicristal Italia", note: "Masters in polishing since 1965", logo: "assets/logos/paicristal.webp" },
+                  { name: "Kisho", note: "Japanese craftsmanship since 1965", logo: "assets/logos/kisho.webp" },
+                  { name: "Würth", note: "German car care compounds", logo: "assets/logos/wurth.webp" },
+                  { name: "Ma-Fra", note: "Cosmetics for your car", logo: "assets/logos/mafra.webp" },
+                  { name: "3M Car Care", note: "Keep your car looking new", logo: "assets/logos/3m.webp" },
+                  { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.webp" },
+                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.webp" },
                 ].map((b, bIdx) => (
                   <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#00f0ff] transition-all flex flex-col justify-between group hover:-translate-y-1">
                     <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#00f0ff]/50 transition-all">
@@ -4014,10 +3024,10 @@ function App() {
             {/* 4 FEATURED CATEGORY BANNER CARDS WITH HIGH-RES GENERATED IMAGES */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: 'Exterior Care', desc: 'pH-balanced shampoos, snow foam cleaners, synthetic sealant waxes', img: 'assets/product_exterior_care.png', cat: 'Exterior Care' },
-                { title: 'Interior Care', desc: 'Leather nourishers, dashboard UV polish, anti-bacterial sanitizers', img: 'assets/product_interior_leather.png', cat: 'Interior Care' },
-                { title: 'Coating Kits', desc: 'DIY 9H quartz ceramic, hydrophobic glass & graphene booster kits', img: 'assets/product_coating_kit.png', cat: 'Coating Kits' },
-                { title: 'Tools & Towels', desc: 'Plush edgeless microfibers, Rupes foam pads, detailing brushes', img: 'assets/product_tools_accessories.png', cat: 'Tools & Accessories' },
+                { title: 'Exterior Care', desc: 'pH-balanced shampoos, snow foam cleaners, synthetic sealant waxes', img: 'assets/product_exterior_care.webp', cat: 'Exterior Care' },
+                { title: 'Interior Care', desc: 'Leather nourishers, dashboard UV polish, anti-bacterial sanitizers', img: 'assets/product_interior_leather.webp', cat: 'Interior Care' },
+                { title: 'Coating Kits', desc: 'DIY 9H quartz ceramic, hydrophobic glass & graphene booster kits', img: 'assets/product_coating_kit.webp', cat: 'Coating Kits' },
+                { title: 'Tools & Towels', desc: 'Plush edgeless microfibers, Rupes foam pads, detailing brushes', img: 'assets/product_tools_accessories.webp', cat: 'Tools & Accessories' },
               ].map((cItem, cIdx) => (
                 <div 
                   key={cIdx} 
@@ -4071,7 +3081,7 @@ function App() {
                   brand: "Meguiar's",
                   category: "Exterior Care",
                   price: "₹ 1,250",
-                  img: "assets/product_exterior_care.png",
+                  img: "assets/product_exterior_care.webp",
                   desc: "pH-balanced luxury wash formula that cleans paint without stripping existing wax or ceramic coating protection.",
                   specs: "Formula: Rich Carnauba Conditioner · Volume: 473ml · Origin: USA",
                   inStock: true
@@ -4082,7 +3092,7 @@ function App() {
                   brand: "Menzerna",
                   category: "Exterior Care",
                   price: "₹ 1,890",
-                  img: "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+                  img: "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
                   desc: "German high-performance compound that removes 1200 grit sanding marks and deep scratches rapidly.",
                   specs: "Cut Level: 9/10 · Gloss Level: 8/10 · Silicone-Free · Origin: Germany",
                   inStock: true
@@ -4093,7 +3103,7 @@ function App() {
                   brand: "Würth",
                   category: "Coating Kits",
                   price: "₹ 4,990",
-                  img: "assets/product_coating_kit.png",
+                  img: "assets/product_coating_kit.webp",
                   desc: "Complete German engineered liquid quartz ceramic kit providing 3 years of hyper-hydrophobic water beading.",
                   specs: "Hardness: 9H Pencil · Coverage: 50ml · Durability: 3 Years · Origin: Germany",
                   inStock: true
@@ -4104,7 +3114,7 @@ function App() {
                   brand: "Ma-Fra",
                   category: "Interior Care",
                   price: "₹ 1,450",
-                  img: "assets/product_interior_leather.png",
+                  img: "assets/product_interior_leather.webp",
                   desc: "Italian leather cosmetics formula enriched with Aloe Vera and natural oils to prevent cracking and fading.",
                   specs: "Finish: Natural Matte · Volume: 500ml · Scent: Fresh Leather · Origin: Italy",
                   inStock: true
@@ -4115,7 +3125,7 @@ function App() {
                   brand: "3M Car Care",
                   category: "Tools & Accessories",
                   price: "₹ 790",
-                  img: "assets/product_tools_accessories.png",
+                  img: "assets/product_tools_accessories.webp",
                   desc: "500 GSM edgeless microfibers engineered for streak-free polish removal, drying, and glass wiping.",
                   specs: "Density: 500 GSM · Size: 40cm x 40cm · Scratch-Free Edgeless · Pack of 4",
                   inStock: true
@@ -4126,7 +3136,7 @@ function App() {
                   brand: "Kisho",
                   category: "Coating Kits",
                   price: "₹ 3,490",
-                  img: "assets/o3_ceramic_coating.png",
+                  img: "assets/o3_ceramic_coating.webp",
                   desc: "Japanese fluorine silica glass coating creating a water-repellent barrier for windshields and windows.",
                   specs: "Water Contact Angle: 110° · Rain Visibility Speed: 40km/h · Origin: Japan",
                   inStock: true
@@ -4137,7 +3147,7 @@ function App() {
                   brand: "Meguiar's",
                   category: "Exterior Care",
                   price: "₹ 2,150",
-                  img: "assets/product_exterior_care.png",
+                  img: "assets/product_exterior_care.webp",
                   desc: "Advanced pure synthetic wax offering maximum gloss, mirror reflections, and hydrophobic slickness.",
                   specs: "Technology: ThinFilm Hydrophobic · Easy On/Off · Volume: 473ml · Origin: USA",
                   inStock: true
@@ -4148,7 +3158,7 @@ function App() {
                   brand: "Paicristal Italia",
                   category: "Exterior Care",
                   price: "₹ 2,350",
-                  img: "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.jpg",
+                  img: "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.webp",
                   desc: "Master Italian micro-abrasive polish designed to eliminate fine swirl marks and deliver deep wet-look shine.",
                   specs: "Cut Level: 3/10 · Gloss Level: 10/10 · Zero Dusting · Origin: Italy",
                   inStock: true
@@ -4159,7 +3169,7 @@ function App() {
                   brand: "Vista Car Care",
                   category: "Interior Care",
                   price: "₹ 650",
-                  img: "assets/product_interior_leather.png",
+                  img: "assets/product_interior_leather.webp",
                   desc: "Restores vinyl, plastic dashboard, and door trims with non-greasy UV protective satin sheen.",
                   specs: "Protection: UV Blocker · Non-Sticky · Volume: 500ml",
                   inStock: true
@@ -4170,7 +3180,7 @@ function App() {
                   brand: "Würth",
                   category: "Exterior Care",
                   price: "₹ 1,190",
-                  img: "assets/product_tools_accessories.png",
+                  img: "assets/product_tools_accessories.webp",
                   desc: "Protective engine bay coating and rubber trim preservative engineered to withstand high temperatures.",
                   specs: "Heat Resistance: 200°C · Anti-Corrosive · Volume: 500ml · Origin: Germany",
                   inStock: true
@@ -4181,7 +3191,7 @@ function App() {
                   brand: "O3 Studio",
                   category: "Coating Kits",
                   price: "₹ 1,690",
-                  img: "assets/product_coating_kit.png",
+                  img: "assets/product_coating_kit.webp",
                   desc: "Spray-on silica quartz ceramic booster to rejuvenate hydrophobic water beading on existing coatings.",
                   specs: "Silica Content: 12% SiO2 · Application: Spray & Wipe · Volume: 300ml",
                   inStock: true
@@ -4192,7 +3202,7 @@ function App() {
                   brand: "Rupes",
                   category: "Tools & Accessories",
                   price: "₹ 1,950",
-                  img: "assets/product_tools_accessories.png",
+                  img: "assets/product_tools_accessories.webp",
                   desc: "Authentic Italian open-cell foam polishing pads engineered for Rupes dual-action random orbital polishers.",
                   specs: "Diameter: 150mm (6 in) · Pattern: Beveled Edge · Set of 2 · Origin: Italy",
                   inStock: true
@@ -4203,7 +3213,7 @@ function App() {
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video">
                       <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
-                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
+                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                         {prod.brand}
                       </span>
                       <span className="absolute bottom-3 right-3 bg-[#00f0ff] text-[#05070c] font-extrabold text-xs font-mono px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,240,255,0.5)]">
@@ -4254,15 +3264,15 @@ function App() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 text-left text-xs">
                 {[
-                  { name: "Meguiar's", note: "Trusted since 1901", logo: "assets/logos/meguiars.png" },
-                  { name: "Menzerna", note: "Polishing compounds", logo: "assets/logos/menzerna.png" },
-                  { name: "Paicristal Italia", note: "Masters in polishing since 1965", logo: "assets/logos/paicristal.png" },
-                  { name: "Kisho", note: "Japanese craftsmanship since 1965", logo: "assets/logos/kisho.png" },
-                  { name: "Würth", note: "German car care compounds", logo: "assets/logos/wurth.png" },
-                  { name: "Ma-Fra", note: "Cosmetics for your car", logo: "assets/logos/mafra.png" },
-                  { name: "3M Car Care", note: "Keep your car looking new", logo: "assets/logos/3m.png" },
-                  { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.png" },
-                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.png" },
+                  { name: "Meguiar's", note: "Trusted since 1901", logo: "assets/logos/meguiars.webp" },
+                  { name: "Menzerna", note: "Polishing compounds", logo: "assets/logos/menzerna.webp" },
+                  { name: "Paicristal Italia", note: "Masters in polishing since 1965", logo: "assets/logos/paicristal.webp" },
+                  { name: "Kisho", note: "Japanese craftsmanship since 1965", logo: "assets/logos/kisho.webp" },
+                  { name: "Würth", note: "German car care compounds", logo: "assets/logos/wurth.webp" },
+                  { name: "Ma-Fra", note: "Cosmetics for your car", logo: "assets/logos/mafra.webp" },
+                  { name: "3M Car Care", note: "Keep your car looking new", logo: "assets/logos/3m.webp" },
+                  { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.webp" },
+                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.webp" },
                 ].map((b, bIdx) => (
                   <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#00f0ff] transition-all flex flex-col justify-between group hover:-translate-y-1">
                     <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#00f0ff]/50 transition-all">
@@ -4291,7 +3301,7 @@ function App() {
                   <div className="space-y-2">
                     <span className="text-xs font-mono text-[#00f0ff] font-bold uppercase">{selectedProduct.category} · {selectedProduct.brand}</span>
                     <h2 className="text-2xl font-extrabold text-white">{selectedProduct.name}</h2>
-                    <div className="text-3xl font-extrabold text-[#00f0ff] font-mono">{selectedProduct.price}</div>
+                    <div className="gsap-counter text-3xl font-extrabold text-[#00f0ff] font-mono">{selectedProduct.price}</div>
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black h-56">
@@ -4393,12 +3403,12 @@ function App() {
                         <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent opacity-80"></div>
                         
                         {/* Warranty Badge (Top Right) */}
-                        <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono font-bold px-3 py-1 rounded-full backdrop-blur-md">
+                        <span className="absolute top-3 right-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#cae8e8] text-[10px] font-mono font-bold px-3 py-1 rounded-full">
                           {s.warranty}
                         </span>
 
                         {/* Official Tariff Price Badge (Bottom Left) */}
-                        <span className="absolute bottom-3 left-3 bg-[#05070c]/90 border border-[#00f0ff]/60 text-[#00f0ff] text-sm font-mono font-extrabold px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-[0_0_20px_rgba(0,240,255,0.5)]">
+                        <span className="absolute bottom-3 left-3 bg-[#05070c]/90 border border-[#00f0ff]/60 text-[#00f0ff] text-sm font-mono font-extrabold px-3.5 py-1.5 rounded-full shadow-[0_0_20px_rgba(0,240,255,0.5)]">
                           {s.price}
                         </span>
                       </div>
@@ -4464,7 +3474,7 @@ function App() {
                 {
                   name: 'Glass Leather AMC',
                   badge: 'Glass & Leather Care',
-                  img: 'assets/o3_int_after.png',
+                  img: 'assets/o3_int_after.webp',
                   price: 'Bespoke Annual AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -4479,7 +3489,7 @@ function App() {
                   name: 'Ceramic Leather AMC',
                   badge: '⭐ MOST POPULAR',
                   highlight: true,
-                  img: 'assets/o3_ceramic_coating.png',
+                  img: 'assets/o3_ceramic_coating.webp',
                   price: 'Flagship Studio AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -4493,7 +3503,7 @@ function App() {
                 {
                   name: 'Acrylic Leather AMC',
                   badge: 'Acrylic Protection',
-                  img: 'assets/o3_ext_after.png',
+                  img: 'assets/o3_ext_after.webp',
                   price: 'Acrylic Armor AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -4507,7 +3517,7 @@ function App() {
                 {
                   name: '3M AMC',
                   badge: '3M Finish Armor',
-                  img: 'assets/gallery/35_44_services_design_extra_services_also_mentioned_18_ppf_design.jpg',
+                  img: 'assets/gallery/35_44_services_design_extra_services_also_mentioned_18_ppf_design.webp',
                   price: '3M Paint Guard AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -4524,7 +3534,7 @@ function App() {
                     <div className="relative rounded-2xl overflow-hidden h-36 bg-black border border-[#cae8e8]/20">
                       <img src={plan.img} alt={plan.name} className="w-full h-full object-cover"  loading="lazy" decoding="async" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-90"></div>
-                      <span className={`absolute top-3 left-3 text-[10px] font-mono font-bold uppercase px-3 py-1 rounded-full backdrop-blur-md border ${plan.highlight ? 'bg-[#00f0ff] text-[#05070c] border-[#00f0ff]' : 'bg-[#05070c]/80 text-[#00f0ff] border-[#00f0ff]/30'}`}>
+                      <span className={`absolute top-3 left-3 text-[10px] font-mono font-bold uppercase px-3 py-1 rounded-full border ${plan.highlight ? 'bg-[#00f0ff] text-[#05070c] border-[#00f0ff]' : 'bg-[#05070c]/80 text-[#00f0ff] border-[#00f0ff]/30'}`}>
                         {plan.badge}
                       </span>
                     </div>
@@ -4729,7 +3739,7 @@ function App() {
     "id": "p1",
     "title": "17 Cute Wash Design",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4738,7 +3748,7 @@ function App() {
     "id": "p2",
     "title": "18 Ppf Design",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_18_ppf_design.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_18_ppf_design.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4747,7 +3757,7 @@ function App() {
     "id": "p3",
     "title": "19 Graphene Design",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4756,7 +3766,7 @@ function App() {
     "id": "p4",
     "title": "Image-17244",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-17244.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-17244.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4765,7 +3775,7 @@ function App() {
     "id": "p5",
     "title": "Image-35242",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35242.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35242.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4774,7 +3784,7 @@ function App() {
     "id": "p6",
     "title": "Image-35330",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35330.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35330.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4783,7 +3793,7 @@ function App() {
     "id": "p7",
     "title": "Image-46627",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-46627.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-46627.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4792,7 +3802,7 @@ function App() {
     "id": "p8",
     "title": "Image-49803",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-49803.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-49803.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4801,7 +3811,7 @@ function App() {
     "id": "p9",
     "title": "Image-67602",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-67602.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-67602.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4810,7 +3820,7 @@ function App() {
     "id": "p10",
     "title": "Image-77137",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-77137.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-77137.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4819,7 +3829,7 @@ function App() {
     "id": "p11",
     "title": "Image-84181",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-84181.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-84181.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4828,7 +3838,7 @@ function App() {
     "id": "p12",
     "title": "Image-88692",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-88692.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-88692.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4837,7 +3847,7 @@ function App() {
     "id": "p13",
     "title": "Image-91501",
     "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
-    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-91501.jpg",
+    "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-91501.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
     "type": "photo"
@@ -4846,7 +3856,7 @@ function App() {
     "id": "p14",
     "title": "Studio Transformation Detail #14",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/6__ppf_why_carousel_image-262.jpg",
+    "src": "assets/gallery/6__ppf_why_carousel_image-262.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4855,7 +3865,7 @@ function App() {
     "id": "p15",
     "title": "Studio Transformation Detail #15",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/6__ppf_why_carousel_image-29722.jpg",
+    "src": "assets/gallery/6__ppf_why_carousel_image-29722.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4864,7 +3874,7 @@ function App() {
     "id": "p16",
     "title": "Studio Transformation Detail #16",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/6__ppf_why_carousel_image-70233.jpg",
+    "src": "assets/gallery/6__ppf_why_carousel_image-70233.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4873,7 +3883,7 @@ function App() {
     "id": "p17",
     "title": "Studio Transformation Detail #17",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/6__ppf_why_carousel_image-76627.jpg",
+    "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4882,7 +3892,7 @@ function App() {
     "id": "p18",
     "title": "Studio Transformation Detail #18",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/6__ppf_why_carousel_image-94354.jpg",
+    "src": "assets/gallery/6__ppf_why_carousel_image-94354.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4891,7 +3901,7 @@ function App() {
     "id": "p19",
     "title": "Studio Transformation Detail #19",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/6__ppf_why_carousel_image-97038.jpg",
+    "src": "assets/gallery/6__ppf_why_carousel_image-97038.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4900,7 +3910,7 @@ function App() {
     "id": "p20",
     "title": "Graphene & Quartz Coating Step-by-Step",
     "desc": "Multi-layer silica pass and curing process for ultimate hydrophobicity.",
-    "src": "assets/gallery/graphene_and_normal_coating_31_graphene_coating_steps.jpg",
+    "src": "assets/gallery/graphene_and_normal_coating_31_graphene_coating_steps.webp",
     "category": "Ceramic & Graphene",
     "badge": "\u2728 Graphene Process",
     "type": "photo"
@@ -4909,7 +3919,7 @@ function App() {
     "id": "p21",
     "title": "Studio Transformation Detail #21",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-27511.jpg",
+    "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-27511.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4918,7 +3928,7 @@ function App() {
     "id": "p22",
     "title": "Studio Transformation Detail #22",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-82021.jpg",
+    "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-82021.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4927,7 +3937,7 @@ function App() {
     "id": "p23",
     "title": "Studio Transformation Detail #23",
     "desc": "Precision automotive detailing result completed at O3 Car Spa.",
-    "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-86981.jpg",
+    "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-86981.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
     "type": "photo"
@@ -4936,7 +3946,7 @@ function App() {
     "id": "p24",
     "title": "High-Gloss Studio Finish 1.2",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_1.2.jpg",
+    "src": "assets/gallery/only_images_good_ones_1.2.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -4945,7 +3955,7 @@ function App() {
     "id": "p25",
     "title": "High-Gloss Studio Finish 1",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_1.jpg",
+    "src": "assets/gallery/only_images_good_ones_1.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -4954,7 +3964,7 @@ function App() {
     "id": "p26",
     "title": "High-Gloss Studio Finish 3.1",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_3.1.jpg",
+    "src": "assets/gallery/only_images_good_ones_3.1.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -4963,7 +3973,7 @@ function App() {
     "id": "p27",
     "title": "High-Gloss Studio Finish 3.2",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_3.2.jpg",
+    "src": "assets/gallery/only_images_good_ones_3.2.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -4972,7 +3982,7 @@ function App() {
     "id": "p28",
     "title": "High-Gloss Studio Finish 3.3",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_3.3.jpg",
+    "src": "assets/gallery/only_images_good_ones_3.3.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -4981,7 +3991,7 @@ function App() {
     "id": "p29",
     "title": "High-Gloss Studio Finish 4",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_4.jpg",
+    "src": "assets/gallery/only_images_good_ones_4.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -4990,7 +4000,7 @@ function App() {
     "id": "p30",
     "title": "High-Gloss Studio Finish 5",
     "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
-    "src": "assets/gallery/only_images_good_ones_5.jpg",
+    "src": "assets/gallery/only_images_good_ones_5.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
     "type": "photo"
@@ -5009,7 +4019,7 @@ function App() {
                           onClick={() => setLightboxMedia(item)}
                           className="relative w-full h-full bg-[#0a0e17] flex flex-col items-center justify-center cursor-pointer group/vid"
                         >
-                          <img src={item.src.endsWith('.mp4') ? 'assets/o3_official_brand_poster.jpg' : item.src} 
+                          <img src={item.src.endsWith('.mp4') ? 'assets/o3_official_brand_poster.webp' : item.src} 
                             alt={item.title} 
                             loading="lazy"
                             decoding="async"
@@ -5031,7 +4041,7 @@ function App() {
                         />
                       )}
 
-                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full backdrop-blur-md font-bold">
+                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                         {item.badge}
                       </span>
                     </div>
@@ -5128,8 +4138,8 @@ function App() {
               </div>
 
               <div className="space-y-4">
-                <img src="assets/o3_studio_environment.png" alt="O3 Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-                <img src="assets/o3_equipment_lab.png" alt="O3 Equipment & Compound Station" className="w-full h-56 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                <img src="assets/o3_studio_environment.webp" alt="O3 Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                <img src="assets/o3_equipment_lab.webp" alt="O3 Equipment & Compound Station" className="w-full h-56 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
               </div>
             </div>
 
@@ -5176,7 +4186,7 @@ function App() {
                 </div>
 
                 <div className="lg:col-span-5">
-                  <img src="assets/o3_on_wheels.png" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                  <img src="assets/o3_on_wheels.webp" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -5238,7 +4248,7 @@ function App() {
             <div className="grid md:grid-cols-2 gap-8">
               
               <div className="glass-surface p-8 space-y-6 bg-[#0d111a] border border-[#cae8e8]/40">
-                <img src="assets/o3_on_wheels.png" alt="Mobile Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/o3_on_wheels.webp" alt="Mobile Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div className="space-y-2">
                   <span className="text-xs font-mono text-[#cae8e8] uppercase font-bold">Model 1: Mobile Unit</span>
                   <h3 className="text-2xl font-bold text-white">Doorstep Detailing Franchise</h3>
@@ -5261,7 +4271,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-8 space-y-6 bg-[#0d111a] border border-[#cae8e8]/60">
-                <img src="assets/o3_studio_environment.png" alt="Studio Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/o3_studio_environment.webp" alt="Studio Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div className="space-y-2">
                   <span className="text-xs font-mono text-[#cae8e8] uppercase font-bold">Model 2: Full Studio</span>
                   <h3 className="text-2xl font-bold text-white">Precision Detailing Studio</h3>
@@ -5358,11 +4368,11 @@ function App() {
             <div className="grid lg:grid-cols-12 gap-10">
               
               <div className="lg:col-span-5 glass-surface p-8 space-y-6 bg-[#0d111a]">
-                <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-12 w-auto mb-2"  loading="lazy" decoding="async" />
+                <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-12 w-auto mb-2"  loading="lazy" decoding="async" />
                 <h3 className="text-2xl font-bold text-white">O3 Car-Spa Studio</h3>
                 <p className="text-xs text-[#cae8e8] font-mono">Managed by Mr. Sharanpal Sodhi</p>
 
-                <img src="assets/o3_studio_environment.png" alt="O3 Studio Entrance" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/o3_studio_environment.webp" alt="O3 Studio Entrance" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
 
                 <div className="space-y-4 text-sm text-slate-300">
                   <div className="flex gap-3">
@@ -5527,7 +4537,7 @@ function App() {
       {/* ================= FINAL CTA BAND ================= */}
       <section className="bg-gradient-to-r from-[#0d111a] via-[#101827] to-[#0d111a] border-t border-b border-[#cae8e8]/20 py-16 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-14 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
+          <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-14 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white">Ready for Perfection?</h2>
           <p className="text-slate-[#cae8e8] max-w-xl mx-auto text-sm sm:text-base">
             Schedule a consultation with Sharanpal Sir and team at our studio, or request doorstep concierge service.
@@ -5550,7 +4560,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             <div className="space-y-4">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Premium Detailing Studio Official Logo" className="logo-blend h-12 w-auto"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Premium Detailing Studio Official Logo" className="logo-blend h-12 w-auto"  loading="lazy" decoding="async" />
               <p className="text-slate-400 leading-relaxed">
                 13+ years of detailing excellence in Anand under Mr. Sharanpal Sodhi. High-glow foam wash, PPF, Graphene & Ceramic Coating.
               </p>
@@ -5562,7 +4572,7 @@ function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
-                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'story',l:'Our Story'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'products',l:'Products'},{id:'plans',l:'Plans'},{id:'contact',l:'Contact'}].map((item) => (
+                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'story',l:'Our Story'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'products',l:'Products'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
                   <li key={item.id}>
                     <button 
                       onClick={() => navigateTo(item.id)} 
@@ -5623,7 +4633,7 @@ function App() {
             </button>
 
             <div className="space-y-1">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
               <h3 className="text-2xl font-bold text-white">Partner with O3 Car-Spa</h3>
               <p className="text-xs text-slate-400">Investment Tier: ₹5 Lakhs – ₹10 Lakhs</p>
             </div>
@@ -5672,7 +4682,7 @@ function App() {
             </button>
 
             <div className="space-y-1">
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
               <h3 className="text-2xl font-bold text-white">Schedule Detailing Visit</h3>
               {selectedBookingService && (
                 <div className="text-xs text-[#cae8e8] font-mono">Selected: {selectedBookingService}</div>
@@ -5721,7 +4731,7 @@ function App() {
         <div className="drawer-panel">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#cae8e8]/20">
             <div>
-              <img src="assets/o3_official_logo.png" alt="O3 CAR-SPA Logo" className="logo-blend h-8 w-auto mb-1"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-8 w-auto mb-1"  loading="lazy" decoding="async" />
               <p className="text-xs text-[#cae8e8] font-mono">Official O3 Brand Tokens</p>
             </div>
             <button onClick={() => setIsDrawerOpen(false)} className="text-[#cae8e8] hover:text-[#00f0ff] font-bold">
@@ -5754,12 +4764,12 @@ function App() {
 
       {/* ================= MOBILE NAVIGATION GLASS DRAWER (END-TO-END RESPONSIVE) ================= */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[99999] bg-[#05070c]/95 backdrop-blur-2xl flex flex-col justify-between p-6 overflow-y-auto animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[99999] bg-[#05070c]/95 flex flex-col justify-between p-6 overflow-y-auto animate-in fade-in duration-200">
           
           {/* Drawer Header */}
           <div className="flex items-center justify-between pb-6 border-b border-[#cae8e8]/20">
             <div className="flex items-center gap-3">
-              <img src="assets/o3_official_logo.png" 
+              <img src="assets/brand/o3-logo-white.svg" 
                 alt="O3 CAR-SPA Logo" 
                 className="logo-blend h-10 w-auto" 
                loading="lazy" decoding="async" />
@@ -5786,6 +4796,7 @@ function App() {
               { id: 'services', label: 'Services Menu', icon: '✨' },
               { id: 'products', label: 'Products Store', icon: '🛒' },
               { id: 'plans', label: 'Plans & AMC', icon: '💎' },
+              { id: 'franchise', label: 'Franchise', icon: '🤝' },
               { id: 'contact', label: 'Contact Us', icon: '📍' },
             ].map((item) => (
               <button

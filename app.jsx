@@ -7,9 +7,9 @@ const { useState, useEffect, useRef } = React;
 // 0. LUXURY PRELOADER OVERLAY WITH OFFICIAL O3 TAGLINE & TELEMETRY
 function O3Preloader({ progress, isFinished }) {
   const getPhaseMessage = (p) => {
-    if (p < 30) return "INITIALIZING HEPA CLEANROOM BAY...";
-    if (p < 65) return "CALIBRATING 6500K SPECTROMETRY LIGHTS...";
-    if (p < 90) return "SYNCHRONIZING 10H CERAMIC & PPF TELEMETRY...";
+    if (p < 30) return "WARMING UP THE STUDIO LIGHTS...";
+    if (p < 65) return "PREPPING THE DETAILING BAY...";
+    if (p < 90) return "LOADING OUR LATEST WORK...";
     return "WELCOME TO O3 CAR-SPA STUDIO — ANAND";
   };
 
@@ -526,7 +526,7 @@ function IndianGarageShowcase({ services, onBookService }) {
 function VelocityMarquee() {
   const rootRef = useRef(null);
   const rows = [
-    { items: ['Thar', 'Scorpio-N', 'Fortuner', 'Creta', 'XUV700', 'Seltos', 'Brezza', 'Harrier', 'Nexon', 'Innova Hycross'], outline: false },
+    { items: ['Thar', 'Scorpio-N', 'Fortuner', 'Creta', 'XUV700', 'Carens', 'Brezza', 'Harrier', 'Nexon', 'Innova Hycross'], outline: false },
     { items: ['Ceramic 9H', 'Graphene Armor', 'Self-Healing PPF', 'Paint Correction', 'Steam Interior', 'Ozone Treatment', 'Undershield'], outline: true }
   ];
 
@@ -540,18 +540,32 @@ function VelocityMarquee() {
         ? gsap.fromTo(track, { xPercent: -50 }, { xPercent: 0, duration: 45, ease: 'none', repeat: -1 })
         : gsap.fromTo(track, { xPercent: 0 }, { xPercent: -50, duration: 40, ease: 'none', repeat: -1 }));
       const skew = gsap.quickTo(tracks, 'skewX', { duration: 0.5, ease: 'power3' });
+      // One shared speed value eased toward a target each tick. The old version
+      // created four new tweens per scroll event, which churned styles and GC.
+      let target = 1, speed = 1, dir = 1, idle = 0;
+      const tick = () => {
+        speed += (target - speed) * 0.08;
+        loops.forEach(l => l.timeScale(speed));
+        if (++idle === 15) { target = dir; skew(0); } // settle back to cruising speed, level
+      };
       ScrollTrigger.create({
         trigger: rootRef.current,
         start: 'top bottom',
         end: 'bottom top',
+        // Loops and ticker run only while the marquee is on screen
+        onToggle: (self) => {
+          if (self.isActive) { loops.forEach(l => l.play()); gsap.ticker.add(tick); }
+          else { loops.forEach(l => l.pause()); gsap.ticker.remove(tick); }
+        },
         onUpdate: (self) => {
           const v = self.getVelocity();
-          const boost = gsap.utils.clamp(1, 5, Math.abs(v) / 300) * self.direction;
-          loops.forEach(l => gsap.to(l, { timeScale: boost, duration: 0.2, overwrite: true }));
-          loops.forEach(l => gsap.to(l, { timeScale: self.direction, duration: 1.2, delay: 0.25, overwrite: false }));
+          dir = self.direction;
+          target = gsap.utils.clamp(1, 5, Math.abs(v) / 300) * dir;
+          idle = 0;
           skew(gsap.utils.clamp(-12, 12, v / -250));
         }
       });
+      return () => gsap.ticker.remove(tick);
     }, rootRef);
     return () => ctx.revert();
   }, []);
@@ -915,6 +929,14 @@ function CoatingCompare({ services, onBook }) {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  // Preloader is removed from the DOM after its fade-out; left mounted, its
+  // pulsing blur kept repainting every frame on every page.
+  const [showPreloader, setShowPreloader] = useState(true);
+  useEffect(() => {
+    if (isLoading) return;
+    const t = setTimeout(() => setShowPreloader(false), 800);
+    return () => clearTimeout(t);
+  }, [isLoading]);
   const [loadProgress, setLoadProgress] = useState(0);
 
   const [currentView, setCurrentView] = useState('home');
@@ -943,8 +965,6 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Active Video in 3D Cinema Showcase
-  const [activeCinemaVideo, setActiveCinemaVideo] = useState(0);
 
   // Selected Service for In-Depth Detail Modal
   const [activeServiceDetail, setActiveServiceDetail] = useState(null);
@@ -965,66 +985,6 @@ function App() {
 
   const canvasRef = useRef(null);
 
-  // THE 6 WORKSPACE MP4 VIDEOS DATABASE
-  const videoGalleryData = [
-    {
-      id: 0,
-      title: 'O3 Car-Spa Official Cinematic Detailing Showcase',
-      tagline: 'Flagship Detailing Production & Surface Conservation',
-      src: 'assets/hero_section.mp4',
-      badge: '🌟 Flagship Hero Video',
-      desc: 'Official 4K cinematic presentation of O3 Car-Spa studio craftsmanship directed by Founder Mr. Sharanpal Sodhi.'
-    },
-    {
-      id: 1,
-      title: 'Porsche Detailing Studio Bay — High-Tech Hexagonal Cleanroom',
-      tagline: 'Controlled Environment Paint Prep & Multi-Stage Polish on Porsche',
-      src: 'assets/porsche_studio_bay_video.mp4',
-      badge: '🏎️ Porsche Studio Bay',
-      desc: 'Inside the O3 Car-Spa controlled cleanroom bay — master technicians executing precision compounding on a Porsche under color-calibrated daylight LEDs.'
-    },
-    {
-      id: 2,
-      title: 'Porsche 911 Ceramic Inspection by Founder Sharanpal Sir',
-      tagline: '13+ Years Master Craftsmanship on Porsche 911 Hood',
-      src: 'assets/sikh_man_video.mp4',
-      badge: '🎥 Founder Inspection',
-      desc: 'Mr. Sharanpal Sodhi (Sharanpal Sir) inspecting molecular ceramic quartz gloss on a Porsche 911 hood using Scangrip LED daylight rigging.'
-    },
-    {
-      id: 3,
-      title: 'BMW M2 Competition Pressure Wash & Decontamination',
-      tagline: 'High-Pressure Snow Foam Bath & Wheel Barrel Detailing',
-      src: 'assets/bmw_m2_video.mp4',
-      badge: '🏎️ BMW M2 Studio Prep',
-      desc: 'Watch our studio team perform high-pressure snow foam wash, underbody flush, and grit-free paint decontamination on a BMW M2 Competition.'
-    },
-    {
-      id: 4,
-      title: 'Sports Car Detailing Team Inside Studio Bay',
-      tagline: 'Hexagonal LED Cleanroom Lighting & Multi-Stage Polish',
-      src: 'assets/sports_car_video.mp4',
-      badge: '🏢 Cleanroom Bay',
-      desc: 'Inside the O3 Car-Spa controlled cleanroom bay — master technicians executing multi-stage Rupes compounding on exotic sports cars.'
-    },
-    {
-      id: 5,
-      title: 'Master Technician Applying 9H Liquid Ceramic Coating',
-      tagline: 'Precision Suede Applicator Pass & Rainbow Flash Pattern',
-      src: 'assets/worker_applying_video.mp4',
-      badge: '✨ Coating Precision',
-      desc: 'Macro perspective of precision ceramic coating hand-application showing cross-hatch leveling and hydrophobic silica bonding.'
-    }
-,
-    {
-      id: 6,
-      title: 'Mercedes-AMG Paint Protection Film (PPF) Masterwork',
-      tagline: 'Precision Edge-Tucked Self-Healing TPU PPF Application on Mercedes-AMG',
-      src: 'assets/mercedes_ppf_video.mp4',
-      badge: '🛡️ Mercedes PPF Showcase',
-      desc: 'Exclusive high-definition studio showcase of optical TPU self-healing film hand-applied on Mercedes-AMG panels.'
-    }
-  ];
 
   // 47 EXHAUSTIVE INTERACTIVE OFFICIAL SERVICES DATABASE
   const allServicesData = [
@@ -1057,7 +1017,7 @@ function App() {
     "icon": "\ud83e\ude91",
     "tagline": "Deep Interior Extraction, Dashboard & Leather Dressing",
     "summary": "Deep interior sanitization treatment extracting ground-in dirt from carpets, upholstery, dashboard seams, and door trims using hot steam & specialized leather dressings.",
-    "img": "assets/o3_int_after.webp",
+    "img": "assets/stills/interior-1.webp",
     "warranty": "Sanitization Certificate",
     "durability": "6 Months Cleanliness",
     "equipment": "Hot Water Extractor, Dry Steam Vapor Machine, Leather Care Balms",
@@ -1078,10 +1038,10 @@ function App() {
     "icon": "\ud83c\udf00",
     "tagline": "O3 Cabin Sanitization & Bacteria Elimination",
     "summary": "High-output O3 ozone gas flooding that oxidizes and destroys airborne bacteria, mold spores, smoke smells, and persistent cabin odors.",
-    "img": "assets/o3_equipment_lab.webp",
-    "warranty": "99.9% Bacteria Free",
+    "img": "assets/stills/interior-2.webp",
+    "warranty": "Odour-Free Cabin",
     "durability": "3 \u2013 6 Months",
-    "equipment": "High-Output O3 Ozone Generator, HEPA Cabin Recirculation Unit",
+    "equipment": "Ozone Generator, Cabin Air Circulation",
     "procedure": [
       "Phase 1: Cabin sealing & AC system set to full internal recirculation",
       "Phase 2: 20-minute active O3 ozone gas generator cycle inside closed cabin",
@@ -1098,7 +1058,7 @@ function App() {
     "icon": "\ud83d\udcbc",
     "tagline": "Nourishing Leather Conditioner & UV Shield",
     "summary": "Specialized leather cleansing and oil-nourishing treatment that restores natural suppleness, prevents cracking, and shields against sun UV fading.",
-    "img": "assets/product_interior_leather.webp",
+    "img": "assets/reels/steam.webp",
     "warranty": "Supple Finish Guarantee",
     "durability": "3 \u2013 4 Months",
     "equipment": "Soft Horsehair Brushes, Ma-Fra Italian Leather Care Cream",
@@ -1118,7 +1078,7 @@ function App() {
     "icon": "\ud83d\udca1",
     "tagline": "Oxidation Removal & UV Clear Sealant",
     "summary": "Multi-stage wet sanding and micro-compounding technique that permanently strips yellow oxidation and haze from polycarbonate headlight lenses.",
-    "img": "assets/o3_studio_environment.webp",
+    "img": "assets/stills/ppf-3.webp",
     "warranty": "1 Year Clarity Warranty",
     "durability": "12 Months",
     "equipment": "2000/3000 Grit Wet Sanding Discs, Rotary Polisher, UV Clear Sealant",
@@ -1138,7 +1098,7 @@ function App() {
     "icon": "\ud83d\udc00",
     "tagline": "Engine Bay Wire & Pipe Rodent Protection",
     "summary": "Heavy-duty heat-resistant bitter spray formulation applied to engine bay wiring harnesses, rubber hoses, and cables to prevent rodent chewing damage.",
-    "img": "assets/o3_coating_worker.webp",
+    "img": "assets/stills/finish-2.webp",
     "warranty": "6 Months Rodent Shield",
     "durability": "6 Months",
     "equipment": "High-Temp Bitter Polymer Coating, Engine Bay Prep Washer",
@@ -1158,7 +1118,7 @@ function App() {
     "icon": "\u2699\ufe0f",
     "tagline": "Degreasing, Thermal Bay Dressing & Electrical Seal",
     "summary": "Complete engine bay steam restoration and heat-resistant protective clear lacquer application that keeps plastic covers, hoses, and metal components looking showroom new.",
-    "img": "assets/o3_coating_worker.webp",
+    "img": "assets/stills/coat-2.webp",
     "warranty": "1 Year Bay Shield",
     "durability": "12 Months",
     "equipment": "Steam Jet Cleaner, W\u00fcrth German Heat Lacquer",
@@ -1178,7 +1138,7 @@ function App() {
     "icon": "\ud83d\udede",
     "tagline": "Brake Dust Repellent & Heat-Resistant Silica Layer",
     "summary": "Ultra-high temperature 9H quartz ceramic coating engineered to withstand 800\u00b0C brake temperatures, preventing corrosive brake dust etching into alloy rims.",
-    "img": "assets/product_tools_accessories.webp",
+    "img": "assets/stills/finish-1.webp",
     "warranty": "2 Years Rim Guard",
     "durability": "2 Years",
     "equipment": "Iron Fallout Chemical Remover, 800\u00b0C Heat Quartz Coating",
@@ -1198,7 +1158,7 @@ function App() {
     "icon": "\ud83c\udf27\ufe0f",
     "tagline": "Rain Repellent & Night Glare Hydrophobic Shield",
     "summary": "Fluoropolymer glass coating that chemically bonds to glass, allowing rainwater to bead and fly off at speeds above 40 km/h for dramatically improved night rain visibility.",
-    "img": "assets/o3_studio_environment.webp",
+    "img": "assets/stills/wash-1.webp",
     "warranty": "1 Year Warranty",
     "durability": "12 Months",
     "equipment": "Cerium Oxide Glass Polish, Kisho Japanese Fluorine Glass Shield",
@@ -1218,7 +1178,7 @@ function App() {
     "icon": "\ud83d\udecb\ufe0f",
     "tagline": "Hydrophobic & Stain Barrier for Leather Seats",
     "summary": "Advanced breathable ceramic coating formulated for genuine leather seats that prevents liquid penetration, UV fading, and dye transfer from blue jeans.",
-    "img": "assets/product_interior_leather.webp",
+    "img": "assets/stills/interior-2.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "Nanotechnology Leather Coating, Micro Suede Applicators",
@@ -1238,10 +1198,10 @@ function App() {
     "icon": "\ud83e\uddf5",
     "tagline": "Liquid Repellent Barrier for Fabric Upholstery",
     "summary": "Hydrophobic textile barrier coating that coats individual fabric fibers, causing coffee, soda, and water spills to bead up on top of seats without soaking in.",
-    "img": "assets/o3_int_after.webp",
+    "img": "assets/stills/interior-1.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
-    "equipment": "Nano-Textile Spray Coating, Thermal Curing Guns",
+    "equipment": "Fabric Protection Spray, Heat Curing Guns",
     "procedure": [
       "Phase 1: Fabric shampoo extraction wash & 100% moisture removal",
       "Phase 2: Fiber-penetrating hydrophobic spray coating pass",
@@ -1257,7 +1217,7 @@ function App() {
     "icon": "\ud83d\udda4",
     "tagline": "Restores Plastic Cladding & Prevents UV Fading",
     "summary": "Permanent plastic restoration ceramic coating that penetrates deep into oxidized unpainted exterior trim and bumpers, restoring rich dark matte color with 2-year UV defense.",
-    "img": "assets/product_exterior_care.webp",
+    "img": "assets/stills/ppf-4.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "Trim Restorer Coating, Suede Applicator Blocks",
@@ -1276,7 +1236,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "Single-Stage Gloss Enhancement & Carnauba Wax",
     "summary": "Single-stage orbital machine polish that restores paint clarity, removes light haze, and applies a rich protective synthetic wax layer.",
-    "img": "assets/o3_paint_correction.webp",
+    "img": "assets/process/correct.webp",
     "warranty": "High Gloss Guarantee",
     "durability": "6 Months",
     "equipment": "Rupes Orbital Polisher, Meguiar\u2019s Finishing Polish & Synthetic Wax",
@@ -1295,7 +1255,7 @@ function App() {
     "icon": "\ud83d\udd0d",
     "tagline": "Swirl Mark Reduction & High-Gloss Sealant",
     "summary": "Two-stage paint correction process combining heavy compounding scratch reduction with fine finishing polish and a high-durability hybrid wax sealant.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/reels/scorpio-polish.webp",
     "warranty": "1 Year Swirl Reduction",
     "durability": "12 Months",
     "equipment": "Menzerna Heavy Cut 400, Microfiber Cutting Pads, Dual Action Polisher",
@@ -1314,12 +1274,12 @@ function App() {
     "icon": "\ud83d\udc8e",
     "tagline": "3-Stage Paint Leveling & Deep Gloss Conservation",
     "summary": "Flagship 3-step studio paint correction and leveling treatment that measures clear coat depth, removes multi-layer defects, and applies O3 silica protective coating.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/process/protect.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
-    "equipment": "3-Pass Rupes Compounding System, Ultrasonic Depth Gauge, O3 Silica Sealant",
+    "equipment": "Machine Polishers, Cutting & Finishing Compounds, O3 Silica Sealant",
     "procedure": [
-      "Phase 1: Ultrasonic clear coat depth measurement across 20 points",
+      "Phase 1: Paint inspection under bright LED lights",
       "Phase 2: Stage 1 heavy cut compounding pass",
       "Phase 3: Stage 2 micro-abrasive refining polish",
       "Phase 4: Stage 3 O3 Silica protective coating application & inspection"
@@ -1334,7 +1294,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "Entry-Level Liquid Quartz Gloss & Hydrophobic Barrier",
     "summary": "Professional 9H SiO2 ceramic glass coating providing 12 months of high-gloss shine, rain repellency, and chemical resistance.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/reels/fortuner.webp",
     "warranty": "1 Year Warranty",
     "durability": "12 Months",
     "equipment": "Rupes Orbital Polishers, 9H Silica Quartz, IR Curing Lamp Rig",
@@ -1354,7 +1314,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "24-Month Quartz Hardness & Mirror Surface Gloss",
     "summary": "Double-layer 9H SiO2 quartz coating that bonds to clear coat, preserving deep mirror gloss and UV protection for 2 full years.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/process/protect.webp",
     "warranty": "2 Years Warranty",
     "durability": "24 Months",
     "equipment": "Scangrip Daylight LED, 9H Silica Quartz, Hedson IR Curing",
@@ -1374,7 +1334,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "36-Month High-Density Quartz Surface Protection",
     "summary": "High-density 9H SiO2 ceramic formulation with enhanced chemical resistance against bird droppings, tree sap, and acid rain.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/stills/coat-1.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Rupes BigFoot, High-Density Quartz, Shortwave IR Rig",
@@ -1394,7 +1354,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "5-Year Ultra-Durable SiO2 Quartz Flagship Coating",
     "summary": "Flagship 5-year multi-layer ceramic matrix coating offering ultimate scratch resistance, deep wet-look reflection, and hyper-hydrophobic water repellency.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/process/deliver.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "DeFelsko Gauge, Multi-Layer 9H Quartz, Hedson IR Curing",
@@ -1402,7 +1362,7 @@ function App() {
       "Phase 1: 3-pass paint correction to 98%+ clarity",
       "Phase 2: Dual panel wipe decontamination",
       "Phase 3: Base coat + Top coat multi-layer quartz application",
-      "Phase 4: 48-hr cleanroom curing pass"
+      "Phase 4: Indoor curing before handover"
     ],
     "maintenance": "Annual studio maintenance top-up pass included."
   },
@@ -1414,7 +1374,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 1 Free Maintenance CoatCare Service",
     "summary": "Complete 2-year ceramic coating package bundled with 1 complimentary annual studio CoatCare decontamination & top-up maintenance service.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/reels/fortuner.webp",
     "warranty": "2 Years Warranty + 1 Maintenance",
     "durability": "2 Years",
     "equipment": "9H Quartz, CoatCare Booster Spray, IR Curing",
@@ -1433,7 +1393,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 2 Free Maintenance CoatCare Services",
     "summary": "Premium 3-year ceramic shield bundle backed by 2 complimentary annual studio CoatCare maintenance sessions for long-term gloss retention.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/stills/coat-1.webp",
     "warranty": "3 Years Warranty + 2 Maintenances",
     "durability": "3 Years",
     "equipment": "9H SiO2 Quartz, IR Curing Rig",
@@ -1452,7 +1412,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Includes 4 Free Annual CoatCare Services",
     "summary": "Ultimate 5-year ceramic protection program bundled with 4 full annual studio CoatCare maintenance passes for total peace of mind.",
-    "img": "assets/o3_ceramic_coating.webp",
+    "img": "assets/process/deliver.webp",
     "warranty": "5 Years Warranty + 4 Maintenances",
     "durability": "5 Years",
     "equipment": "Multi-Layer Quartz, Hedson IR Curing",
@@ -1471,7 +1431,7 @@ function App() {
     "icon": "\u26a1",
     "tagline": "Reduced Water Spotting & Enhanced Hardness",
     "summary": "Reduced Graphene Oxide (rGO) matrix coating delivering high thermal dissipation, lower water spot etching, and slick hydrophobic protection.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/reels/brezza.webp",
     "warranty": "2 Years Warranty",
     "durability": "2 Years",
     "equipment": "rGO Graphene Oxide Matrix, IR Curing Rig",
@@ -1491,7 +1451,7 @@ function App() {
     "icon": "\u26a1",
     "tagline": "36-Month Thermal Dissipation & Hydrophobic Slickness",
     "summary": "3-year high-durability graphene matrix coating engineered for hot Indian summer road conditions, repelling water spots & road grime.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/reels/scorpio.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Scangrip Daylight, rGO Graphene Matrix, IR Curing",
@@ -1511,7 +1471,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "5-Year Ultra Graphene Hardness Matrix Flagship",
     "summary": "Flagship 5-year graphene matrix protection providing unmatched contact angle water beading, extreme scratch resistance, and wet gloss.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/stills/coat-2.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Multi-Layer Graphene Oxide, Hedson IR Curing",
@@ -1519,7 +1479,7 @@ function App() {
       "Phase 1: 3-stage paint leveling to 98%+ scratch elimination",
       "Phase 2: Solvent decontamination wipe",
       "Phase 3: Multi-layer rGO graphene matrix application",
-      "Phase 4: 48-hr cleanroom curing pass"
+      "Phase 4: Indoor curing before handover"
     ],
     "maintenance": "Annual studio inspection included."
   },
@@ -1531,7 +1491,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 1 Free Maintenance CoatCare Service",
     "summary": "2-year graphene armor package bundled with 1 complimentary annual studio CoatCare decontamination & top-up service.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/reels/brezza.webp",
     "warranty": "2 Years Warranty + 1 Maintenance",
     "durability": "2 Years",
     "equipment": "rGO Graphene Coating, CoatCare Booster, IR Curing",
@@ -1550,7 +1510,7 @@ function App() {
     "icon": "\ud83c\udf81",
     "tagline": "Includes 2 Free Maintenance CoatCare Services",
     "summary": "3-year graphene matrix coating bundle including 2 complimentary annual studio CoatCare maintenance sessions.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/reels/scorpio.webp",
     "warranty": "3 Years Warranty + 2 Maintenances",
     "durability": "3 Years",
     "equipment": "Graphene Oxide Matrix, IR Curing Rig",
@@ -1569,7 +1529,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Includes 4 Free Annual CoatCare Services",
     "summary": "Ultimate 5-year graphene matrix program bundled with 4 full annual studio CoatCare maintenance passes.",
-    "img": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+    "img": "assets/stills/coat-2.webp",
     "warranty": "5 Years Warranty + 4 Maintenances",
     "durability": "5 Years",
     "equipment": "Multi-Layer Graphene Oxide, Hedson IR Curing",
@@ -1588,7 +1548,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "Clear Self-Healing Protective Film (3 Years)",
     "summary": "Entry-level clear self-healing protective film engineered to shield factory paint against stone chips, scratches, and road debris.",
-    "img": "assets/o3_ppf_protection.webp",
+    "img": "assets/reels/ppf-install.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Plotter Pre-Cut Film, Alcohol Prep Solution, Steam Edge-Tuckers",
@@ -1609,7 +1569,7 @@ function App() {
     "icon": "\ud83d\udee1\ufe0f",
     "tagline": "5-Year Clear Self-Healing Hybrid Protective Armor",
     "summary": "High-durability clear TPH film offering 5 years of self-healing scratch defense and optical paint clarity.",
-    "img": "assets/o3_ppf_protection.webp",
+    "img": "assets/stills/ppf-1.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Plotter Pre-Cut Film, Steam Edge-Tuckers",
@@ -1628,7 +1588,7 @@ function App() {
     "icon": "\ud83d\udc8e",
     "tagline": "Premium Optical Grade Self-Healing TPU Film",
     "summary": "Premium 100% optical-grade TPU film with instant heat-activated self-healing, hyper-gloss clarity, and non-yellowing adhesive layer.",
-    "img": "assets/o3_ppf_protection.webp",
+    "img": "assets/reels/thar.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Optical TPU Film, Steam Edge Tuckers, Plotter Pre-Cut",
@@ -1647,7 +1607,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Flagship Optical Grade Self-Healing TPU Film (7 Years)",
     "summary": "Ultra-thick 7-year flagship TPU self-healing armor providing maximum protection against high-speed gravel hits and key scratches.",
-    "img": "assets/o3_ppf_protection.webp",
+    "img": "assets/stills/ppf-2.webp",
     "warranty": "7 Years Warranty",
     "durability": "7 Years",
     "equipment": "Flagship Optical TPU, Plotter Pre-Cut, Steam Edge Tuckers",
@@ -1666,7 +1626,7 @@ function App() {
     "icon": "\ud83d\udda4",
     "tagline": "Stealth Satin Finish Self-Healing Film (3 Years)",
     "summary": "Converts glossy paint into a sleek matte/satin finish while providing full self-healing stone chip protection.",
-    "img": "assets/o3_rolls_royce_black.webp",
+    "img": "assets/reels/edge-tuck.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Matte TPH Film, Steam Edge Tuckers",
@@ -1685,7 +1645,7 @@ function App() {
     "icon": "\ud83d\udda4",
     "tagline": "Stealth Satin Finish Optical TPU Self-Healing Film",
     "summary": "Premium optical-grade matte TPU film offering smooth satin texture, self-healing capability, and 5 years of anti-scratch armor.",
-    "img": "assets/o3_rolls_royce_black.webp",
+    "img": "assets/reels/ugc-ppf.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Matte Optical TPU, Computerized Plotter Pre-Cut",
@@ -1703,15 +1663,15 @@ function App() {
     "price": "\u20b9 1,80,000",
     "icon": "\ud83d\udc51",
     "tagline": "Flagship Satin TPU Stealth Protection Film (7 Years)",
-    "summary": "Top-of-the-line 7-year matte TPU armor for luxury supercars and SUVs seeking a custom satin look with ultimate paint defense.",
-    "img": "assets/o3_rolls_royce_black.webp",
+    "summary": "Top-of-the-line 7-year matte TPU armor for premium cars and SUVs seeking a custom satin look with ultimate paint defense.",
+    "img": "assets/reels/mercedes-ppf.webp",
     "warranty": "7 Years Warranty",
     "durability": "7 Years",
     "equipment": "Flagship Matte TPU, Steam Edge Tuckers",
     "procedure": [
       "Phase 1: Full vehicle paint prep",
       "Phase 2: Full body stealth matte TPU wrap",
-      "Phase 3: Cleanroom heat curing"
+      "Phase 3: Indoor heat curing"
     ],
     "maintenance": "7-year studio warranty included."
   },
@@ -1723,7 +1683,7 @@ function App() {
     "icon": "\ud83c\udfce\ufe0f",
     "tagline": "Gloss Black Roof & Accent Protection Film",
     "summary": "Deep mirror gloss black TPH film designed for dual-tone roof wraps, pillars, mirrors, and hood accents with self-healing defense.",
-    "img": "assets/o3_mercedes_amg.webp",
+    "img": "assets/stills/ppf-3.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Gloss Black TPH Film, Heat Guns",
@@ -1742,7 +1702,7 @@ function App() {
     "icon": "\ud83c\udfce\ufe0f",
     "tagline": "5-Year Gloss Black Self-Healing Accent Film",
     "summary": "High-durability gloss black TPH protective film for full body or accent panel transformations.",
-    "img": "assets/o3_mercedes_amg.webp",
+    "img": "assets/stills/ppf-4.webp",
     "warranty": "5 Years Warranty",
     "durability": "5 Years",
     "equipment": "Gloss Black TPH, Steam Tuckers",
@@ -1761,7 +1721,7 @@ function App() {
     "icon": "\ud83d\udc51",
     "tagline": "Flagship Black TPU Self-Healing Armor (7 Years)",
     "summary": "Flagship black TPU film combining deep piano-black mirror shine with heavy-duty anti-scratch self-healing armor.",
-    "img": "assets/o3_mercedes_amg.webp",
+    "img": "assets/stills/ppf-2.webp",
     "warranty": "7 Years Warranty",
     "durability": "7 Years",
     "equipment": "Piano Black TPU, Plotter Pre-Cut",
@@ -1780,7 +1740,7 @@ function App() {
     "icon": "\ud83c\udfa8",
     "tagline": "Colored Custom Wrap Protection Film",
     "summary": "Custom colored TPH protection film allowing complete vehicle color transformations with built-in stone chip defense.",
-    "img": "assets/o3_rolls_royce_cyan.webp",
+    "img": "assets/reels/edge-tuck.webp",
     "warranty": "3 Years Warranty",
     "durability": "3 Years",
     "equipment": "Color TPH Film, Heat Guns, Edge Tuckers",
@@ -1799,7 +1759,7 @@ function App() {
     "icon": "\ud83d\udd04",
     "tagline": "Quick Top-Up Hydrophobic Boost",
     "summary": "Single-pass studio maintenance wash & SiO2 hydrophobic booster spray application to revive ceramic/wax water beading.",
-    "img": "assets/product_coating_kit.webp",
+    "img": "assets/reels/foam-wash.webp",
     "warranty": "Gloss Booster Guarantee",
     "durability": "3 Months",
     "equipment": "SiO2 Spray Booster, Microfiber Towels",
@@ -1818,7 +1778,7 @@ function App() {
     "icon": "\u2728",
     "tagline": "Complete Decontamination & Ceramic Re-Load",
     "summary": "Full studio ceramic maintenance session including iron decontamination wash, clay bar pass, and ceramic reload coating top-up.",
-    "img": "assets/product_coating_kit.webp",
+    "img": "assets/process/decon.webp",
     "warranty": "Annual Re-Load Certificate",
     "durability": "12 Months",
     "equipment": "Iron Remover, Clay Bar, Ceramic Re-Load Spray",
@@ -1837,7 +1797,7 @@ function App() {
     "icon": "\u26a1",
     "tagline": "Complete Decontamination & Graphene Re-Load",
     "summary": "Complete studio graphene maintenance treatment reviving slickness, gloss, and water spot defense on graphene-coated vehicles.",
-    "img": "assets/product_coating_kit.webp",
+    "img": "assets/reels/foam-wash.webp",
     "warranty": "Annual Re-Load Certificate",
     "durability": "12 Months",
     "equipment": "Graphene Booster, Clay Bar, IR Lamp",
@@ -1856,7 +1816,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "Monthly Detailing Snow Foam Wash Package",
     "summary": "12 high-pressure snow foam detailing washes valid over 12 months with interior vacuuming and tire gel dressing.",
-    "img": "assets/o3_on_wheels.webp",
+    "img": "assets/reels/seltos.webp",
     "warranty": "12 Washes Pass",
     "durability": "12 Months",
     "equipment": "K\u00e4rcher Washer, Snow Foam Lance",
@@ -1875,7 +1835,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "Bi-Monthly Detailing Snow Foam Wash Package",
     "summary": "24 detailing snow foam washes valid over 24 months for complete vehicle maintenance.",
-    "img": "assets/o3_on_wheels.webp",
+    "img": "assets/stills/finish-1.webp",
     "warranty": "24 Washes Pass",
     "durability": "24 Months",
     "equipment": "K\u00e4rcher Washer, Industrial Vacuum",
@@ -1893,7 +1853,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "3-Year VIP Detailing Wash Package",
     "summary": "36 detailing washes valid over 3 years with complimentary underbody flush sessions.",
-    "img": "assets/o3_on_wheels.webp",
+    "img": "assets/stills/finish-2.webp",
     "warranty": "36 Washes Pass",
     "durability": "36 Months",
     "equipment": "High-Pressure Washer, Vacuum",
@@ -1911,7 +1871,7 @@ function App() {
     "icon": "\ud83c\udf9f\ufe0f",
     "tagline": "5-Year VIP Unlimited Detailing Wash Package",
     "summary": "Ultimate 60-wash subscription over 5 years keeping your vehicle pristine with high-glow foam washes.",
-    "img": "assets/o3_on_wheels.webp",
+    "img": "assets/reels/bmw.webp",
     "warranty": "60 Washes Pass",
     "durability": "60 Months",
     "equipment": "K\u00e4rcher Washer, Snow Foam Cannon",
@@ -1929,7 +1889,7 @@ function App() {
     "icon": "\ud83d\ude9c",
     "tagline": "Heavy-Duty Rubberized Anti-Rust Chassis Coating",
     "summary": "Heavy-duty rubberized underbody coating applied on hydraulic lift to frame rails and wheel wells to prevent monsoon rust & gravel noise.",
-    "img": "assets/o3_on_wheels.webp",
+    "img": "assets/stills/finish-2.webp",
     "warranty": "2 Years Rust-Proof Warranty",
     "durability": "2 Years",
     "equipment": "Hydraulic Hoist, Rubberized Spray Gun",
@@ -2050,7 +2010,9 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'about', 'story', 'gallery', 'services', 'products', 'plans', 'contact', 'studio', 'concierge', 'testimonials', 'faq', 'franchise'].includes(hash)) {
+      // Old #story and #studio links now land on About (pages were merged)
+      if (hash === 'story' || hash === 'studio') { setCurrentView('about'); return; }
+      if (['home', 'about', 'gallery', 'services', 'products', 'plans', 'contact', 'concierge', 'testimonials', 'faq', 'franchise'].includes(hash)) {
         setCurrentView(hash);
       }
     };
@@ -2136,8 +2098,9 @@ function App() {
         start: 'top 90%',
         once: true,
         onEnter: (batch) => gsap.to(batch, {
-          y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out',
-          onComplete: () => gsap.set(batch, { clearProps: 'transform,opacity,transition' })
+          y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out', force3D: true,
+          onStart: () => gsap.set(batch, { willChange: 'transform, opacity' }),
+          onComplete: () => gsap.set(batch, { clearProps: 'transform,opacity,transition,willChange' })
         })
       });
 
@@ -2175,11 +2138,32 @@ function App() {
       prevent: (node) => node instanceof Element && getComputedStyle(node).position === 'fixed'
     });
     lenisRef.current = lenis;
+    // Lenis rewrites the <html> class on every scroll start/stop, which forces a
+    // full-page style recalculation many times a second. Set the classes once
+    // and toggle only `lenis-stopped` ourselves (see the overlay effect below).
+    lenis.updateClassName = () => {};
+    lenis.cleanUpClassName = () => {};
+    document.documentElement.classList.add('lenis', 'lenis-smooth');
     lenis.on('scroll', ScrollTrigger.update);
     const raf = (time) => lenis.raf(time * 1000);
     gsap.ticker.add(raf);
     gsap.ticker.lagSmoothing(0);
-    return () => { gsap.ticker.remove(raf); lenis.destroy(); lenisRef.current = null; };
+    return () => { gsap.ticker.remove(raf); lenis.destroy(); lenisRef.current = null; document.documentElement.classList.remove('lenis', 'lenis-smooth', 'lenis-stopped'); };
+  }, []);
+
+  // While the page is scrolling, content slides under a resting mouse and every
+  // card it passes fires its hover lift/glow/zoom, restyling and repainting each
+  // frame. Disable hit-testing during scroll; hover returns 150ms after it stops.
+  useEffect(() => {
+    const root = document.documentElement;
+    let timer = null;
+    const onScroll = () => {
+      if (!timer) root.classList.add('is-scrolling');
+      else clearTimeout(timer);
+      timer = setTimeout(() => { root.classList.remove('is-scrolling'); timer = null; }, 150);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); clearTimeout(timer); root.classList.remove('is-scrolling'); };
   }, []);
 
   // Freeze page scrolling while any modal or drawer is open (lets the modal scroll itself)
@@ -2188,6 +2172,7 @@ function App() {
     const lenis = lenisRef.current;
     if (!lenis) return;
     if (anyOverlayOpen) lenis.stop(); else lenis.start();
+    document.documentElement.classList.toggle('lenis-stopped', anyOverlayOpen);
   }, [anyOverlayOpen]);
 
   // Before/After slider
@@ -2220,7 +2205,7 @@ function App() {
     <div className="min-h-screen bg-[#05070c] text-slate-100 flex flex-col font-sans selection:bg-[#cae8e8] selection:text-[#05070c] relative">
       
       {/* LUXURY PRELOADER SCREEN */}
-      <O3Preloader progress={loadProgress} isFinished={!isLoading} />
+      {showPreloader && <O3Preloader progress={loadProgress} isFinished={!isLoading} />}
 
       {/* Scroll progress bar */}
       <div className="scroll-progress-bar" aria-hidden="true"></div>
@@ -2258,7 +2243,6 @@ function App() {
             {[
               { id: 'home', label: 'Home' },
               { id: 'about', label: 'About' },
-              { id: 'story', label: 'Our Story' },
               { id: 'gallery', label: 'Work' },
               { id: 'services', label: 'Services' },
               { id: 'products', label: 'Products' },
@@ -2458,7 +2442,7 @@ function App() {
                     </div>
 
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      "At O3 Car Spa, detailing is an exact science. From supercars to daily commuters, every panel undergoes multi-stage compound polishing and molecular quartz ceramic bonding inside our 6500K daylight cleanroom."
+                      "At O3 Car Spa, detailing is an exact science. From daily drivers to premium SUVs, every panel gets multi-stage polishing and coating under bright 6500K inspection lights."
                     </p>
                   </div>
                 </div>
@@ -2585,7 +2569,7 @@ function App() {
                   <div className="overflow-hidden py-3">
                     <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">Find Our Studio & Connect Direct</h2>
                   </div>
-                  <p className="text-xs text-slate-300">Interactive GPS directions to our Vallabh Vidyanagar cleanroom studio + instant API channels.</p>
+                  <p className="text-xs text-slate-300">Directions to our studio, plus direct WhatsApp, phone and social links.</p>
                 </div>
 
                 {/* DETAILED MAP + STUDIO LOCATION INFO GRID */}
@@ -2727,27 +2711,28 @@ function App() {
         )}
 
         
-        {/* ---------------- OUR STORY VIEW (ELEGANT NARRATIVE & HERITAGE) ---------------- */}
-        {currentView === 'story' && (
+        {/* ---------------- ABOUT VIEW (EXPANDED & IN-DEPTH) ---------------- */}
+        {currentView === 'about' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
             
-            {/* HERO TITLE */}
+            {/* BRAND VISION HEADER */}
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <span className="pill-capsule font-mono">Our Heritage & Craftsmanship Spine</span>
+              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
+              <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES · SINCE 2013</span>
               <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
-                The Story of <span className="text-gradient-ocean font-black">O3 Car-Spa</span>
+                About <span className="text-gradient-ocean font-black">O3 Car Spa</span>
               </h1>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Built one careful detail at a time — from a single unit in Vallabh Vidyanagar to Anand's premier automotive cleanroom studio.
+                O3 Car Spa is changing the way people think about car care. We built a cleaning studio around one core idea — your car should feel brand new, every time you drive it. Using high-pressure cleaning machines, steam cleaners, powerful vacuums, and precise spray equipment, we treat every car like it's the only one in the shop.
               </p>
             </div>
 
-            {/* 3 IMAGE-LED ELEGANT NARRATIVE CHAPTER CARDS */}
+            {/* OUR STORY: 3 CHAPTERS (merged from the old Story page) */}
             <div className="grid md:grid-cols-3 gap-8">
               
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_studio_environment.webp" alt="How It Started" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                  <img src="assets/stills/finish-2.webp" alt="A Scorpio-N detailed at the original O3 studio" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
                   <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 01 · Origin
@@ -2767,7 +2752,7 @@ function App() {
 
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_equipment_lab.webp" alt="Meaning Behind Our Name" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                  <img src="assets/stills/ppf-2.webp" alt="The O3 hex-LED studio bay" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
                   <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 02 · Identity
@@ -2780,14 +2765,14 @@ function App() {
                     Ozone — O3 — adds an extra layer of protection to the air around us. That's exactly what we do for your car.
                   </p>
                   <p className="text-xs text-slate-400 leading-relaxed font-mono">
-                    Every service we offer adds a molecular layer of care, silica quartz protection, and deep gloss that goes beyond a regular wash. We add an atom of oxygen to your car.
+                    Every service we offer adds a real layer of care, protection and gloss that goes beyond a regular wash. We add an atom of oxygen to your car.
                   </p>
                 </div>
               </div>
 
               <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                  <img src="assets/o3_mercedes_amg.webp" alt="Where We Are Today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                  <img src="assets/process/deliver.webp" alt="A Toyota Fortuner finished in the O3 studio today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
                   <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 03 · Excellence
@@ -2800,42 +2785,11 @@ function App() {
                     Today, O3 Car Spa runs a full studio with modern equipment, trained detailers, and a growing list of customers who trust us with their cars — from daily drivers to premium rides.
                   </p>
                   <p className="text-xs text-slate-400 leading-relaxed font-mono">
-                    Equipped with 6500K LED cleanrooms, infrared curing lamps, and global brand formulations from Germany, Italy, and Japan.
+                    Equipped with hexagonal LED inspection lighting, infrared curing lamps, and trusted products from Germany, Italy and Japan.
                   </p>
                 </div>
               </div>
 
-            </div>
-
-            {/* IN-DEPTH 13-YEAR TIMELINE */}
-            <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]">
-              <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">HERITAGE TIMELINE</span>
-                <h2 className="text-3xl font-extrabold text-white">Our 13-Year Milestone Journey</h2>
-              </div>
-
-              <div className="grid md:grid-cols-4 gap-6 text-left">
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2013 — FOUNDATION</span>
-                  <h4 className="text-base font-bold text-white">First Studio Opening</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">Sharanpal Sir establishes Anand's first specialized car spa bay in GIDC, Vallabh Vidyanagar.</p>
-                </div>
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2016 — INNOVATION</span>
-                  <h4 className="text-base font-bold text-white">9H Silica Ceramic Pass</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">Introduces liquid silica quartz ceramic coating and infrared curing lamps to Anand.</p>
-                </div>
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2020 — EXPANSION</span>
-                  <h4 className="text-base font-bold text-white">O3 On Wheels Concierge</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">Launches fully equipped mobile detailing truck unit for doorstep visits.</p>
-                </div>
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">PRESENT — FLAGSHIP</span>
-                  <h4 className="text-base font-bold text-white">Hexagonal Cleanroom</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">Full 4K video cleanroom bay accommodating exotic supercars and daily rides.</p>
-                </div>
-              </div>
             </div>
 
             {/* FOUNDER SPOTLIGHT CARD */}
@@ -2863,23 +2817,35 @@ function App() {
               </div>
             </div>
 
-          </div>
-        )}
+            {/* IN-DEPTH 13-YEAR TIMELINE */}
+            <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]">
+              <div className="text-center max-w-2xl mx-auto space-y-2">
+                <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">HERITAGE TIMELINE</span>
+                <h2 className="text-3xl font-extrabold text-white">Our 13-Year Milestone Journey</h2>
+              </div>
 
-        {/* ---------------- ABOUT VIEW (EXPANDED & IN-DEPTH) ---------------- */}
-        {currentView === 'about' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-            
-            {/* BRAND VISION HEADER */}
-            <div className="text-center max-w-3xl mx-auto space-y-4">
-              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
-              <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES</span>
-              <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
-                About <span className="text-gradient-ocean font-black">O3 Car Spa</span>
-              </h1>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                O3 Car Spa is changing the way people think about car care. We built a cleaning studio around one core idea — your car should feel brand new, every time you drive it. Using high-pressure cleaning machines, steam cleaners, powerful vacuums, and precise spray equipment, we treat every car like it's the only one in the shop.
-              </p>
+              <div className="grid md:grid-cols-4 gap-6 text-left">
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
+                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2013 — FOUNDATION</span>
+                  <h4 className="text-base font-bold text-white">First Studio Opening</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">Sharanpal Sir establishes Anand's first specialized car spa bay in GIDC, Vallabh Vidyanagar.</p>
+                </div>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
+                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2016 — INNOVATION</span>
+                  <h4 className="text-base font-bold text-white">9H Silica Ceramic Pass</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">Introduces liquid silica quartz ceramic coating and infrared curing lamps to Anand.</p>
+                </div>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
+                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2020 — EXPANSION</span>
+                  <h4 className="text-base font-bold text-white">O3 On Wheels Concierge</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">Launches fully equipped mobile detailing truck unit for doorstep visits.</p>
+                </div>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
+                  <span className="text-xs font-mono text-[#00f0ff] font-bold">PRESENT — FLAGSHIP</span>
+                  <h4 className="text-base font-bold text-white">Hex-LED Studio Bay</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">A hexagonal LED-lit bay where every car, from daily drivers to premium SUVs, is inspected and finished.</p>
+                </div>
+              </div>
             </div>
 
             {/* MISSION & 3 DIFFERENTIATORS */}
@@ -2920,9 +2886,9 @@ function App() {
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                  { num: '01', title: 'Precision over Speed', desc: 'Zero rushed jobs. Multi-stage polish and cleanroom curing given full allocated time.' },
+                  { num: '01', title: 'Precision over Speed', desc: 'Zero rushed jobs. Multi-stage polish and proper curing time, every time.' },
                   { num: '02', title: 'Pure De-Ionized Wash', desc: 'Pure mineral-free water and high-glow foam washes eliminating micro-swirls.' },
-                  { num: '03', title: '6500K Inspection', desc: 'Daylight calibrated LED inspection revealing 0.1-micron paint defects.' },
+                  { num: '03', title: '6500K Inspection', desc: 'Bright daylight LEDs reveal swirls and haze that normal light hides.' },
                   { num: '04', title: 'Lifetime Support', desc: 'Continuous ceramic maintenance support, annual check-ups, and warranties.' },
                 ].map((p, pIdx) => (
                   <div key={pIdx} className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
@@ -2934,38 +2900,27 @@ function App() {
               </div>
             </div>
 
-            {/* FOUNDER & STUDIO PHOTO SPOTLIGHT */}
-            <div className="grid md:grid-cols-3 gap-8">
+            {/* TEAM & TOOLS */}
+            <div className="grid md:grid-cols-2 gap-8">
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/sharanpal_sodhi_founder.webp" alt="Founder Mr. Sharanpal Sodhi" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/process/correct.webp" alt="An O3 detailer machine-polishing a Mahindra Scorpio-N" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
-                  <h3 className="text-xl font-bold text-white">Mr. Sharanpal Sodhi</h3>
-                  <span className="text-xs text-[#00f0ff] font-mono">Founder & Master Detailer (13+ Yrs)</span>
+                  <h3 className="text-xl font-bold text-white">Our Detailers</h3>
+                  <span className="text-xs text-[#00f0ff] font-mono">Trained in-house by Sharanpal Sir</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Personally inspects ceramic flash patterns, PPF edge tucks, and paint correction depth across supercars and everyday rides.
+                  Trained in multi-stage machine polishing, steam cleaning, coating application and PPF edge tucking.
                 </p>
               </div>
 
               <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/o3_detailers_team.webp" alt="O3 Certified Detailers Team" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/stills/coat-1.webp" alt="Applying graphene coating on a Maruti Brezza" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
-                  <h3 className="text-xl font-bold text-white">Master Technicians</h3>
-                  <span className="text-xs text-[#00f0ff] font-mono">Rupes Italian Certified Craftsmen</span>
+                  <h3 className="text-xl font-bold text-white">Tools & Products</h3>
+                  <span className="text-xs text-[#00f0ff] font-mono">Trusted brands, proper machines</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Trained in multi-stage micro-abrasive compounding, hot steam sanitization, and dust-free TPU edge sealing.
-                </p>
-              </div>
-
-              <div className="glass-surface p-6 border border-[#cae8e8]/30 space-y-4 text-center">
-                <img src="assets/o3_equipment_lab.webp" alt="O3 Detailing Equipment & Lab Setup" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
-                <div>
-                  <h3 className="text-xl font-bold text-white">German & Italian Tools</h3>
-                  <span className="text-xs text-[#00f0ff] font-mono">Würth & Rupes BigFoot System</span>
-                </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
-                  Equipped with shortwave infra-red curing lamps, 6500K daylight LED rigs, and ultrasonic micrometer gauges.
+                  Equipped with infra-red curing lamps, 6500K daylight LED lights, machine polishers and steam cleaners.
                 </p>
               </div>
             </div>
@@ -3021,13 +2976,13 @@ function App() {
               </p>
             </div>
 
-            {/* 4 FEATURED CATEGORY BANNER CARDS WITH HIGH-RES GENERATED IMAGES */}
+            {/* 4 FEATURED CATEGORY BANNER CARDS (real studio photos) */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { title: 'Exterior Care', desc: 'pH-balanced shampoos, snow foam cleaners, synthetic sealant waxes', img: 'assets/product_exterior_care.webp', cat: 'Exterior Care' },
-                { title: 'Interior Care', desc: 'Leather nourishers, dashboard UV polish, anti-bacterial sanitizers', img: 'assets/product_interior_leather.webp', cat: 'Interior Care' },
-                { title: 'Coating Kits', desc: 'DIY 9H quartz ceramic, hydrophobic glass & graphene booster kits', img: 'assets/product_coating_kit.webp', cat: 'Coating Kits' },
-                { title: 'Tools & Towels', desc: 'Plush edgeless microfibers, Rupes foam pads, detailing brushes', img: 'assets/product_tools_accessories.webp', cat: 'Tools & Accessories' },
+                { title: 'Exterior Care', desc: 'pH-balanced shampoos, snow foam cleaners, synthetic sealant waxes', img: 'assets/reels/foam-wash.webp', cat: 'Exterior Care' },
+                { title: 'Interior Care', desc: 'Leather nourishers, dashboard UV polish, anti-bacterial sanitizers', img: 'assets/stills/interior-1.webp', cat: 'Interior Care' },
+                { title: 'Coating Kits', desc: 'DIY 9H quartz ceramic, hydrophobic glass & graphene booster kits', img: 'assets/process/protect.webp', cat: 'Coating Kits' },
+                { title: 'Tools & Towels', desc: 'Plush edgeless microfibers, Rupes foam pads, detailing brushes', img: 'assets/process/correct.webp', cat: 'Tools & Accessories' },
               ].map((cItem, cIdx) => (
                 <div 
                   key={cIdx} 
@@ -3081,7 +3036,7 @@ function App() {
                   brand: "Meguiar's",
                   category: "Exterior Care",
                   price: "₹ 1,250",
-                  img: "assets/product_exterior_care.webp",
+                  img: "assets/logos/meguiars.webp",
                   desc: "pH-balanced luxury wash formula that cleans paint without stripping existing wax or ceramic coating protection.",
                   specs: "Formula: Rich Carnauba Conditioner · Volume: 473ml · Origin: USA",
                   inStock: true
@@ -3092,7 +3047,7 @@ function App() {
                   brand: "Menzerna",
                   category: "Exterior Care",
                   price: "₹ 1,890",
-                  img: "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
+                  img: "assets/logos/menzerna.webp",
                   desc: "German high-performance compound that removes 1200 grit sanding marks and deep scratches rapidly.",
                   specs: "Cut Level: 9/10 · Gloss Level: 8/10 · Silicone-Free · Origin: Germany",
                   inStock: true
@@ -3103,7 +3058,7 @@ function App() {
                   brand: "Würth",
                   category: "Coating Kits",
                   price: "₹ 4,990",
-                  img: "assets/product_coating_kit.webp",
+                  img: "assets/logos/wurth.webp",
                   desc: "Complete German engineered liquid quartz ceramic kit providing 3 years of hyper-hydrophobic water beading.",
                   specs: "Hardness: 9H Pencil · Coverage: 50ml · Durability: 3 Years · Origin: Germany",
                   inStock: true
@@ -3114,7 +3069,7 @@ function App() {
                   brand: "Ma-Fra",
                   category: "Interior Care",
                   price: "₹ 1,450",
-                  img: "assets/product_interior_leather.webp",
+                  img: "assets/logos/mafra.webp",
                   desc: "Italian leather cosmetics formula enriched with Aloe Vera and natural oils to prevent cracking and fading.",
                   specs: "Finish: Natural Matte · Volume: 500ml · Scent: Fresh Leather · Origin: Italy",
                   inStock: true
@@ -3125,7 +3080,7 @@ function App() {
                   brand: "3M Car Care",
                   category: "Tools & Accessories",
                   price: "₹ 790",
-                  img: "assets/product_tools_accessories.webp",
+                  img: "assets/logos/3m.webp",
                   desc: "500 GSM edgeless microfibers engineered for streak-free polish removal, drying, and glass wiping.",
                   specs: "Density: 500 GSM · Size: 40cm x 40cm · Scratch-Free Edgeless · Pack of 4",
                   inStock: true
@@ -3136,7 +3091,7 @@ function App() {
                   brand: "Kisho",
                   category: "Coating Kits",
                   price: "₹ 3,490",
-                  img: "assets/o3_ceramic_coating.webp",
+                  img: "assets/logos/kisho.webp",
                   desc: "Japanese fluorine silica glass coating creating a water-repellent barrier for windshields and windows.",
                   specs: "Water Contact Angle: 110° · Rain Visibility Speed: 40km/h · Origin: Japan",
                   inStock: true
@@ -3147,7 +3102,7 @@ function App() {
                   brand: "Meguiar's",
                   category: "Exterior Care",
                   price: "₹ 2,150",
-                  img: "assets/product_exterior_care.webp",
+                  img: "assets/logos/meguiars.webp",
                   desc: "Advanced pure synthetic wax offering maximum gloss, mirror reflections, and hydrophobic slickness.",
                   specs: "Technology: ThinFilm Hydrophobic · Easy On/Off · Volume: 473ml · Origin: USA",
                   inStock: true
@@ -3158,7 +3113,7 @@ function App() {
                   brand: "Paicristal Italia",
                   category: "Exterior Care",
                   price: "₹ 2,350",
-                  img: "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.webp",
+                  img: "assets/logos/paicristal.webp",
                   desc: "Master Italian micro-abrasive polish designed to eliminate fine swirl marks and deliver deep wet-look shine.",
                   specs: "Cut Level: 3/10 · Gloss Level: 10/10 · Zero Dusting · Origin: Italy",
                   inStock: true
@@ -3169,7 +3124,7 @@ function App() {
                   brand: "Vista Car Care",
                   category: "Interior Care",
                   price: "₹ 650",
-                  img: "assets/product_interior_leather.webp",
+                  img: "assets/logos/vista.webp",
                   desc: "Restores vinyl, plastic dashboard, and door trims with non-greasy UV protective satin sheen.",
                   specs: "Protection: UV Blocker · Non-Sticky · Volume: 500ml",
                   inStock: true
@@ -3180,7 +3135,7 @@ function App() {
                   brand: "Würth",
                   category: "Exterior Care",
                   price: "₹ 1,190",
-                  img: "assets/product_tools_accessories.webp",
+                  img: "assets/logos/wurth.webp",
                   desc: "Protective engine bay coating and rubber trim preservative engineered to withstand high temperatures.",
                   specs: "Heat Resistance: 200°C · Anti-Corrosive · Volume: 500ml · Origin: Germany",
                   inStock: true
@@ -3191,7 +3146,7 @@ function App() {
                   brand: "O3 Studio",
                   category: "Coating Kits",
                   price: "₹ 1,690",
-                  img: "assets/product_coating_kit.webp",
+                  img: "assets/brand/o3-logo-white.svg",
                   desc: "Spray-on silica quartz ceramic booster to rejuvenate hydrophobic water beading on existing coatings.",
                   specs: "Silica Content: 12% SiO2 · Application: Spray & Wipe · Volume: 300ml",
                   inStock: true
@@ -3202,7 +3157,7 @@ function App() {
                   brand: "Rupes",
                   category: "Tools & Accessories",
                   price: "₹ 1,950",
-                  img: "assets/product_tools_accessories.webp",
+                  img: "assets/process/correct.webp",
                   desc: "Authentic Italian open-cell foam polishing pads engineered for Rupes dual-action random orbital polishers.",
                   specs: "Diameter: 150mm (6 in) · Pattern: Beveled Edge · Set of 2 · Origin: Italy",
                   inStock: true
@@ -3212,7 +3167,7 @@ function App() {
                   
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video">
-                      <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
+                      <img src={prod.img} alt={prod.name} className={`w-full h-full group-hover:scale-105 transition-transform duration-500 ${(prod.img.includes('/logos/') || prod.img.includes('/brand/')) ? 'object-contain p-10 bg-black/40' : 'object-cover'}`} loading="lazy" decoding="async" />
                       <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                         {prod.brand}
                       </span>
@@ -3305,7 +3260,7 @@ function App() {
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black h-56">
-                    <img src={selectedProduct.img} alt={selectedProduct.name} className="w-full h-full object-cover"  loading="lazy" decoding="async" />
+                    <img src={selectedProduct.img} alt={selectedProduct.name} className={`w-full h-full ${(selectedProduct.img.includes('/logos/') || selectedProduct.img.includes('/brand/')) ? 'object-contain p-12 bg-black/40' : 'object-cover'}`} decoding="async" />
                   </div>
 
                   <div className="space-y-2 text-xs text-slate-300">
@@ -3474,7 +3429,7 @@ function App() {
                 {
                   name: 'Glass Leather AMC',
                   badge: 'Glass & Leather Care',
-                  img: 'assets/o3_int_after.webp',
+                  img: 'assets/stills/interior-1.webp',
                   price: 'Bespoke Annual AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -3489,7 +3444,7 @@ function App() {
                   name: 'Ceramic Leather AMC',
                   badge: '⭐ MOST POPULAR',
                   highlight: true,
-                  img: 'assets/o3_ceramic_coating.webp',
+                  img: 'assets/process/protect.webp',
                   price: 'Flagship Studio AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -3503,7 +3458,7 @@ function App() {
                 {
                   name: 'Acrylic Leather AMC',
                   badge: 'Acrylic Protection',
-                  img: 'assets/o3_ext_after.webp',
+                  img: 'assets/process/deliver.webp',
                   price: 'Acrylic Armor AMC',
                   features: [
                     'Exterior wash, shampoo & vacuum',
@@ -3613,7 +3568,7 @@ function App() {
     "id": "v1",
     "title": "Hydro-Foam Wash & TPU PPF Preparation",
     "desc": "High-pressure snow foam decontamination bath prior to PPF installation.",
-    "src": "assets/gallery/13_wash_coat_ppf.mp4",
+    "src": "assets/gallery/web/13_wash_coat_ppf.mp4",
     "category": "PPF Armor",
     "badge": "\ud83d\udee1\ufe0f PPF Prep",
     "type": "video"
@@ -3622,7 +3577,7 @@ function App() {
     "id": "v2",
     "title": "BMW Studio Detailing & Polish Showcase",
     "desc": "Multi-stage compounding and mirror finish polish on BMW.",
-    "src": "assets/gallery/26_bmw_edit.mp4",
+    "src": "assets/gallery/web/26_bmw_edit.mp4",
     "category": "Ceramic & Graphene",
     "badge": "\ud83c\udfce\ufe0f BMW Detailing",
     "type": "video"
@@ -3630,8 +3585,8 @@ function App() {
   {
     "id": "v3",
     "title": "Intensive Interior High-Pressure Steam Sanitization",
-    "desc": "99.9% anti-bacterial deep steam extraction for leather and upholstery.",
-    "src": "assets/gallery/8_interior_steam_cleaning.mp4",
+    "desc": "High-temperature steam cleaning for seats, carpets and upholstery.",
+    "src": "assets/gallery/web/8_interior_steam_cleaning.mp4",
     "category": "Interior & Steam",
     "badge": "\ud83e\uddfc Steam Sanitization",
     "type": "video"
@@ -3640,7 +3595,7 @@ function App() {
     "id": "v4",
     "title": "Mahindra Scorpio Compounding & Ceramic Pass",
     "desc": "Paint defect removal and silica quartz coating application on Scorpio.",
-    "src": "assets/gallery/graphene_and_normal_coating_25_scorpio_polish_and_coating.mp4",
+    "src": "assets/gallery/web/graphene_and_normal_coating_25_scorpio_polish_and_coating.mp4",
     "category": "Ceramic & Graphene",
     "badge": "\u2728 Scorpio Ceramic",
     "type": "video"
@@ -3649,25 +3604,25 @@ function App() {
     "id": "v5",
     "title": "Toyota Fortuner 9H Graphene Armor Application",
     "desc": "Extreme hydrophobic matrix bonding on Fortuner clear coat.",
-    "src": "assets/gallery/graphene_and_normal_coating_27_fortuner_coating.mp4",
+    "src": "assets/gallery/web/graphene_and_normal_coating_27_fortuner_coating.mp4",
     "category": "Ceramic & Graphene",
     "badge": "\u2728 Fortuner Graphene",
     "type": "video"
   },
   {
     "id": "v6",
-    "title": "Kia Seltos Multi-Stage Polish & Quartz Pass",
-    "desc": "Scangrip LED inspection and high-gloss quartz coating on Kia.",
-    "src": "assets/gallery/graphene_and_normal_coating_29_kia_coating.mp4",
+    "title": "Kia Carens Multi-Stage Polish & Coating",
+    "desc": "Machine polish and coating on a Kia Carens.",
+    "src": "assets/gallery/web/graphene_and_normal_coating_29_kia_coating.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Kia Quartz Pass",
+    "badge": "\u2728 Kia Carens Coating",
     "type": "video"
   },
   {
     "id": "v7",
     "title": "Mahindra Scorpio Graphene Matrix Coating",
     "desc": "Dual-layer graphene heat resistance and deep mirror gloss.",
-    "src": "assets/gallery/graphene_and_normal_coating_30_scorpio_graphene_coating.mp4",
+    "src": "assets/gallery/web/graphene_and_normal_coating_30_scorpio_graphene_coating.mp4",
     "category": "Ceramic & Graphene",
     "badge": "\u2728 Graphene Shield",
     "type": "video"
@@ -3676,7 +3631,7 @@ function App() {
     "id": "v8",
     "title": "Maruti Brezza Graphene Shield Treatment",
     "desc": "Ultra-durable hydrophobic coat protecting paint against tropical UV.",
-    "src": "assets/gallery/graphene_and_normal_coating_33_brezza_graphene_coating.mp4",
+    "src": "assets/gallery/web/graphene_and_normal_coating_33_brezza_graphene_coating.mp4",
     "category": "Ceramic & Graphene",
     "badge": "\u2728 Brezza Graphene",
     "type": "video"
@@ -3685,7 +3640,7 @@ function App() {
     "id": "v9",
     "title": "Optical TPU Self-Healing PPF Hand Installation",
     "desc": "Squeegee pass and bubble-free optical TPU film wrap on vehicle panel.",
-    "src": "assets/gallery/ppf_11_ppf_application.mp4",
+    "src": "assets/gallery/web/ppf_11_ppf_application.mp4",
     "category": "PPF Armor",
     "badge": "\ud83d\udee1\ufe0f Optical TPU Pass",
     "type": "video"
@@ -3694,7 +3649,7 @@ function App() {
     "id": "v10",
     "title": "Precision Edge-Tucked Paint Protection Film",
     "desc": "Corner tucking and seamless edge application of self-healing TPU.",
-    "src": "assets/gallery/ppf_14_ppf_nice_video.mp4",
+    "src": "assets/gallery/web/ppf_14_ppf_nice_video.mp4",
     "category": "PPF Armor",
     "badge": "\ud83d\udee1\ufe0f Edge Tucking",
     "type": "video"
@@ -3703,25 +3658,25 @@ function App() {
     "id": "v11",
     "title": "Mahindra Thar Full Body TPU PPF Armor",
     "desc": "Rugged off-road impact energy absorption film installed on Thar.",
-    "src": "assets/gallery/ppf_28_thar_ppf.mp4",
+    "src": "assets/gallery/web/ppf_28_thar_ppf.mp4",
     "category": "PPF Armor",
     "badge": "\ud83d\udee1\ufe0f Thar PPF Armor",
     "type": "video"
   },
   {
     "id": "v12",
-    "title": "Mercedes-AMG Full Body TPU PPF Armor",
-    "desc": "Precision optical clarity self-healing TPU hand applied on Mercedes-AMG.",
-    "src": "assets/gallery/ppf_34_mercedes_ppf_very_nice.mp4",
+    "title": "Mercedes-Benz Full Body TPU PPF",
+    "desc": "Self-healing TPU film hand-applied on a Mercedes-Benz.",
+    "src": "assets/gallery/web/ppf_34_mercedes_ppf_very_nice.mp4",
     "category": "PPF Armor",
-    "badge": "\ud83d\udee1\ufe0f Mercedes-AMG PPF",
+    "badge": "\ud83d\udee1\ufe0f Mercedes-Benz PPF",
     "type": "video"
   },
   {
     "id": "v13",
     "title": "Client Reel: PPF Stone Chip Resistance Test",
     "desc": "Real customer video showing optical clarity and self-healing properties.",
-    "src": "assets/gallery/ugc_12_ugc_ppf.mp4",
+    "src": "assets/gallery/web/ugc_12_ugc_ppf.mp4",
     "category": "Customer Reels",
     "badge": "\ud83c\udfa5 Client Review",
     "type": "video"
@@ -3729,16 +3684,16 @@ function App() {
   {
     "id": "v14",
     "title": "High-Energy Studio Detailing Reel & Gloss Reveal",
-    "desc": "Cinematic showcase of studio transformations inside O3 cleanroom bay.",
-    "src": "assets/gallery/ugc_21_high_energy_ugc.mp4",
+    "desc": "Studio transformations inside the O3 detailing bay.",
+    "src": "assets/gallery/web/ugc_21_high_energy_ugc.mp4",
     "category": "Customer Reels",
     "badge": "\u26a1 High Energy Reel",
     "type": "video"
   },
   {
     "id": "p1",
-    "title": "17 Cute Wash Design",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Exterior Wash & Interior Vacuum",
+    "desc": "O3 service poster: foam wash, shampoo and full interior vacuum.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3746,8 +3701,8 @@ function App() {
   },
   {
     "id": "p2",
-    "title": "18 Ppf Design",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Paint Protection Film (PPF)",
+    "desc": "O3 service poster: self-healing film that guards paint against chips and scratches.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_18_ppf_design.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3755,8 +3710,8 @@ function App() {
   },
   {
     "id": "p3",
-    "title": "19 Graphene Design",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Graphene Coating",
+    "desc": "O3 service poster: graphene coating for gloss and easy-wash protection.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3764,8 +3719,8 @@ function App() {
   },
   {
     "id": "p4",
-    "title": "Image-17244",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Paint Protection Film",
+    "desc": "O3 service poster: full or partial PPF wraps.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-17244.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3773,8 +3728,8 @@ function App() {
   },
   {
     "id": "p5",
-    "title": "Image-35242",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Headlight Restoration",
+    "desc": "O3 service poster: restoring yellowed, hazy headlights instead of replacing them.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35242.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3782,8 +3737,8 @@ function App() {
   },
   {
     "id": "p6",
-    "title": "Image-35330",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Ceramic Coating",
+    "desc": "O3 service poster: low-maintenance ceramic coating for lasting shine.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35330.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3791,8 +3746,8 @@ function App() {
   },
   {
     "id": "p7",
-    "title": "Image-46627",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Windshield Coating",
+    "desc": "O3 service poster: water-repellent glass coating for clearer rainy-day driving.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-46627.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3800,8 +3755,8 @@ function App() {
   },
   {
     "id": "p8",
-    "title": "Image-49803",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Exterior Wash + Shampoo & Vacuum",
+    "desc": "O3 service poster: our standard wash package.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-49803.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3809,8 +3764,8 @@ function App() {
   },
   {
     "id": "p9",
-    "title": "Image-67602",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Engine Bay Coating",
+    "desc": "O3 service poster: engine bay cleaned and coated, before and after.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-67602.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3818,8 +3773,8 @@ function App() {
   },
   {
     "id": "p10",
-    "title": "Image-77137",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Ozone Treatment & Odour Removal",
+    "desc": "O3 service poster: ozone treatment that removes smoke, food and damp odours.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-77137.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3827,8 +3782,8 @@ function App() {
   },
   {
     "id": "p11",
-    "title": "Image-84181",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Alloy Wheel Coating",
+    "desc": "O3 service poster: protective coating that keeps alloys cleaner for longer.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-84181.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3836,8 +3791,8 @@ function App() {
   },
   {
     "id": "p12",
-    "title": "Image-88692",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Rodent Repellent Coating",
+    "desc": "O3 service poster: protection against rats chewing wires under the bonnet.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-88692.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3845,8 +3800,8 @@ function App() {
   },
   {
     "id": "p13",
-    "title": "Image-91501",
-    "desc": "Official O3 Car Spa treatment specification card and package breakdown.",
+    "title": "Leather Care Treatment",
+    "desc": "O3 service poster: cleaning and conditioning leather seats.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-91501.webp",
     "category": "Service Design Specs",
     "badge": "\ud83d\udccb Service Spec",
@@ -3854,8 +3809,8 @@ function App() {
   },
   {
     "id": "p14",
-    "title": "Studio Transformation Detail #14",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "Why PPF Is a Must",
+    "desc": "Why paint protection film is worth it, explained.",
     "src": "assets/gallery/6__ppf_why_carousel_image-262.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3863,8 +3818,8 @@ function App() {
   },
   {
     "id": "p15",
-    "title": "Studio Transformation Detail #15",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "PPF: Long-Lasting Protection",
+    "desc": "PPF keeps the showroom shine for years.",
     "src": "assets/gallery/6__ppf_why_carousel_image-29722.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3872,8 +3827,8 @@ function App() {
   },
   {
     "id": "p16",
-    "title": "Studio Transformation Detail #16",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "PPF: UV Protection",
+    "desc": "PPF helps prevent paint fading from harsh sun.",
     "src": "assets/gallery/6__ppf_why_carousel_image-70233.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3881,8 +3836,8 @@ function App() {
   },
   {
     "id": "p17",
-    "title": "Studio Transformation Detail #17",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "Invest in Your Car, Not Repairs",
+    "desc": "Call O3 Car-Spa: 72250 30303 | 97279 03038.",
     "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3890,8 +3845,8 @@ function App() {
   },
   {
     "id": "p18",
-    "title": "Studio Transformation Detail #18",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "PPF: Scratch & Chip Resistance",
+    "desc": "PPF absorbs stone chips and light scratches.",
     "src": "assets/gallery/6__ppf_why_carousel_image-94354.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3899,8 +3854,8 @@ function App() {
   },
   {
     "id": "p19",
-    "title": "Studio Transformation Detail #19",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "PPF: Hydrophobic Finish",
+    "desc": "PPF repels water, dirt and grime.",
     "src": "assets/gallery/6__ppf_why_carousel_image-97038.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3908,8 +3863,8 @@ function App() {
   },
   {
     "id": "p20",
-    "title": "Graphene & Quartz Coating Step-by-Step",
-    "desc": "Multi-layer silica pass and curing process for ultimate hydrophobicity.",
+    "title": "Graphene Coating: Step by Step",
+    "desc": "Deep wash, clay bar, paint correction, graphene application, curing and final inspection.",
     "src": "assets/gallery/graphene_and_normal_coating_31_graphene_coating_steps.webp",
     "category": "Ceramic & Graphene",
     "badge": "\u2728 Graphene Process",
@@ -3917,8 +3872,8 @@ function App() {
   },
   {
     "id": "p21",
-    "title": "Studio Transformation Detail #21",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "Our Legacy",
+    "desc": "From the O3 Car-Spa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-27511.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3926,8 +3881,8 @@ function App() {
   },
   {
     "id": "p22",
-    "title": "Studio Transformation Detail #22",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "Our Perfection",
+    "desc": "From the O3 Car-Spa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-82021.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3935,8 +3890,8 @@ function App() {
   },
   {
     "id": "p23",
-    "title": "Studio Transformation Detail #23",
-    "desc": "Precision automotive detailing result completed at O3 Car Spa.",
+    "title": "Our Customers",
+    "desc": "From the O3 Car-Spa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-86981.webp",
     "category": "Studio Photos",
     "badge": "\ud83d\udcf8 Studio Craft",
@@ -3944,8 +3899,8 @@ function App() {
   },
   {
     "id": "p24",
-    "title": "High-Gloss Studio Finish 1.2",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "BMW X1 in the Studio Bay",
+    "desc": "Freshly detailed BMW X1 under the hex-LED lights.",
     "src": "assets/gallery/only_images_good_ones_1.2.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -3953,8 +3908,8 @@ function App() {
   },
   {
     "id": "p25",
-    "title": "High-Gloss Studio Finish 1",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "BMW X1, Front View",
+    "desc": "Gloss and reflections after detailing.",
     "src": "assets/gallery/only_images_good_ones_1.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -3962,8 +3917,8 @@ function App() {
   },
   {
     "id": "p26",
-    "title": "High-Gloss Studio Finish 3.1",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "Mercedes-Benz GLA",
+    "desc": "Delivered outside the O3 Car-Spa studio.",
     "src": "assets/gallery/only_images_good_ones_3.1.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -3971,8 +3926,8 @@ function App() {
   },
   {
     "id": "p27",
-    "title": "High-Gloss Studio Finish 3.2",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "Mercedes-Benz GLA, Side View",
+    "desc": "Finished and ready for handover.",
     "src": "assets/gallery/only_images_good_ones_3.2.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -3980,8 +3935,8 @@ function App() {
   },
   {
     "id": "p28",
-    "title": "High-Gloss Studio Finish 3.3",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "Mercedes-Benz GLA, Rear View",
+    "desc": "Clean, glossy finish after detailing.",
     "src": "assets/gallery/only_images_good_ones_3.3.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -3989,8 +3944,8 @@ function App() {
   },
   {
     "id": "p29",
-    "title": "High-Gloss Studio Finish 4",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "Pressure Wash in Progress",
+    "desc": "Pre-wash on a white saloon in the wash bay.",
     "src": "assets/gallery/only_images_good_ones_4.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -3998,8 +3953,8 @@ function App() {
   },
   {
     "id": "p30",
-    "title": "High-Gloss Studio Finish 5",
-    "desc": "Mirror reflection and scratch decontamination under 6500K daylight LEDs.",
+    "title": "Jeep Wrangler",
+    "desc": "Customer Jeep Wrangler outside the O3 Car-Spa studio.",
     "src": "assets/gallery/only_images_good_ones_5.webp",
     "category": "Studio Photos",
     "badge": "\ud83c\udfce\ufe0f Studio Showcase",
@@ -4019,7 +3974,7 @@ function App() {
                           onClick={() => setLightboxMedia(item)}
                           className="relative w-full h-full bg-[#0a0e17] flex flex-col items-center justify-center cursor-pointer group/vid"
                         >
-                          <img src={item.src.endsWith('.mp4') ? 'assets/o3_official_brand_poster.webp' : item.src} 
+                          <img src={item.src.endsWith('.mp4') ? item.src.replace('.mp4', '.webp') : item.src} 
                             alt={item.title} 
                             loading="lazy"
                             decoding="async"
@@ -4036,6 +3991,7 @@ function App() {
                       ) : (
                         <img src={item.src} 
                           alt={item.title} 
+                          loading="lazy" decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
                           onClick={() => setLightboxMedia(item)}
                         />
@@ -4066,7 +4022,7 @@ function App() {
               ))}
             </div>
 
-            {/* LIGHTBOX PREVIEW MODAL FOR PHOTOS */}
+            {/* LIGHTBOX FOR PHOTOS AND VIDEOS */}
             {lightboxMedia && (
               <div className="modal-overlay" onClick={() => setLightboxMedia(null)}>
                 <div className="glass-surface max-w-4xl w-full p-6 bg-[#0d111a] border border-[#cae8e8]/40 space-y-4 relative" onClick={(e) => e.stopPropagation()}>
@@ -4084,64 +4040,15 @@ function App() {
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black max-h-[75vh] flex items-center justify-center">
-                    <img src={lightboxMedia.src} alt={lightboxMedia.title} className="max-h-[70vh] w-auto object-contain"  loading="lazy" decoding="async" />
+                    {lightboxMedia.type === 'video' ? (
+                      <video src={lightboxMedia.src} poster={lightboxMedia.src.replace('.mp4', '.webp')} controls autoPlay playsInline className="max-h-[70vh] w-auto"></video>
+                    ) : (
+                      <img src={lightboxMedia.src} alt={lightboxMedia.title} className="max-h-[70vh] w-auto object-contain" decoding="async" />
+                    )}
                   </div>
                 </div>
               </div>
             )}
-
-          </div>
-        )}
-
-        {/* ---------------- STUDIO VIEW ---------------- */}
-        {currentView === 'studio' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-            
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-bold font-mono">The Science of Care</span>
-              <h1 className="text-4xl font-extrabold text-white">Inside O3 Detailing Studio</h1>
-              <p className="text-slate-300 text-sm">
-                Our cleanroom studio is engineered specifically for paint surface conservation, temperature-controlled curing, and zero-dust application.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-10 items-center">
-              <div className="space-y-6">
-                <h2 className="text-3xl font-extrabold text-white">Controlled Cleanroom Bay & Tech</h2>
-                <p className="text-slate-300 text-sm leading-relaxed">
-                  Every vehicle that enters our studio moves through a controlled process of deep foam decontamination, micro-abrasive polishing, and clean-room coating application.
-                </p>
-
-                <div className="space-y-3 text-sm text-slate-200">
-                  <div className="p-4 rounded-2xl bg-[#0d111a] border border-[#cae8e8]/25 flex items-start gap-3">
-                    <span className="text-2xl">💡</span>
-                    <div>
-                      <strong className="text-white block">Hexagonal Ceiling LED Light Rig</strong>
-                      <span className="text-xs text-[#cae8e8]">Color-calibrated 6500K daylight LEDs revealing 0.1-micron paint defects.</span>
-                    </div>
-                  </div>
-                  <div className="p-4 rounded-2xl bg-[#0d111a] border border-[#cae8e8]/25 flex items-start gap-3">
-                    <span className="text-2xl">🌀</span>
-                    <div>
-                      <strong className="text-white block">Dust-Free Climate Cleanroom</strong>
-                      <span className="text-xs text-[#cae8e8]">HEPA filtered air circulation maintaining 22°C ambient temperature for ceramic bonding.</span>
-                    </div>
-                  </div>
-                  <div className="p-4 rounded-2xl bg-[#0d111a] border border-[#cae8e8]/25 flex items-start gap-3">
-                    <span className="text-2xl">🔥</span>
-                    <div>
-                      <strong className="text-white block">Hedson Shortwave Infra-Red Curing Lamps</strong>
-                      <span className="text-xs text-[#cae8e8]">Accelerates silica quartz cross-linking to achieve maximum scratch hardness in 24 hrs.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <img src="assets/o3_studio_environment.webp" alt="O3 Studio Environment" className="w-full h-72 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-                <img src="assets/o3_equipment_lab.webp" alt="O3 Equipment & Compound Station" className="w-full h-56 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-              </div>
-            </div>
 
           </div>
         )}
@@ -4271,7 +4178,7 @@ function App() {
               </div>
 
               <div className="glass-surface p-8 space-y-6 bg-[#0d111a] border border-[#cae8e8]/60">
-                <img src="assets/o3_studio_environment.webp" alt="Studio Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/stills/ppf-2.webp" alt="The O3 hex-LED studio bay" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div className="space-y-2">
                   <span className="text-xs font-mono text-[#cae8e8] uppercase font-bold">Model 2: Full Studio</span>
                   <h3 className="text-2xl font-bold text-white">Precision Detailing Studio</h3>
@@ -4282,8 +4189,8 @@ function App() {
 
                 <ul className="space-y-3 text-xs text-slate-300">
                   <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Complete studio design & 6500K ceiling LED light rig</li>
-                  <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Climate cleanroom ceramic application bay setup</li>
-                  <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Rupes BigFoot Italian polishers & ultrasonic paint meters</li>
+                  <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Hex-LED ceramic application bay setup</li>
+                  <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Professional machine polishers & detailing tools</li>
                   <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Direct 2-week training by Sharanpal Sir & staff</li>
                   <li className="flex items-center gap-2"><span className="text-[#cae8e8]">✓</span> Estimated Payback: <strong className="text-emerald-400">10 – 14 Months</strong></li>
                 </ul>
@@ -4372,7 +4279,7 @@ function App() {
                 <h3 className="text-2xl font-bold text-white">O3 Car-Spa Studio</h3>
                 <p className="text-xs text-[#cae8e8] font-mono">Managed by Mr. Sharanpal Sodhi</p>
 
-                <img src="assets/o3_studio_environment.webp" alt="O3 Studio Entrance" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/gallery/only_images_good_ones_3.1.webp" alt="A customer car outside the O3 Car-Spa studio sign" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
 
                 <div className="space-y-4 text-sm text-slate-300">
                   <div className="flex gap-3">
@@ -4572,7 +4479,7 @@ function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
-                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'story',l:'Our Story'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'products',l:'Products'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
+                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'products',l:'Products'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
                   <li key={item.id}>
                     <button 
                       onClick={() => navigateTo(item.id)} 
@@ -4791,7 +4698,6 @@ function App() {
             {[
               { id: 'home', label: 'Home', icon: '🏠' },
               { id: 'about', label: 'About', icon: 'ℹ️' },
-              { id: 'story', label: 'Our Story', icon: '📖' },
               { id: 'gallery', label: 'Work & Media', icon: '🎥' },
               { id: 'services', label: 'Services Menu', icon: '✨' },
               { id: 'products', label: 'Products Store', icon: '🛒' },

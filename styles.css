@@ -41,12 +41,9 @@ html {
   overflow-x: hidden;
 }
 
-/* HARDWARE GPU ACCELERATION FOR ULTRA FAST ANIMATIONS & ZERO LAG SCROLL */
-.gsap-service-card, .glass-surface, video, img, button, a {
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+/* No blanket will-change/translateZ here: promoting every img/video/button/link
+   to its own GPU layer created hundreds of layers and repainted on every
+   scroll frame. GSAP adds will-change only to what it is animating. */
 
 body {
   background: radial-gradient(circle at 50% -10%, rgba(202, 232, 232, 0.22) 0%, transparent 65%),
@@ -155,14 +152,23 @@ h1, h2, h3, h4, .font-display {
   height: 10px;
   background-color: #ffffff;
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8);
-  animation: pulse-ring 1.8s infinite;
+}
+
+/* Pulse ring drawn as a pseudo-element animated with transform/opacity only
+   (the old box-shadow animation repainted every frame on every page) */
+.whatsapp-pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  animation: pulse-ring 1.8s ease-out infinite;
 }
 
 @keyframes pulse-ring {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.8); }
-  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  0% { transform: scale(1); opacity: 0.8; }
+  70% { transform: scale(2.6); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
 }
 
 /* GLOBAL GSAP SCROLL ANIMATION TARGET CLASSES */
@@ -930,3 +936,7 @@ html.lenis, html.lenis body { height: auto; }
 
 .no-scrollbar { scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Hover effects pause while scrolling (class set by App); see App scroll effect */
+.is-scrolling main,
+.is-scrolling footer { pointer-events: none; }

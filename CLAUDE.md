@@ -9,7 +9,7 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - `npm run build` = Babel (`babel.config.json`, classic runtime) → `app.js`, then Tailwind CLI → `tailwind.css`. Run it after every change and commit both outputs.
 - `npm run dev` builds and serves on :8080. The preview config is `.claude/launch.json` (falls back to :8081 if the user's server holds 8080).
 - Tailwind is precompiled (`tailwind.config.js` scans `index.html` + `app.jsx`). Class names must appear literally; never build them with template strings like `bg-${x}`.
-- Pages are hash routes (`#home`, `#services`, …) switched by `currentView` state in `App`. 13 views exist.
+- Pages are hash routes (`#home`, `#services`, …) switched by `currentView` state in `App`. 11 views exist; old `#story` and `#studio` links redirect to `#about` (merged).
 
 ## Gotchas (each one has bitten us)
 
@@ -25,8 +25,14 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - No `backdrop-filter`/`backdrop-blur` on page content (allowed only on the nav pill). `.glass-surface` uses a solid tint.
 - No CSS `filter` on videos. No full-screen canvas. Animate only `transform`/`opacity`, never `clip-path`, `left` or `width`.
 - Pinned/scrubbed ScrollTriggers use `scrub: true` (Lenis already smooths; a numeric scrub doubles the lag).
+- **Never add blanket `will-change`/`translateZ(0)`** to img/video/button/a. That rule (from an old "10x faster" commit) created hundreds of GPU layers and was the main cause of lag on every page. GSAP adds `will-change` only while a reveal runs.
+- Lenis is patched so it never rewrites the `<html>` class on scroll start/stop (that forced full-page style recalcs). `lenis-stopped` is toggled by the overlay effect.
+- `html.is-scrolling` disables pointer events on `main`/`footer` during scroll, so cards sliding under the mouse don't fire hover effects; restored 150 ms after scrolling stops.
+- Infinite animations use transform/opacity only (WhatsApp pulse is a `::after` ring). The preloader unmounts after its fade. The marquee pauses off screen and eases one shared speed value (never create tweens per scroll event).
+- Measure, don't guess: `%TEMP%/perf/measure.js` (frame times per page at 4× CPU), `trace.js` (rendering breakdown), `invalid.js` (why styles/paints happen), all via playwright-core driving the local Chrome.
 - Pause anything animated when it's off screen. Respect `prefers-reduced-motion`.
 - Images are WebP (originals kept beside them). Real reels have web versions in `assets/reels/*.mp4` (540p, 12s, ~1 MB) plus `.webp` posters. The hero is `assets/hero_web.mp4` (0.96 MB) with poster `hero_poster.webp`.
+- Gallery videos play from `assets/gallery/web/*.mp4` (540p, full length, with sound) with matching `.webp` posters. Real stills for cards live in `assets/stills/` and `assets/process/`.
 
 ## Content honesty rules (client-facing)
 
@@ -35,6 +41,8 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - Never label AI footage as O3 work. Never invent specs (gloss units, "10H", contact angles, live telemetry).
 - Prices must come from the official tariff in `allServicesData` (look up by `id`), never hard-coded.
 - The "Kia" reel is a **Kia Carens**, not a Seltos.
+- Remaining AI placeholders (7 refs, waiting on the client): `o3_on_wheels` van (home, concierge, franchise), `o3_swirl_before/after`, `sharanpal_sodhi_founder`. Every service, plan, gallery, about, contact and franchise image is now a real frame from O3 footage.
+- Products show each brand's real logo (`assets/logos/`) instead of AI bottle renders; the 12 SKUs and their prices are unverified and need client confirmation.
 
 ## Brand
 
@@ -62,10 +70,10 @@ The global scroll system lives in `App`: Lenis, the progress bar, hero parallax,
 ## Open work, in priority order
 
 1. **Booking form doesn't send anything.** It shows `alert("Booking confirmed…")`, so customers think they're booked but nobody is notified. Fix first: send to WhatsApp 917225030303 or a form service.
-2. The other 12 pages are untouched: about 70 AI image references and about 40 inflated claims ("4K", "10H", "HEPA cleanroom", "supercars"). Clean them like the home page, and merge overlapping pages (Story/About, Studio/Concierge).
-3. Waiting on the client: a real landscape hero video, a real founder photo, a before/after pair of the same panel, and confirmation of the 2016/2020 timeline dates and the "5,000+ cars" claim.
+2. Done (2026-10-26): inner pages cleaned. AI images replaced with real frames, inflated claims rewritten (cleanroom/HEPA/4K/molecular/0.1-micron/ultrasonic/99.9%/Rupes-certified/AMG), Story merged into About, Studio page removed, gallery titles written and gallery video playback fixed.
+3. Waiting on the client: a real landscape hero video, a real founder photo, a before/after pair of the same panel, a real photo of the O3 On Wheels van, the real product list and prices, and confirmation of the 2016/2020 timeline dates. Their own Instagram posts in the gallery say "14 Years of Trust" and "25,000+ Happy Customers", which conflict with 2013 and the "5,000+" figure.
 4. SEO: LocalBusiness schema, link-preview (Open Graph) image, per-page titles. The site is a client-rendered single URL.
 5. Test smoothness on a real phone. Decide on accent colour vs brand blue.
-6. `videoGalleryData` and the old logo/AI files in `assets/` are unused leftovers; safe to delete once confirmed.
+6. Old logo files, unused AI images/videos and the original full-size gallery videos in `assets/` are leftovers; safe to delete once confirmed.
 
 Last rating (2026-10-20): **6.5/10 overall**, home 8/10, inner pages 4/10, conversion 3/10 (booking form).

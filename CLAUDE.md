@@ -42,6 +42,7 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - Prices must come from the official tariff in `allServicesData` (look up by `id`), never hard-coded.
 - The "Kia" reel is a **Kia Carens**, not a Seltos.
 - Remaining AI placeholders (7 refs, waiting on the client): `o3_on_wheels` van (home, concierge, franchise), `o3_swirl_before/after`, `sharanpal_sodhi_founder`. Every service, plan, gallery, about, contact and franchise image is now a real frame from O3 footage.
+- Service images (`assets/services/<service-id>.webp`, 960×600) are designed in Figma: file "O3 Car-Spa — Service Images" (https://www.figma.com/design/cE4KastXokuFGDetkR6Nox), one `Service Image` component with 47 instances (photo, category tag, title, subline). Edit there, export the two 4×6 grids (Figma caps exports at 4096 px), slice into 960×600 tiles. Photos are real O3 frames, or the photo cropped from O3’s own service poster when the footage has none (headlight, engine, alloy, windshield, ozone, rodent, leather). Service cards show the price chip bottom-right so it never covers the image title.
 - Products show each brand's real logo (`assets/logos/`) instead of AI bottle renders; the 12 SKUs and their prices are unverified and need client confirmation.
 
 ## Brand

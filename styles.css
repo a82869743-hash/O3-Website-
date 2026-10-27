@@ -11,15 +11,16 @@
   --ocean-water: #cae8e8;
   --ocean-water-glow: rgba(202, 232, 232, 0.35);
   --ocean-water-border: rgba(202, 232, 232, 0.18);
-  --oxygen-cyan: #00f0ff;
-  --oxygen-cyan-glow: rgba(0, 240, 255, 0.45);
+  --oxygen-cyan: #29A9E8; /* lighter tint of brand blue #008DD2 */
+  --brand-blue: #008DD2;
+  --oxygen-cyan-glow: rgba(0, 141, 210, 0.23);
   --whatsapp-green: #25d366;
   --whatsapp-glow: rgba(37, 211, 102, 0.45);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
 
   /* Tactile Depths */
-  --button-tactile: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 30px rgba(0, 240, 255, 0.4);
+  --button-tactile: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 8px 30px rgba(0, 141, 210, 0.2);
 
   /* Anti-Boxy Radii */
   --radius-xl: 48px;
@@ -47,7 +48,7 @@ html {
 
 body {
   background: radial-gradient(circle at 50% -10%, rgba(202, 232, 232, 0.22) 0%, transparent 65%),
-              radial-gradient(circle at 85% 35%, rgba(0, 240, 255, 0.12) 0%, transparent 55%),
+              radial-gradient(circle at 85% 35%, rgba(0, 141, 210, 0.06) 0%, transparent 55%),
               radial-gradient(circle at 15% 75%, rgba(202, 232, 232, 0.1) 0%, transparent 55%),
               var(--bg-obsidian);
   min-height: 100vh;
@@ -78,12 +79,12 @@ h1, h2, h3, h4, .font-display {
 }
 
 .text-gradient-ocean {
-  background: linear-gradient(135deg, #00f0ff 0%, #70f3ff 50%, #ffffff 100%);
+  background: linear-gradient(135deg, #29A9E8 0%, #7FD0F5 50%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
   text-shadow: none !important;
-  filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.85));
+  /* no drop-shadow filter: it read as neon and repainted on scroll */
 }
 
 /* FULL-BLEED CRYSTAL CLEAR HERO STAGE (NO BOXY BOXES) */
@@ -291,14 +292,14 @@ h1, h2, h3, h4, .font-display {
   overflow: hidden;
   background: #000;
   border: 1px solid rgba(202, 232, 232, 0.22);
-  box-shadow: 0 40px 85px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 40px 85px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 141, 210, 0.15);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .video-glass-3d:hover {
   transform: scale(1.02);
   border-color: var(--oxygen-cyan);
-  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.99), 0 0 70px rgba(0, 240, 255, 0.55);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.99), 0 0 70px rgba(0, 141, 210, 0.28);
 }
 
 .video-glass-3d video {
@@ -348,7 +349,7 @@ h1, h2, h3, h4, .font-display {
 
 .btn-primary:hover {
   transform: translateY(-4px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 14px 40px rgba(0, 240, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 14px 40px rgba(0, 141, 210, 0.38);
 }
 
 .btn-secondary {
@@ -423,7 +424,7 @@ h1, h2, h3, h4, .font-display {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.95);
+  box-shadow: 0 0 35px rgba(0, 141, 210, 0.48);
   cursor: ew-resize;
   z-index: 10;
   font-weight: 800;
@@ -488,7 +489,7 @@ h1, h2, h3, h4, .font-display {
   height: 300px;
   border-radius: 50%;
   border: 2px solid rgba(202, 232, 232, 0.95);
-  box-shadow: 0 0 60px rgba(0, 240, 255, 0.6), inset 0 0 40px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 60px rgba(0, 141, 210, 0.3), inset 0 0 40px rgba(0, 141, 210, 0.15);
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 10;
@@ -547,8 +548,8 @@ h1, h2, h3, h4, .font-display {
 }
 
 @keyframes hud-glow {
-  0% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
-  100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 12px 3px rgba(0, 240, 255, 0.8); }
+  0% { transform: scale(0.9); opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 141, 210, 0.2); }
+  100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 12px 3px rgba(0, 141, 210, 0.4); }
 }
 
 /* ==========================================================================
@@ -618,7 +619,7 @@ h1, h2, h3, h4, .font-display {
 .car-reflection-shimmer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 30%, rgba(202, 232, 232, 0.12) 40%, rgba(0, 240, 255, 0.08) 50%, transparent 60%);
+  background: linear-gradient(105deg, transparent 30%, rgba(202, 232, 232, 0.12) 40%, rgba(0, 141, 210, 0.04) 50%, transparent 60%);
   background-size: 200% 100%;
   animation: shimmer-swipe 8s infinite linear;
   pointer-events: none;
@@ -706,8 +707,8 @@ h1, h2, h3, h4, .font-display {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  border: 2px dashed rgba(0, 240, 255, 0.6);
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.2) 20%, rgba(255, 46, 78, 0.15) 60%, transparent 80%);
+  border: 2px dashed rgba(0, 141, 210, 0.3);
+  background: radial-gradient(circle, rgba(0, 141, 210, 0.1) 20%, rgba(255, 46, 78, 0.15) 60%, transparent 80%);
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 10;
@@ -810,7 +811,7 @@ h1, h2, h3, h4, .font-display {
   box-shadow: 
     inset 2px 2px 5px rgba(0, 0, 0, 0.95), 
     inset -1px -1px 2px rgba(255, 255, 255, 0.05),
-    0 0 14px rgba(0, 240, 255, 0.35);
+    0 0 14px rgba(0, 141, 210, 0.18);
   color: #ffffff;
   transform: translateY(0.5px);
 }
@@ -920,8 +921,8 @@ html.lenis, html.lenis body { height: auto; }
   z-index: 9999;
   transform-origin: 0 50%;
   transform: scaleX(0);
-  background: linear-gradient(90deg, #00f0ff, #cae8e8);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.7);
+  background: linear-gradient(90deg, #29A9E8, #cae8e8);
+  box-shadow: 0 0 12px rgba(0, 141, 210, 0.35);
   pointer-events: none;
 }
 
@@ -940,3 +941,6 @@ html.lenis, html.lenis body { height: auto; }
 /* Hover effects pause while scrolling (class set by App); see App scroll effect */
 .is-scrolling main,
 .is-scrolling footer { pointer-events: none; }
+
+/* Labels and prices keep even-width digits now that font-mono is the brand sans */
+.font-mono { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }

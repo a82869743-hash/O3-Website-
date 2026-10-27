@@ -9,7 +9,7 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - `npm run build` = Babel (`babel.config.json`, classic runtime) → `app.js`, then Tailwind CLI → `tailwind.css`. Run it after every change and commit both outputs.
 - `npm run dev` builds and serves on :8080. The preview config is `.claude/launch.json` (falls back to :8081 if the user's server holds 8080).
 - Tailwind is precompiled (`tailwind.config.js` scans `index.html` + `app.jsx`). Class names must appear literally; never build them with template strings like `bg-${x}`.
-- Pages are hash routes (`#home`, `#services`, …) switched by `currentView` state in `App`. 11 views exist; old `#story` and `#studio` links redirect to `#about` (merged).
+- Pages are hash routes (`#home`, `#services`, …) switched by `currentView` state in `App`. 7 pages in the menus: Home, About, Services, Plans, Work (gallery), Franchise, Contact. `VIEW_ALIASES` in `App` sends old links to the right page and section: story/studio → About, concierge → Services `#doorstep`, faq → Services `#faq`, testimonials → Home `#reviews`, products → Services (Products view is hidden until the client confirms the product list).
 
 ## Gotchas (each one has bitten us)
 
@@ -48,7 +48,10 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 ## Brand
 
 - Official logo: `assets/brand/` (vector SVGs taken from "O3 Car Spa Logo 2024.pdf"). The site uses `o3-logo-white.svg`; the favicon is `o3-mark-blue.svg`. Show it unfiltered (no glow).
-- Brand blue **#008DD2**. The site accent is currently cyan #00F0FF and doesn't match; switching it is an open question for the client.
+- Brand blue **#008DD2** (glows use it at half strength). Accent text/buttons use **#29A9E8**, a lighter tint of it that stays readable on the dark background. The old neon cyan #00F0FF is gone; don't reintroduce it.
+- No emoji in the UI; use the `Icon` component (line icons: whatsapp, phone, pin, clock, mail, instagram, facebook). `font-mono` is mapped to Space Grotesk in `tailwind.config.js`, so it is just a label style, not a code font.
+- Home hero: text can change, but **never touch the hero video** (owner's instruction). It carries a Gujarati line in `font-gujarati` (Noto Sans Gujarati).
+- SEO lives in `index.html` (description, Open Graph using `assets/brand/og-share.jpg`, AutoWash JSON-LD with address/hours/phone) and per-page `document.title` in `App`. Make `og:image` absolute once the domain is known.
 
 ## Home page (11 sections, in this order)
 
@@ -76,5 +79,7 @@ The global scroll system lives in `App`: Lenis, the progress bar, hero parallax,
 4. SEO: LocalBusiness schema, link-preview (Open Graph) image, per-page titles. The site is a client-rendered single URL.
 5. Test smoothness on a real phone. Decide on accent colour vs brand blue.
 6. Old logo files, unused AI images/videos and the original full-size gallery videos in `assets/` are leftovers; safe to delete once confirmed.
+
+Client shot list and questions to send: `CLIENT-SHOT-LIST.md`.
 
 Last rating (2026-10-20): **6.5/10 overall**, home 8/10, inner pages 4/10, conversion 3/10 (booking form).

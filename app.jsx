@@ -4,6 +4,24 @@
 
 const { useState, useEffect, useRef } = React;
 
+// Small line icons (replace emoji in UI; inherit text colour)
+const ICON_PATHS = {
+  whatsapp: <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
+  phone: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />,
+  pin: <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></>,
+  clock: <><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></>,
+  mail: <><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-10 5L2 7" /></>,
+  instagram: <><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4" /><path d="M17.5 6.5h.01" /></>,
+  facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+};
+function Icon({ name, className = 'w-5 h-5' }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      {ICON_PATHS[name]}
+    </svg>
+  );
+}
+
 // 0. LUXURY PRELOADER OVERLAY WITH OFFICIAL O3 TAGLINE & TELEMETRY
 function O3Preloader({ progress, isFinished }) {
   const getPhaseMessage = (p) => {
@@ -20,21 +38,21 @@ function O3Preloader({ progress, isFinished }) {
       }`}
     >
       {/* Background Radial Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,240,255,0.14)_0%,transparent_65%)] pointer-events-none"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0, 141, 210, 0.07)_0%,transparent_65%)] pointer-events-none"></div>
 
       <div className="relative z-10 max-w-md w-full text-center space-y-8">
         {/* Brand Official Logo with Pulsing Halo */}
         <div className="relative inline-block">
-          <div className="absolute -inset-4 bg-[#00f0ff]/20 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute -inset-4 bg-[#29A9E8]/20 rounded-full blur-2xl animate-pulse"></div>
           <img src="assets/brand/o3-logo-white.svg" 
             alt="O3 CAR-SPA Official Studio Logo" 
-            className="h-20 sm:h-24 w-auto mx-auto relative z-10 drop-shadow-[0_0_35px_rgba(0,240,255,0.7)]"
+            className="h-20 sm:h-24 w-auto mx-auto relative z-10 drop-shadow-[0_0_35px_rgba(0, 141, 210, 0.35)]"
            loading="lazy" decoding="async" />
         </div>
 
         {/* Studio Official Tagline */}
         <div className="space-y-2">
-          <span className="text-[11px] font-mono font-bold tracking-[0.3em] uppercase text-[#00f0ff] block">
+          <span className="text-[11px] font-mono font-bold tracking-[0.3em] uppercase text-[#29A9E8] block">
             PREMIUM CAR DETAILING STUDIO
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -49,12 +67,12 @@ function O3Preloader({ progress, isFinished }) {
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 font-bold">
             <span className="text-[#cae8e8] tracking-widest uppercase">{getPhaseMessage(progress)}</span>
-            <span className="text-[#00f0ff] font-extrabold text-sm">{progress}%</span>
+            <span className="text-[#29A9E8] font-extrabold text-sm">{progress}%</span>
           </div>
 
           <div className="w-full h-2 bg-[#0d111a] rounded-full overflow-hidden border border-[#cae8e8]/25 p-0.5 shadow-inner">
             <div 
-              className="h-full bg-gradient-to-r from-[#cae8e8] via-[#00f0ff] to-[#cae8e8] rounded-full transition-all duration-150 shadow-[0_0_15px_#00f0ff]"
+              className="h-full bg-gradient-to-r from-[#cae8e8] via-[#29A9E8] to-[#cae8e8] rounded-full transition-all duration-150 shadow-[0_0_15px_#29A9E8]"
               style={{ width: `${progress}%` }}
             ></div>
           </div>
@@ -158,7 +176,7 @@ function OfficialTariffMenu() {
     <div className="glass-surface p-6 sm:p-10 border border-[#cae8e8]/30 bg-[#0a0e17] space-y-8 shadow-2xl rounded-3xl">
       <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#cae8e8]/20 pb-4 gap-4 text-left">
         <div>
-          <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">Official Studio Price List & Tariff Card</span>
+          <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">Official Studio Price List & Tariff Card</span>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-white mt-1">O3 Car-Spa Official Services Menu</h2>
           <p className="text-xs text-slate-400 font-mono mt-1">Transparent fixed pricing · Managed by Mr. Sharanpalsingh Sodhi · Vitthal Udyognagar, Anand</p>
         </div>
@@ -169,7 +187,7 @@ function OfficialTariffMenu() {
           rel="noopener noreferrer"
           className="btn-primary text-xs !py-3 !px-6 flex items-center gap-2"
         >
-          <span>💬 Book via WhatsApp (72250 30303)</span>
+          <span>Book via WhatsApp (72250 30303)</span>
         </a>
       </div>
 
@@ -180,7 +198,7 @@ function OfficialTariffMenu() {
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cockpit-tactile-btn ${
-              activeCategory === cat.id ? 'active text-[#00f0ff]' : 'text-slate-300 hover:text-[#00f0ff]'
+              activeCategory === cat.id ? 'active text-[#29A9E8]' : 'text-slate-300 hover:text-[#29A9E8]'
             }`}
           >
             {cat.name}
@@ -194,13 +212,13 @@ function OfficialTariffMenu() {
           <div key={idx} className="bg-[#05070c] p-5 rounded-2xl border border-slate-800 hover:border-[#cae8e8]/40 transition-all flex flex-col justify-between space-y-3 group">
             <div className="space-y-1">
               <div className="flex items-start justify-between gap-2">
-                <h4 className="text-sm font-bold text-white group-hover:text-[#00f0ff] transition-colors">{item.name}</h4>
+                <h4 className="text-sm font-bold text-white group-hover:text-[#29A9E8] transition-colors">{item.name}</h4>
               </div>
               <p className="text-[11px] text-slate-400 font-light leading-relaxed">{item.note}</p>
             </div>
 
             <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-              <span className="text-base font-extrabold text-[#00f0ff] font-mono">{item.price}</span>
+              <span className="text-base font-extrabold text-[#29A9E8] font-mono">{item.price}</span>
               <a 
                 href={`https://wa.me/917225030303?text=Hello%20Sharanpalsingh%20Sir!%20I%20want%20to%20inquire%20about:%20${encodeURIComponent(item.name)}%20(${item.price})`}
                 target="_blank"
@@ -464,7 +482,7 @@ function IndianGarageShowcase({ services, onBookService }) {
               className={`garage-chip shrink-0 px-4 py-2 rounded-full border text-xs font-semibold transition-all duration-300 ${
                 c.id === carId
                   ? 'bg-white text-[#05070c] border-white shadow-[0_0_24px_rgba(202,232,232,0.55)]'
-                  : 'bg-[#0d111a]/70 text-slate-300 border-[#cae8e8]/25 hover:border-[#00f0ff] hover:text-white'
+                  : 'bg-[#0d111a]/70 text-slate-300 border-[#cae8e8]/25 hover:border-[#29A9E8] hover:text-white'
               }`}
             >
               <span className="opacity-60 font-mono mr-1">{c.maker.split(' ')[0]}</span>{c.name}
@@ -495,15 +513,14 @@ function IndianGarageShowcase({ services, onBookService }) {
 
             <div className="space-y-3">
               {picks.map(s => (
-                <div key={s.id} className="garage-reveal flex items-center justify-between gap-3 p-3 rounded-2xl bg-[#05070c]/80 border border-[#cae8e8]/15 hover:border-[#00f0ff]/60 transition-colors">
+                <div key={s.id} className="garage-reveal flex items-center justify-between gap-3 p-3 rounded-2xl bg-[#05070c]/80 border border-[#cae8e8]/15 hover:border-[#29A9E8]/60 transition-colors">
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-xl shrink-0">{s.icon}</span>
                     <div className="min-w-0">
                       <div className="text-sm font-bold text-white truncate">{s.title}</div>
                       <div className="text-[11px] text-slate-400 truncate">{s.durability || s.warranty}</div>
                     </div>
                   </div>
-                  <div className="text-sm font-mono font-extrabold text-[#00f0ff] shrink-0">{s.price}</div>
+                  <div className="text-sm font-mono font-extrabold text-[#29A9E8] shrink-0">{s.price}</div>
                 </div>
               ))}
             </div>
@@ -579,7 +596,7 @@ function VelocityMarquee() {
               <div key={copy} className="flex shrink-0" aria-hidden={copy === 1}>
                 {row.items.map(item => (
                   <span key={item} className={`px-6 text-4xl sm:text-6xl font-black uppercase tracking-tight ${row.outline ? 'marquee-outline' : 'text-white/90'}`}>
-                    {item}<span className="inline-block align-middle w-3 h-3 sm:w-4 sm:h-4 mx-6 rotate-45 bg-[#00f0ff] shadow-[0_0_14px_#00f0ff]"></span>
+                    {item}<span className="inline-block align-middle w-3 h-3 sm:w-4 sm:h-4 mx-6 rotate-45 bg-[#29A9E8] shadow-[0_0_14px_#29A9E8]"></span>
                   </span>
                 ))}
               </div>
@@ -641,11 +658,11 @@ function PinnedProcessScroller() {
     <section ref={rootRef} className="no-scroll-reveal relative w-full overflow-hidden bg-[#05070c] md:h-screen flex flex-col justify-center py-12 md:py-0">
       <div className="px-4 sm:px-8 lg:px-12 mb-8 flex items-end justify-between gap-6">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">The O3 Process</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-[#29A9E8] font-mono font-bold">The O3 Process</span>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2">Five stages. Zero shortcuts.</h2>
         </div>
         <div className="hidden md:block w-56 h-[2px] bg-white/10 rounded-full overflow-hidden">
-          <div className="process-progress h-full bg-gradient-to-r from-[#00f0ff] to-[#cae8e8] origin-left"></div>
+          <div className="process-progress h-full bg-gradient-to-r from-[#29A9E8] to-[#cae8e8] origin-left"></div>
         </div>
       </div>
 
@@ -655,7 +672,7 @@ function PinnedProcessScroller() {
             <img src={step.img} alt={step.title} className="absolute inset-0 w-[116%] max-w-none h-full object-cover -left-[8%] opacity-80" loading="lazy" decoding="async" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-[#05070c]/40 to-transparent"></div>
             <div className="process-copy absolute bottom-0 left-0 right-0 p-6 sm:p-10 space-y-3">
-              <div className="text-7xl sm:text-8xl font-black text-transparent leading-none" style={{ WebkitTextStroke: '1px rgba(0,240,255,0.6)' }}>{step.n}</div>
+              <div className="text-7xl sm:text-8xl font-black text-transparent leading-none" style={{ WebkitTextStroke: '1px rgba(0, 141, 210, 0.3)' }}>{step.n}</div>
               <h3 className="text-3xl sm:text-4xl font-extrabold text-white">{step.title}</h3>
               <p className="text-sm sm:text-base text-slate-300 max-w-md leading-relaxed">{step.line}</p>
             </div>
@@ -702,19 +719,19 @@ function SwirlCorrectionReveal({ onBook }) {
           <img src="assets/o3_swirl_after.webp" alt="Same paint after O3 correction" className="absolute inset-0 w-full h-full object-cover" decoding="async" />
         </div>
       </div>
-      <div className="swirl-pad absolute top-0 bottom-0 left-0 w-[2px] -ml-px bg-[#00f0ff] shadow-[0_0_30px_8px_rgba(0,240,255,0.55)] pointer-events-none will-change-transform"></div>
+      <div className="swirl-pad absolute top-0 bottom-0 left-0 w-[2px] -ml-px bg-[#29A9E8] shadow-[0_0_30px_8px_rgba(0, 141, 210, 0.28)] pointer-events-none will-change-transform"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-[#05070c]/80 via-transparent to-[#05070c]/90 pointer-events-none"></div>
 
       <div className="absolute top-10 left-4 right-4 sm:left-10 sm:right-10 flex items-start justify-between gap-6">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">Paint Correction</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-[#29A9E8] font-mono font-bold">Paint Correction</span>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2 max-w-xl">Scroll to polish.</h2>
           <p className="swirl-stage-label text-sm text-slate-300 mt-2">Keep scrolling: watch the swirl marks disappear.</p>
         </div>
         <div className="shrink-0 flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest">
           <span className="px-3 py-1 rounded-full bg-black/60 text-slate-300">Before</span>
-          <span className="text-[#00f0ff]">→</span>
-          <span className="px-3 py-1 rounded-full bg-[#00f0ff] text-[#05070c]">After</span>
+          <span className="text-[#29A9E8]">→</span>
+          <span className="px-3 py-1 rounded-full bg-[#29A9E8] text-[#05070c]">After</span>
         </div>
       </div>
 
@@ -815,7 +832,7 @@ function ReelFilmStrip({ onOpenGallery }) {
     <section ref={rootRef} className="no-scroll-reveal relative w-full py-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">Straight from the bay</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-[#29A9E8] font-mono font-bold">Straight from the bay</span>
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2">Real cars. Real reels.</h2>
           <p className="text-sm text-slate-400 mt-2 max-w-md">Unedited phone footage from our Anand studio. Scroll and the reel in the middle plays.</p>
         </div>
@@ -828,7 +845,7 @@ function ReelFilmStrip({ onOpenGallery }) {
             <figure
               key={r.id}
               className={`relative shrink-0 w-[62vw] sm:w-[260px] lg:w-[280px] aspect-[9/16] rounded-[28px] overflow-hidden bg-[#0d111a] border transition-[transform,opacity,border-color] duration-500 ease-out ${
-                i === active ? 'scale-100 opacity-100 border-[#00f0ff]/60 shadow-[0_30px_70px_rgba(0,240,255,0.18)]' : 'scale-[0.88] opacity-50 border-white/10'
+                i === active ? 'scale-100 opacity-100 border-[#29A9E8]/60 shadow-[0_30px_70px_rgba(0, 141, 210, 0.09)]' : 'scale-[0.88] opacity-50 border-white/10'
               }`}
             >
               <video
@@ -840,7 +857,7 @@ function ReelFilmStrip({ onOpenGallery }) {
               ></video>
               <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
               <figcaption className="absolute bottom-0 left-0 right-0 p-5">
-                <div className="text-[10px] font-mono uppercase tracking-widest text-[#00f0ff]">{r.job}</div>
+                <div className="text-[10px] font-mono uppercase tracking-widest text-[#29A9E8]">{r.job}</div>
                 <div className="text-lg font-extrabold text-white leading-tight">{r.car}</div>
               </figcaption>
               {i === active && (
@@ -859,7 +876,7 @@ function ReelFilmStrip({ onOpenGallery }) {
 // 19. CERAMIC vs GRAPHENE vs PPF — plain-language comparison with official prices
 const COMPARE_OPTIONS = [
   { id: 'ceramic-3yr', name: 'Ceramic', tone: '#cae8e8', bestFor: 'Daily drivers that want easy washing and lasting gloss' },
-  { id: 'graphene-3yr', name: 'Graphene', tone: '#00f0ff', bestFor: 'Dark paint, open parking, harsh summer sun', pick: true },
+  { id: 'graphene-3yr', name: 'Graphene', tone: '#29A9E8', bestFor: 'Dark paint, open parking, harsh summer sun', pick: true },
   { id: 'ppf-5yr-gloss-tpu', name: 'PPF Film', tone: '#ffffff', bestFor: 'New cars, highway use, bonnets and bumpers that take stone hits' }
 ];
 const COMPARE_ROWS = [
@@ -891,15 +908,15 @@ function CoatingCompare({ services, onBook }) {
   return (
     <section ref={rootRef} className="no-scroll-reveal max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-10">
-        <span className="text-xs uppercase tracking-[0.3em] text-[#00f0ff] font-mono font-bold">Which one do I need?</span>
+        <span className="text-xs uppercase tracking-[0.3em] text-[#29A9E8] font-mono font-bold">Which one do I need?</span>
         <h2 className="text-3xl sm:text-5xl font-extrabold text-white mt-2">Ceramic vs Graphene vs PPF</h2>
         <p className="text-sm text-slate-400 mt-3 max-w-xl mx-auto">The question we hear most at the studio, answered on one screen.</p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
         {opts.map((o, ci) => (
-          <div key={o.id} className={`cmp-col relative rounded-3xl p-6 sm:p-7 flex flex-col gap-5 border ${o.pick ? 'bg-[#0b1a22] border-[#00f0ff]/50' : 'bg-[#0d111a] border-white/10'}`}>
-            {o.pick && <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold bg-[#00f0ff] text-[#05070c] px-3 py-1 rounded-full">MOST CHOSEN</span>}
+          <div key={o.id} className={`cmp-col relative rounded-3xl p-6 sm:p-7 flex flex-col gap-5 border ${o.pick ? 'bg-[#0b1a22] border-[#29A9E8]/50' : 'bg-[#0d111a] border-white/10'}`}>
+            {o.pick && <span className="absolute -top-3 left-6 text-[10px] font-mono font-bold bg-[#29A9E8] text-[#05070c] px-3 py-1 rounded-full">MOST CHOSEN</span>}
             <div>
               <h3 className="text-2xl font-black" style={{ color: o.tone }}>{o.name}</h3>
               <div className="cmp-price mt-1 flex items-baseline gap-2">
@@ -910,7 +927,7 @@ function CoatingCompare({ services, onBook }) {
             <ul className="space-y-2.5 text-sm">
               {COMPARE_ROWS.map(row => (
                 <li key={row.label} className="flex items-center gap-3">
-                  <span className={`cmp-tick inline-flex w-5 h-5 shrink-0 rounded-full items-center justify-center text-[11px] font-black ${row.v[ci] ? 'bg-[#00f0ff] text-[#05070c]' : 'bg-white/5 text-slate-600'}`}>{row.v[ci] ? '✓' : '–'}</span>
+                  <span className={`cmp-tick inline-flex w-5 h-5 shrink-0 rounded-full items-center justify-center text-[11px] font-black ${row.v[ci] ? 'bg-[#29A9E8] text-[#05070c]' : 'bg-white/5 text-slate-600'}`}>{row.v[ci] ? '✓' : '–'}</span>
                   <span className={row.v[ci] ? 'text-slate-200' : 'text-slate-500'}>{row.label}</span>
                 </li>
               ))}
@@ -972,6 +989,22 @@ function App() {
 
   // FAQ Accordion
   const [expandedFaq, setExpandedFaq] = useState(0);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  // Each page gets its own browser-tab / search title
+  useEffect(() => {
+    const titles = {
+      home: 'O3 Car-Spa | Car Detailing, Ceramic Coating & PPF in Anand',
+      about: 'About O3 Car-Spa | Detailing in Anand Since 2013',
+      services: 'Services & Prices | Ceramic, Graphene, PPF | O3 Car-Spa Anand',
+      plans: 'Wash Plans & Subscriptions | O3 Car-Spa Anand',
+      gallery: 'Our Work | Real Cars Detailed at O3 Car-Spa, Anand',
+      franchise: 'Franchise | O3 Car-Spa',
+      contact: 'Contact & Location | O3 Car-Spa, Vitthal Udyognagar, Anand',
+      products: 'Products | O3 Car-Spa'
+    };
+    document.title = titles[currentView] || titles.home;
+  }, [currentView]);
   const [productCategory, setProductCategory] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -993,7 +1026,7 @@ function App() {
     "title": "Exterior Wash + Shampoo & Vacuum",
     "category": "Washing & Quick Care",
     "price": "\u20b9 500",
-    "icon": "\ud83d\udebf",
+    "icon": "",
     "tagline": "Complete Exterior Snow Foam Wash & Interior Vacuuming",
     "summary": "Multi-stage safe wash procedure using high-pressure foam cannons, grit-guard wash mitts, wheel arch cleaning, and full interior cabin vacuuming.",
     "img": "assets/services/wash-vacuum.webp",
@@ -1014,7 +1047,7 @@ function App() {
     "title": "Intensive Shiny Interior Detailing",
     "category": "Washing & Quick Care",
     "price": "\u20b9 2,500",
-    "icon": "\ud83e\ude91",
+    "icon": "",
     "tagline": "Deep Interior Extraction, Dashboard & Leather Dressing",
     "summary": "Deep interior sanitization treatment extracting ground-in dirt from carpets, upholstery, dashboard seams, and door trims using hot steam & specialized leather dressings.",
     "img": "assets/services/shiny-interior.webp",
@@ -1035,7 +1068,7 @@ function App() {
     "title": "Ozone Treatment & Odour Removal",
     "category": "Washing & Quick Care",
     "price": "\u20b9 800",
-    "icon": "\ud83c\udf00",
+    "icon": "",
     "tagline": "O3 Cabin Sanitization & Bacteria Elimination",
     "summary": "High-output O3 ozone gas flooding that oxidizes and destroys airborne bacteria, mold spores, smoke smells, and persistent cabin odors.",
     "img": "assets/services/ozone-treatment.webp",
@@ -1055,7 +1088,7 @@ function App() {
     "title": "Leather Care Treatment",
     "category": "Washing & Quick Care",
     "price": "\u20b9 800",
-    "icon": "\ud83d\udcbc",
+    "icon": "",
     "tagline": "Nourishing Leather Conditioner & UV Shield",
     "summary": "Specialized leather cleansing and oil-nourishing treatment that restores natural suppleness, prevents cracking, and shields against sun UV fading.",
     "img": "assets/services/leather-care.webp",
@@ -1075,7 +1108,7 @@ function App() {
     "title": "Head Light Restoration & UV Seal",
     "category": "Washing & Quick Care",
     "price": "\u20b9 1,200",
-    "icon": "\ud83d\udca1",
+    "icon": "",
     "tagline": "Oxidation Removal & UV Clear Sealant",
     "summary": "Multi-stage wet sanding and micro-compounding technique that permanently strips yellow oxidation and haze from polycarbonate headlight lenses.",
     "img": "assets/services/headlight-restoration.webp",
@@ -1095,7 +1128,7 @@ function App() {
     "title": "Rodent Repellant Coating",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 1,200",
-    "icon": "\ud83d\udc00",
+    "icon": "",
     "tagline": "Engine Bay Wire & Pipe Rodent Protection",
     "summary": "Heavy-duty heat-resistant bitter spray formulation applied to engine bay wiring harnesses, rubber hoses, and cables to prevent rodent chewing damage.",
     "img": "assets/services/rodent-repellant.webp",
@@ -1115,7 +1148,7 @@ function App() {
     "title": "Engine Coating & Thermal Dressing",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 3,000",
-    "icon": "\u2699\ufe0f",
+    "icon": "",
     "tagline": "Degreasing, Thermal Bay Dressing & Electrical Seal",
     "summary": "Complete engine bay steam restoration and heat-resistant protective clear lacquer application that keeps plastic covers, hoses, and metal components looking showroom new.",
     "img": "assets/services/engine-coating.webp",
@@ -1135,7 +1168,7 @@ function App() {
     "title": "Alloy Wheel Coating (Heat-Resistant 9H)",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 3,500",
-    "icon": "\ud83d\udede",
+    "icon": "",
     "tagline": "Brake Dust Repellent & Heat-Resistant Silica Layer",
     "summary": "Ultra-high temperature 9H quartz ceramic coating engineered to withstand 800\u00b0C brake temperatures, preventing corrosive brake dust etching into alloy rims.",
     "img": "assets/services/alloy-coating.webp",
@@ -1155,7 +1188,7 @@ function App() {
     "title": "Windshield Hydrophobic Coating",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 3,000",
-    "icon": "\ud83c\udf27\ufe0f",
+    "icon": "",
     "tagline": "Rain Repellent & Night Glare Hydrophobic Shield",
     "summary": "Fluoropolymer glass coating that chemically bonds to glass, allowing rainwater to bead and fly off at speeds above 40 km/h for dramatically improved night rain visibility.",
     "img": "assets/services/windshield-coating.webp",
@@ -1175,7 +1208,7 @@ function App() {
     "title": "Leather Shield Coating",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 6,000",
-    "icon": "\ud83d\udecb\ufe0f",
+    "icon": "",
     "tagline": "Hydrophobic & Stain Barrier for Leather Seats",
     "summary": "Advanced breathable ceramic coating formulated for genuine leather seats that prevents liquid penetration, UV fading, and dye transfer from blue jeans.",
     "img": "assets/services/leather-shield.webp",
@@ -1195,7 +1228,7 @@ function App() {
     "title": "Fabric Shield Upholstery Guard",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 6,000",
-    "icon": "\ud83e\uddf5",
+    "icon": "",
     "tagline": "Liquid Repellent Barrier for Fabric Upholstery",
     "summary": "Hydrophobic textile barrier coating that coats individual fabric fibers, causing coffee, soda, and water spills to bead up on top of seats without soaking in.",
     "img": "assets/services/fabric-shield.webp",
@@ -1214,7 +1247,7 @@ function App() {
     "title": "Trim Shield Plastic UV Restorer",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 4,000",
-    "icon": "\ud83d\udda4",
+    "icon": "",
     "tagline": "Restores Plastic Cladding & Prevents UV Fading",
     "summary": "Permanent plastic restoration ceramic coating that penetrates deep into oxidized unpainted exterior trim and bumpers, restoring rich dark matte color with 2-year UV defense.",
     "img": "assets/services/trim-shield.webp",
@@ -1233,7 +1266,7 @@ function App() {
     "title": "Machine Polish & Wax",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 2,000",
-    "icon": "\u2728",
+    "icon": "",
     "tagline": "Single-Stage Gloss Enhancement & Carnauba Wax",
     "summary": "Single-stage orbital machine polish that restores paint clarity, removes light haze, and applies a rich protective synthetic wax layer.",
     "img": "assets/services/machine-polish.webp",
@@ -1252,7 +1285,7 @@ function App() {
     "title": "Compounding Hi-Tech Wax (2 Steps)",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 3,500",
-    "icon": "\ud83d\udd0d",
+    "icon": "",
     "tagline": "Swirl Mark Reduction & High-Gloss Sealant",
     "summary": "Two-stage paint correction process combining heavy compounding scratch reduction with fine finishing polish and a high-durability hybrid wax sealant.",
     "img": "assets/services/compounding-wax.webp",
@@ -1271,7 +1304,7 @@ function App() {
     "title": "O3 Coating (3 Steps Leveling)",
     "category": "Color Protection & Treatments",
     "price": "\u20b9 7,000",
-    "icon": "\ud83d\udc8e",
+    "icon": "",
     "tagline": "3-Stage Paint Leveling & Deep Gloss Conservation",
     "summary": "Flagship 3-step studio paint correction and leveling treatment that measures clear coat depth, removes multi-layer defects, and applies O3 silica protective coating.",
     "img": "assets/services/o3-coating-3steps.webp",
@@ -1291,7 +1324,7 @@ function App() {
     "title": "1 Year Ceramic Shield (9H SiO2)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 12,000",
-    "icon": "\u2728",
+    "icon": "",
     "tagline": "Entry-Level Liquid Quartz Gloss & Hydrophobic Barrier",
     "summary": "Professional 9H SiO2 ceramic glass coating providing 12 months of high-gloss shine, rain repellency, and chemical resistance.",
     "img": "assets/services/ceramic-1yr.webp",
@@ -1311,7 +1344,7 @@ function App() {
     "title": "2 Years Ceramic Shield (9H SiO2)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 14,000",
-    "icon": "\u2728",
+    "icon": "",
     "tagline": "24-Month Quartz Hardness & Mirror Surface Gloss",
     "summary": "Double-layer 9H SiO2 quartz coating that bonds to clear coat, preserving deep mirror gloss and UV protection for 2 full years.",
     "img": "assets/services/ceramic-2yr.webp",
@@ -1331,7 +1364,7 @@ function App() {
     "title": "3 Years Ceramic Shield (9H SiO2)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 20,000",
-    "icon": "\ud83d\udee1\ufe0f",
+    "icon": "",
     "tagline": "36-Month High-Density Quartz Surface Protection",
     "summary": "High-density 9H SiO2 ceramic formulation with enhanced chemical resistance against bird droppings, tree sap, and acid rain.",
     "img": "assets/services/ceramic-3yr.webp",
@@ -1351,7 +1384,7 @@ function App() {
     "title": "5 Years Ceramic Shield (9H SiO2)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 30,000",
-    "icon": "\ud83d\udc51",
+    "icon": "",
     "tagline": "5-Year Ultra-Durable SiO2 Quartz Flagship Coating",
     "summary": "Flagship 5-year multi-layer ceramic matrix coating offering ultimate scratch resistance, deep wet-look reflection, and hyper-hydrophobic water repellency.",
     "img": "assets/services/ceramic-5yr.webp",
@@ -1371,7 +1404,7 @@ function App() {
     "title": "2 Years Ceramic Shield (1 CoatCare Included)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 25,000",
-    "icon": "\ud83c\udf81",
+    "icon": "",
     "tagline": "Includes 1 Free Maintenance CoatCare Service",
     "summary": "Complete 2-year ceramic coating package bundled with 1 complimentary annual studio CoatCare decontamination & top-up maintenance service.",
     "img": "assets/services/ceramic-2yr-1coatcare.webp",
@@ -1390,7 +1423,7 @@ function App() {
     "title": "3 Years Ceramic Shield (2 CoatCare Included)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 35,000",
-    "icon": "\ud83c\udf81",
+    "icon": "",
     "tagline": "Includes 2 Free Maintenance CoatCare Services",
     "summary": "Premium 3-year ceramic shield bundle backed by 2 complimentary annual studio CoatCare maintenance sessions for long-term gloss retention.",
     "img": "assets/services/ceramic-3yr-2coatcare.webp",
@@ -1409,7 +1442,7 @@ function App() {
     "title": "5 Years Ceramic Shield (4 CoatCare Included)",
     "category": "Ceramic Coating Packages",
     "price": "\u20b9 40,000",
-    "icon": "\ud83d\udc51",
+    "icon": "",
     "tagline": "Includes 4 Free Annual CoatCare Services",
     "summary": "Ultimate 5-year ceramic protection program bundled with 4 full annual studio CoatCare maintenance passes for total peace of mind.",
     "img": "assets/services/ceramic-5yr-4coatcare.webp",
@@ -1428,7 +1461,7 @@ function App() {
     "title": "2 Years Graphene Armor (9H Matrix)",
     "category": "Graphene Coating Packages",
     "price": "\u20b9 18,000",
-    "icon": "\u26a1",
+    "icon": "",
     "tagline": "Reduced Water Spotting & Enhanced Hardness",
     "summary": "Reduced Graphene Oxide (rGO) matrix coating delivering high thermal dissipation, lower water spot etching, and slick hydrophobic protection.",
     "img": "assets/services/graphene-2yr.webp",
@@ -1448,7 +1481,7 @@ function App() {
     "title": "3 Years Graphene Armor (9H Matrix)",
     "category": "Graphene Coating Packages",
     "price": "\u20b9 22,000",
-    "icon": "\u26a1",
+    "icon": "",
     "tagline": "36-Month Thermal Dissipation & Hydrophobic Slickness",
     "summary": "3-year high-durability graphene matrix coating engineered for hot Indian summer road conditions, repelling water spots & road grime.",
     "img": "assets/services/graphene-3yr.webp",
@@ -1468,7 +1501,7 @@ function App() {
     "title": "5 Years Graphene Armor (9H Matrix)",
     "category": "Graphene Coating Packages",
     "price": "\u20b9 30,000",
-    "icon": "\ud83d\udee1\ufe0f",
+    "icon": "",
     "tagline": "5-Year Ultra Graphene Hardness Matrix Flagship",
     "summary": "Flagship 5-year graphene matrix protection providing unmatched contact angle water beading, extreme scratch resistance, and wet gloss.",
     "img": "assets/services/graphene-5yr.webp",
@@ -1488,7 +1521,7 @@ function App() {
     "title": "2 Years Graphene Armor (1 CoatCare Included)",
     "category": "Graphene Coating Packages",
     "price": "\u20b9 28,000",
-    "icon": "\ud83c\udf81",
+    "icon": "",
     "tagline": "Includes 1 Free Maintenance CoatCare Service",
     "summary": "2-year graphene armor package bundled with 1 complimentary annual studio CoatCare decontamination & top-up service.",
     "img": "assets/services/graphene-2yr-1coatcare.webp",
@@ -1507,7 +1540,7 @@ function App() {
     "title": "3 Years Graphene Armor (2 CoatCare Included)",
     "category": "Graphene Coating Packages",
     "price": "\u20b9 40,000",
-    "icon": "\ud83c\udf81",
+    "icon": "",
     "tagline": "Includes 2 Free Maintenance CoatCare Services",
     "summary": "3-year graphene matrix coating bundle including 2 complimentary annual studio CoatCare maintenance sessions.",
     "img": "assets/services/graphene-3yr-2coatcare.webp",
@@ -1526,7 +1559,7 @@ function App() {
     "title": "5 Years Graphene Armor (4 CoatCare Included)",
     "category": "Graphene Coating Packages",
     "price": "\u20b9 45,000",
-    "icon": "\ud83d\udc51",
+    "icon": "",
     "tagline": "Includes 4 Free Annual CoatCare Services",
     "summary": "Ultimate 5-year graphene matrix program bundled with 4 full annual studio CoatCare maintenance passes.",
     "img": "assets/services/graphene-5yr-4coatcare.webp",
@@ -1545,7 +1578,7 @@ function App() {
     "title": "PPF 3 Years - CLEAR (TPH Thermoplastic Hybrid)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 70,000",
-    "icon": "\ud83d\udee1\ufe0f",
+    "icon": "",
     "tagline": "Clear Self-Healing Protective Film (3 Years)",
     "summary": "Entry-level clear self-healing protective film engineered to shield factory paint against stone chips, scratches, and road debris.",
     "img": "assets/services/ppf-3yr-clear.webp",
@@ -1566,7 +1599,7 @@ function App() {
     "title": "PPF 5 Years - CLEAR (TPH Thermoplastic Hybrid)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 90,000",
-    "icon": "\ud83d\udee1\ufe0f",
+    "icon": "",
     "tagline": "5-Year Clear Self-Healing Hybrid Protective Armor",
     "summary": "High-durability clear TPH film offering 5 years of self-healing scratch defense and optical paint clarity.",
     "img": "assets/services/ppf-5yr-clear.webp",
@@ -1585,7 +1618,7 @@ function App() {
     "title": "PPF 5 Years - GLOSS (TPU Thermoplastic Polyurethane)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,30,000",
-    "icon": "\ud83d\udc8e",
+    "icon": "",
     "tagline": "Premium Optical Grade Self-Healing TPU Film",
     "summary": "Premium 100% optical-grade TPU film with instant heat-activated self-healing, hyper-gloss clarity, and non-yellowing adhesive layer.",
     "img": "assets/services/ppf-5yr-gloss-tpu.webp",
@@ -1604,7 +1637,7 @@ function App() {
     "title": "PPF 7 Years - GLOSS (TPU Thermoplastic Polyurethane)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,50,000",
-    "icon": "\ud83d\udc51",
+    "icon": "",
     "tagline": "Flagship Optical Grade Self-Healing TPU Film (7 Years)",
     "summary": "Ultra-thick 7-year flagship TPU self-healing armor providing maximum protection against high-speed gravel hits and key scratches.",
     "img": "assets/services/ppf-7yr-gloss-tpu.webp",
@@ -1623,7 +1656,7 @@ function App() {
     "title": "PPF 3 Years - MATT (TPH Thermoplastic Hybrid)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 80,000",
-    "icon": "\ud83d\udda4",
+    "icon": "",
     "tagline": "Stealth Satin Finish Self-Healing Film (3 Years)",
     "summary": "Converts glossy paint into a sleek matte/satin finish while providing full self-healing stone chip protection.",
     "img": "assets/services/ppf-3yr-matt.webp",
@@ -1642,7 +1675,7 @@ function App() {
     "title": "PPF 5 Years - MATT (TPU Thermoplastic Polyurethane)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,50,000",
-    "icon": "\ud83d\udda4",
+    "icon": "",
     "tagline": "Stealth Satin Finish Optical TPU Self-Healing Film",
     "summary": "Premium optical-grade matte TPU film offering smooth satin texture, self-healing capability, and 5 years of anti-scratch armor.",
     "img": "assets/services/ppf-5yr-matt-tpu.webp",
@@ -1661,7 +1694,7 @@ function App() {
     "title": "PPF 7 Years - MATT (TPU Thermoplastic Polyurethane)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,80,000",
-    "icon": "\ud83d\udc51",
+    "icon": "",
     "tagline": "Flagship Satin TPU Stealth Protection Film (7 Years)",
     "summary": "Top-of-the-line 7-year matte TPU armor for premium cars and SUVs seeking a custom satin look with ultimate paint defense.",
     "img": "assets/services/ppf-7yr-matt-tpu.webp",
@@ -1680,7 +1713,7 @@ function App() {
     "title": "PPF 3 Years - BLACK (TPH Roof & Accent Film)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 80,000",
-    "icon": "\ud83c\udfce\ufe0f",
+    "icon": "",
     "tagline": "Gloss Black Roof & Accent Protection Film",
     "summary": "Deep mirror gloss black TPH film designed for dual-tone roof wraps, pillars, mirrors, and hood accents with self-healing defense.",
     "img": "assets/services/ppf-3yr-black.webp",
@@ -1699,7 +1732,7 @@ function App() {
     "title": "PPF 5 Years - BLACK (TPH Roof & Accent Film)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,50,000",
-    "icon": "\ud83c\udfce\ufe0f",
+    "icon": "",
     "tagline": "5-Year Gloss Black Self-Healing Accent Film",
     "summary": "High-durability gloss black TPH protective film for full body or accent panel transformations.",
     "img": "assets/services/ppf-5yr-black.webp",
@@ -1718,7 +1751,7 @@ function App() {
     "title": "PPF 7 Years - BLACK (TPU Roof & Accent Film)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,80,000",
-    "icon": "\ud83d\udc51",
+    "icon": "",
     "tagline": "Flagship Black TPU Self-Healing Armor (7 Years)",
     "summary": "Flagship black TPU film combining deep piano-black mirror shine with heavy-duty anti-scratch self-healing armor.",
     "img": "assets/services/ppf-7yr-black-tpu.webp",
@@ -1737,7 +1770,7 @@ function App() {
     "title": "PPF 3 Years - COLOR WRAP (TPH Color Protection)",
     "category": "Paint Protection Film (PPF)",
     "price": "\u20b9 1,50,000",
-    "icon": "\ud83c\udfa8",
+    "icon": "",
     "tagline": "Colored Custom Wrap Protection Film",
     "summary": "Custom colored TPH protection film allowing complete vehicle color transformations with built-in stone chip defense.",
     "img": "assets/services/ppf-3yr-color.webp",
@@ -1756,7 +1789,7 @@ function App() {
     "title": "Maintenance Coating - 1 Time",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 1,500",
-    "icon": "\ud83d\udd04",
+    "icon": "",
     "tagline": "Quick Top-Up Hydrophobic Boost",
     "summary": "Single-pass studio maintenance wash & SiO2 hydrophobic booster spray application to revive ceramic/wax water beading.",
     "img": "assets/services/maintenance-1time.webp",
@@ -1775,7 +1808,7 @@ function App() {
     "title": "Ceramic Maintenance - 1 Time",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 8,000",
-    "icon": "\u2728",
+    "icon": "",
     "tagline": "Complete Decontamination & Ceramic Re-Load",
     "summary": "Full studio ceramic maintenance session including iron decontamination wash, clay bar pass, and ceramic reload coating top-up.",
     "img": "assets/services/ceramic-maintenance-1time.webp",
@@ -1794,7 +1827,7 @@ function App() {
     "title": "Graphene Maintenance - 1 Time",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 9,000",
-    "icon": "\u26a1",
+    "icon": "",
     "tagline": "Complete Decontamination & Graphene Re-Load",
     "summary": "Complete studio graphene maintenance treatment reviving slickness, gloss, and water spot defense on graphene-coated vehicles.",
     "img": "assets/services/graphene-maintenance-1time.webp",
@@ -1813,7 +1846,7 @@ function App() {
     "title": "12 Washes For 12 Months Subscription",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 4,200",
-    "icon": "\ud83c\udf9f\ufe0f",
+    "icon": "",
     "tagline": "Monthly Detailing Snow Foam Wash Package",
     "summary": "12 high-pressure snow foam detailing washes valid over 12 months with interior vacuuming and tire gel dressing.",
     "img": "assets/services/subscription-12.webp",
@@ -1832,7 +1865,7 @@ function App() {
     "title": "24 Washes For 24 Months Subscription",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 8,400",
-    "icon": "\ud83c\udf9f\ufe0f",
+    "icon": "",
     "tagline": "Bi-Monthly Detailing Snow Foam Wash Package",
     "summary": "24 detailing snow foam washes valid over 24 months for complete vehicle maintenance.",
     "img": "assets/services/subscription-24.webp",
@@ -1850,7 +1883,7 @@ function App() {
     "title": "36 Washes For 36 Months Subscription",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 12,500",
-    "icon": "\ud83c\udf9f\ufe0f",
+    "icon": "",
     "tagline": "3-Year VIP Detailing Wash Package",
     "summary": "36 detailing washes valid over 3 years with complimentary underbody flush sessions.",
     "img": "assets/services/subscription-36.webp",
@@ -1868,7 +1901,7 @@ function App() {
     "title": "60 Washes For 60 Months Subscription",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 21,000",
-    "icon": "\ud83c\udf9f\ufe0f",
+    "icon": "",
     "tagline": "5-Year VIP Unlimited Detailing Wash Package",
     "summary": "Ultimate 60-wash subscription over 5 years keeping your vehicle pristine with high-glow foam washes.",
     "img": "assets/services/subscription-60.webp",
@@ -1886,7 +1919,7 @@ function App() {
     "title": "O3 Undershield Body Coating (2 Years)",
     "category": "Maintenance & Subscriptions",
     "price": "\u20b9 3,500",
-    "icon": "\ud83d\ude9c",
+    "icon": "",
     "tagline": "Heavy-Duty Rubberized Anti-Rust Chassis Coating",
     "summary": "Heavy-duty rubberized underbody coating applied on hydraulic lift to frame rails and wheel wells to prevent monsoon rust & gravel noise.",
     "img": "assets/services/undershield-2yr.webp",
@@ -2010,9 +2043,15 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
-      // Old #story and #studio links now land on About (pages were merged)
-      if (hash === 'story' || hash === 'studio') { setCurrentView('about'); return; }
-      if (['home', 'about', 'gallery', 'services', 'products', 'plans', 'contact', 'concierge', 'testimonials', 'faq', 'franchise'].includes(hash)) {
+      // Old links to merged/hidden pages land on the right page and section
+      const aliases = { story: ['about'], studio: ['about'], concierge: ['services', 'doorstep'], faq: ['services', 'faq'], testimonials: ['home', 'reviews'], products: ['services'] };
+      if (aliases[hash]) {
+        const [v, anchor] = aliases[hash];
+        setCurrentView(v);
+        if (anchor) setTimeout(() => { const el = document.getElementById(anchor); if (el) el.scrollIntoView(); }, 600);
+        return;
+      }
+      if (['home', 'about', 'gallery', 'services', 'plans', 'contact', 'franchise'].includes(hash)) {
         setCurrentView(hash);
       }
     };
@@ -2021,9 +2060,19 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const navigateTo = (view) => {
+  // Pages merged into others (or hidden): old names land on the right section
+  const VIEW_ALIASES = { story: ['about'], studio: ['about'], concierge: ['services', 'doorstep'], faq: ['services', 'faq'], testimonials: ['home', 'reviews'], products: ['services'] };
+  const scrollToAnchor = (id) => setTimeout(() => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lenisRef.current) lenisRef.current.scrollTo(el, { offset: -100 }); else el.scrollIntoView({ behavior: 'smooth' });
+  }, 350);
+
+  const navigateTo = (requested) => {
+    const [view, anchor] = VIEW_ALIASES[requested] || [requested];
     setCurrentView(view);
     window.location.hash = view;
+    if (anchor) { setIsMobileMenuOpen(false); scrollToAnchor(anchor); return; }
     setIsMobileMenuOpen(false);
     if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
     else window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2220,7 +2269,7 @@ function App() {
         title="Direct WhatsApp Chat with Sharanpalsingh Sir"
       >
         <span className="whatsapp-pulse-dot"></span>
-        <span>💬</span>
+        <Icon name="whatsapp" className="w-7 h-7" />
       </a>
 
       {/* ================= HEADER / NAVIGATION (SEAMLESS ABSOLUTE BLENDED HEADER) ================= */}
@@ -2245,7 +2294,6 @@ function App() {
               { id: 'about', label: 'About' },
               { id: 'gallery', label: 'Work' },
               { id: 'services', label: 'Services' },
-              { id: 'products', label: 'Products' },
               { id: 'plans', label: 'Plans' },
               { id: 'contact', label: 'Contact' },
             ].map((item) => (
@@ -2254,7 +2302,7 @@ function App() {
                 onClick={() => navigateTo(item.id)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
                   currentView === item.id
-                    ? 'bg-gradient-to-r from-[#00f0ff] to-[#cae8e8] text-[#05070c] shadow-[0_0_20px_rgba(0,240,255,0.6)] font-extrabold'
+                    ? 'bg-gradient-to-r from-[#29A9E8] to-[#cae8e8] text-[#05070c] shadow-[0_0_20px_rgba(0, 141, 210, 0.3)] font-extrabold'
                     : 'text-slate-300 hover:text-white hover:bg-white/10 font-medium'
                 }`}
               >
@@ -2268,32 +2316,24 @@ function App() {
             {/* Mobile Hamburger Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden flex items-center gap-2 bg-[#0d111a]/90 border border-[#00f0ff]/40 text-[#00f0ff] px-4 py-2 rounded-full font-mono text-xs font-bold shadow-[0_0_15px_rgba(0,240,255,0.3)] active:scale-95 transition-all"
+              className="lg:hidden flex items-center gap-2 bg-[#0d111a]/90 border border-[#29A9E8]/40 text-[#29A9E8] px-4 py-2 rounded-full font-mono text-xs font-bold shadow-[0_0_15px_rgba(0, 141, 210, 0.15)] active:scale-95 transition-all"
             >
               <span>☰</span>
               <span>MENU</span>
             </button>
             <a 
               href="tel:7225030303" 
-              className="hidden xl:flex items-center gap-2 text-xs text-[#00f0ff] bg-[#00f0ff]/10 px-4 py-2 rounded-full border border-[#00f0ff]/30 hover:bg-[#00f0ff]/20 transition-all font-mono font-bold shadow-[0_0_15px_rgba(0,240,255,0.2)]"
+              className="hidden xl:flex items-center gap-2 text-xs text-[#29A9E8] bg-[#29A9E8]/10 px-4 py-2 rounded-full border border-[#29A9E8]/30 hover:bg-[#29A9E8]/20 transition-all font-mono font-bold shadow-[0_0_15px_rgba(0, 141, 210, 0.1)]"
             >
-              <span>📞</span>
+              <Icon name="phone" className="w-4 h-4" />
               <span>72250 30303</span>
             </a>
 
             <button 
               onClick={() => setIsBookingOpen(true)}
-              className="btn-primary text-xs !py-2 !px-5 font-bold shadow-[0_0_20px_rgba(0,240,255,0.4)]"
+              className="btn-primary text-xs !py-2 !px-5 font-bold shadow-[0_0_20px_rgba(0, 141, 210, 0.2)]"
             >
               Book Appointment
-            </button>
-
-            <button
-              onClick={() => setIsDrawerOpen(true)}
-              className="p-2 rounded-full text-[#cae8e8] hover:bg-[#cae8e8]/10 border border-[#cae8e8]/20 text-xs font-bold"
-              title="Inspect Design System Tokens"
-            >
-              🎨
             </button>
           </div>
         </div>
@@ -2304,7 +2344,7 @@ function App() {
 
         {/* ---------------- HOME VIEW ---------------- */}
         {currentView === 'home' && (
-          <div className="space-y-24 pb-24">
+          <div className="space-y-28 sm:space-y-36 pb-28">
             
             {/* 1. UNOBSTRUCTED 4K HERO VIDEO STAGE */}
             <section className="relative w-full overflow-hidden">
@@ -2326,7 +2366,7 @@ function App() {
                   
                   <div className="space-y-3 max-w-lg text-left pointer-events-auto">
                     <div className="pill-capsule bg-[#05070c]/70 border-[#cae8e8]/40 shadow-2xl !py-1 !px-3.5 !text-[11px]">
-                      <span className="font-bold">⭐ 13+ Years Detailing Expertise</span>
+                      <span className="font-bold">13+ Years Detailing Expertise</span>
                       <span className="text-[#cae8e8]/40">|</span>
                       <span className="font-mono text-emerald-400 font-semibold">Sharanpal Sodhi</span>
                     </div>
@@ -2337,6 +2377,9 @@ function App() {
 
                     <p className="text-shadow-hero text-xs sm:text-sm text-slate-200 font-light leading-relaxed max-w-md">
                       Precision detailing for people who care about every inch of their car. Glass Coating · Ceramic Coating · Acrylic Coating
+                    </p>
+                    <p lang="gu" className="text-shadow-hero font-gujarati text-sm text-[#cae8e8]">
+                      આણંદનો ભરોસાપાત્ર કાર ડિટેલિંગ સ્ટુડિયો · 2013 થી
                     </p>
                   </div>
 
@@ -2362,7 +2405,7 @@ function App() {
             <IndianGarageShowcase services={allServicesData} onBookService={handleOpenBookingWithService} />
 
             {/* 9. CUSTOMER REVIEWS & TESTIMONIALS HIGHLIGHT */}
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <section id="reviews" className="scroll-mt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
               <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-[#cae8e8]/20">
                 <div>
                   <span className="text-xs uppercase tracking-widest text-amber-400 font-mono font-bold">REVIEWS HIGHLIGHT</span>
@@ -2370,13 +2413,13 @@ function App() {
                     <h2 className="gsap-stagger-title text-3xl font-extrabold text-white">5.0 ★ Google Rating & Verified Stories</h2>
                   </div>
                 </div>
-                <button onClick={() => navigateTo('testimonials')} className="btn-secondary text-xs mt-4 md:mt-0">
-                  Read All Customer Reviews →
+                <button onClick={() => setShowAllReviews(v => !v)} className="btn-secondary text-xs mt-4 md:mt-0">
+                  {showAllReviews ? 'Show fewer reviews' : `Read all ${realReviews.length} reviews`}
                 </button>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
-                {realReviews.slice(0, 3).map((rev) => (
+                {(showAllReviews ? realReviews : realReviews.slice(0, 3)).map((rev) => (
                   <div key={rev.id} className="glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4">
                     <div className="space-y-3">
                       <div className="flex items-center justify-between text-xs">
@@ -2490,7 +2533,7 @@ function App() {
                 <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-[#cae8e8]/20 pb-6">
                   <div className="space-y-1">
                     <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-mono font-bold">
-                      💡 KNOWLEDGE BASE & FREQUENTLY ASKED QUESTIONS
+                      KNOWLEDGE BASE & FREQUENTLY ASKED QUESTIONS
                     </span>
                     <div className="overflow-hidden py-3">
                       <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">
@@ -2565,7 +2608,7 @@ function App() {
               <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-r from-[#0d111a] via-[#101827] to-[#05070c]">
                 
                 <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
-                  <span className="pill-capsule font-mono">📍 Studio Location & Direct API Hub</span>
+                  <span className="pill-capsule font-mono">Studio Location & Direct API Hub</span>
                   <div className="overflow-hidden py-3">
                     <h2 className="gsap-stagger-title text-3xl sm:text-4xl font-extrabold text-white">Find Our Studio & Connect Direct</h2>
                   </div>
@@ -2599,7 +2642,7 @@ function App() {
 
                     <div className="space-y-3 pt-2">
                       <div className="flex items-start gap-3">
-                        <span className="text-lg">📍</span>
+                        <span className="text-lg text-[#29A9E8] pt-0.5"><Icon name="pin" className="w-5 h-5" /></span>
                         <div>
                           <strong className="text-white block">Full Studio Address:</strong>
                           Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)
@@ -2607,7 +2650,7 @@ function App() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <span className="text-lg">⏰</span>
+                        <span className="text-lg text-[#29A9E8] pt-0.5"><Icon name="clock" className="w-5 h-5" /></span>
                         <div>
                           <strong className="text-white block">Studio Working Hours:</strong>
                           Monday – Sunday: 9:00 AM – 8:00 PM
@@ -2615,15 +2658,15 @@ function App() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <span className="text-lg">📞</span>
+                        <span className="text-lg text-[#29A9E8] pt-0.5"><Icon name="phone" className="w-5 h-5" /></span>
                         <div>
                           <strong className="text-white block">Direct Booking / Query Line:</strong>
-                          <a href="tel:7225030303" className="text-[#00f0ff] hover:underline font-mono font-bold">72250 30303</a>
+                          <a href="tel:7225030303" className="text-[#29A9E8] hover:underline font-mono font-bold">72250 30303</a>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <span className="text-lg">✉️</span>
+                        <span className="text-lg text-[#29A9E8] pt-0.5"><Icon name="mail" className="w-5 h-5" /></span>
                         <div>
                           <strong className="text-white block">Official Email:</strong>
                           <a href="mailto:o3carspavvn@gmail.com" className="text-[#cae8e8] hover:underline font-mono">o3carspavvn@gmail.com</a>
@@ -2637,7 +2680,7 @@ function App() {
                       rel="noopener noreferrer"
                       className="btn-primary text-xs w-full justify-center py-3 mt-2"
                     >
-                      🚀 Open Turn-By-Turn GPS Directions
+                      Open Turn-By-Turn GPS Directions
                     </a>
                   </div>
 
@@ -2652,7 +2695,7 @@ function App() {
                     rel="noopener noreferrer"
                     className="p-5 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 hover:border-emerald-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
                   >
-                    <div className="text-3xl text-emerald-400">💬</div>
+                    <div className="text-emerald-400 flex justify-center"><Icon name="whatsapp" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-emerald-400">WhatsApp Chat</div>
                     <div className="text-[10px] font-mono text-emerald-400">72250 30303</div>
                   </a>
@@ -2662,7 +2705,7 @@ function App() {
                     href="tel:7225030303" 
                     className="p-5 rounded-2xl bg-[#091524] border border-cyan-500/30 hover:border-cyan-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
                   >
-                    <div className="text-3xl text-cyan-400">📞</div>
+                    <div className="text-cyan-400 flex justify-center"><Icon name="phone" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-cyan-400">Call Direct</div>
                     <div className="text-[10px] font-mono text-cyan-400">72250 30303</div>
                   </a>
@@ -2674,7 +2717,7 @@ function App() {
                     rel="noopener noreferrer"
                     className="p-5 rounded-2xl bg-[#1b140a] border border-amber-500/30 hover:border-amber-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
                   >
-                    <div className="text-3xl text-amber-400">📍</div>
+                    <div className="text-amber-400 flex justify-center"><Icon name="pin" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-amber-400">GPS Directions</div>
                     <div className="text-[10px] font-mono text-amber-400">GIDC, Vidyanagar</div>
                   </a>
@@ -2686,7 +2729,7 @@ function App() {
                     rel="noopener noreferrer"
                     className="p-5 rounded-2xl bg-[#1d0918] border border-pink-500/30 hover:border-pink-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
                   >
-                    <div className="text-3xl text-pink-400">📸</div>
+                    <div className="text-pink-400 flex justify-center"><Icon name="instagram" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-pink-400">Instagram</div>
                     <div className="text-[10px] font-mono text-pink-400">@O3CarSpa</div>
                   </a>
@@ -2698,7 +2741,7 @@ function App() {
                     rel="noopener noreferrer"
                     className="p-5 rounded-2xl bg-[#0c1328] border border-blue-500/30 hover:border-blue-400 text-center space-y-2 transition-all hover:-translate-y-1 group col-span-2 sm:col-span-1"
                   >
-                    <div className="text-3xl text-blue-400">📘</div>
+                    <div className="text-blue-400 flex justify-center"><Icon name="facebook" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-blue-400">Facebook</div>
                     <div className="text-[10px] font-mono text-blue-400">O3 Car Spa</div>
                   </a>
@@ -2718,7 +2761,7 @@ function App() {
             {/* BRAND VISION HEADER */}
             <div className="text-center max-w-3xl mx-auto space-y-4">
               <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
-              <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES · SINCE 2013</span>
+              <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES · SINCE 2013</span>
               <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
                 About <span className="text-gradient-ocean font-black">O3 Car Spa</span>
               </h1>
@@ -2730,17 +2773,17 @@ function App() {
             {/* OUR STORY: 3 CHAPTERS (merged from the old Story page) */}
             <div className="grid md:grid-cols-3 gap-8">
               
-              <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
+              <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
                   <img src="assets/stills/finish-2.webp" alt="A Scorpio-N detailed at the original O3 studio" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
-                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
+                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#29A9E8] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 01 · Origin
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">How It Started</h3>
+                  <h3 className="text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors">How It Started</h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
                     O3 Car Spa began with a simple frustration — most car washes rush through the job, and cars come out looking barely better than before. We wanted to build something different: a studio where every car gets time, attention, and the right products, not just a quick rinse.
                   </p>
@@ -2750,17 +2793,17 @@ function App() {
                 </div>
               </div>
 
-              <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
+              <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
                   <img src="assets/stills/ppf-2.webp" alt="The O3 hex-LED studio bay" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
-                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
+                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#29A9E8] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 02 · Identity
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">The Meaning Behind O3</h3>
+                  <h3 className="text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors">The Meaning Behind O3</h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
                     Ozone — O3 — adds an extra layer of protection to the air around us. That's exactly what we do for your car.
                   </p>
@@ -2770,17 +2813,17 @@ function App() {
                 </div>
               </div>
 
-              <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 group">
+              <div className="glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 group">
                 <div className="relative h-56 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
                   <img src="assets/process/deliver.webp" alt="A Toyota Fortuner finished in the O3 studio today" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"  loading="lazy" decoding="async" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-80"></div>
-                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
+                  <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#29A9E8] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                     Chapter 03 · Excellence
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-extrabold text-white group-hover:text-[#00f0ff] transition-colors">Where We Are Today</h3>
+                  <h3 className="text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors">Where We Are Today</h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
                     Today, O3 Car Spa runs a full studio with modern equipment, trained detailers, and a growing list of customers who trust us with their cars — from daily drivers to premium rides.
                   </p>
@@ -2794,13 +2837,13 @@ function App() {
 
             {/* FOUNDER SPOTLIGHT CARD */}
             <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-br from-[#0a0e17] via-[#0f1726] to-[#05070c] space-y-6">
-              <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">MEET THE FOUNDER</span>
+              <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">MEET THE FOUNDER</span>
               <div className="grid lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-4 space-y-3">
                   <img src="assets/sharanpal_sodhi_founder.webp" alt="Sharanpal Sodhi — Founder, O3 Car Spa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                   <div>
                     <h3 className="text-2xl font-bold text-white">Sharanpal Sodhi</h3>
-                    <p className="text-xs text-[#00f0ff] font-mono">Founder, O3 Car Spa</p>
+                    <p className="text-xs text-[#29A9E8] font-mono">Founder, O3 Car Spa</p>
                   </div>
                 </div>
                 <div className="lg:col-span-8 space-y-4">
@@ -2820,28 +2863,28 @@ function App() {
             {/* IN-DEPTH 13-YEAR TIMELINE */}
             <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]">
               <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">HERITAGE TIMELINE</span>
+                <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">HERITAGE TIMELINE</span>
                 <h2 className="text-3xl font-extrabold text-white">Our 13-Year Milestone Journey</h2>
               </div>
 
               <div className="grid md:grid-cols-4 gap-6 text-left">
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2013 — FOUNDATION</span>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#29A9E8] transition-all">
+                  <span className="text-xs font-mono text-[#29A9E8] font-bold">2013 — FOUNDATION</span>
                   <h4 className="text-base font-bold text-white">First Studio Opening</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">Sharanpal Sir establishes Anand's first specialized car spa bay in GIDC, Vallabh Vidyanagar.</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2016 — INNOVATION</span>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#29A9E8] transition-all">
+                  <span className="text-xs font-mono text-[#29A9E8] font-bold">2016 — INNOVATION</span>
                   <h4 className="text-base font-bold text-white">9H Silica Ceramic Pass</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">Introduces liquid silica quartz ceramic coating and infrared curing lamps to Anand.</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">2020 — EXPANSION</span>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#29A9E8] transition-all">
+                  <span className="text-xs font-mono text-[#29A9E8] font-bold">2020 — EXPANSION</span>
                   <h4 className="text-base font-bold text-white">O3 On Wheels Concierge</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">Launches fully equipped mobile detailing truck unit for doorstep visits.</p>
                 </div>
-                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                  <span className="text-xs font-mono text-[#00f0ff] font-bold">PRESENT — FLAGSHIP</span>
+                <div className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#29A9E8] transition-all">
+                  <span className="text-xs font-mono text-[#29A9E8] font-bold">PRESENT — FLAGSHIP</span>
                   <h4 className="text-base font-bold text-white">Hex-LED Studio Bay</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">A hexagonal LED-lit bay where every car, from daily drivers to premium SUVs, is inspected and finished.</p>
                 </div>
@@ -2851,7 +2894,7 @@ function App() {
             {/* MISSION & 3 DIFFERENTIATORS */}
             <div className="grid md:grid-cols-2 gap-8">
               <div className="glass-surface p-8 border border-[#cae8e8]/30 space-y-4 bg-[#0d111a]">
-                <span className="text-xs font-mono text-[#00f0ff] uppercase font-bold">Our Mission</span>
+                <span className="text-xs font-mono text-[#29A9E8] uppercase font-bold">Our Mission</span>
                 <h3 className="text-2xl font-bold text-white">Honest, Thorough & Done Right</h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                   To give every car the kind of care it deserves — honest, thorough, and done right the first time. We treat detailing as a precision craft rather than a volume business.
@@ -2859,18 +2902,18 @@ function App() {
               </div>
 
               <div className="glass-surface p-8 border border-[#cae8e8]/30 space-y-4 bg-[#0d111a]">
-                <span className="text-xs font-mono text-[#00f0ff] uppercase font-bold">What Makes Us Different</span>
+                <span className="text-xs font-mono text-[#29A9E8] uppercase font-bold">What Makes Us Different</span>
                 <ul className="space-y-3 text-xs sm:text-sm text-slate-300">
                   <li className="flex items-start gap-2">
-                    <span className="text-[#00f0ff] font-bold">✓</span>
+                    <span className="text-[#29A9E8] font-bold">✓</span>
                     <span><strong>No shortcuts:</strong> Every wash, every coat, every polish is done the full way — not the fast way.</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-[#00f0ff] font-bold">✓</span>
+                    <span className="text-[#29A9E8] font-bold">✓</span>
                     <span><strong>Global-standard products:</strong> We only use brands trusted by detailers worldwide.</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <span className="text-[#00f0ff] font-bold">✓</span>
+                    <span className="text-[#29A9E8] font-bold">✓</span>
                     <span><strong>Real training:</strong> Our team isn't just taught to clean — they're taught to care.</span>
                   </li>
                 </ul>
@@ -2880,7 +2923,7 @@ function App() {
             {/* 4 STUDIO CORE VALUES */}
             <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]">
               <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">STUDIO STANDARDS</span>
+                <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">STUDIO STANDARDS</span>
                 <h2 className="text-3xl font-extrabold text-white">Our 4 Core Studio Pillars</h2>
               </div>
 
@@ -2891,8 +2934,8 @@ function App() {
                   { num: '03', title: '6500K Inspection', desc: 'Bright daylight LEDs reveal swirls and haze that normal light hides.' },
                   { num: '04', title: 'Lifetime Support', desc: 'Continuous ceramic maintenance support, annual check-ups, and warranties.' },
                 ].map((p, pIdx) => (
-                  <div key={pIdx} className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#00f0ff] transition-all">
-                    <span className="text-xs font-mono text-[#00f0ff] font-bold">{p.num}</span>
+                  <div key={pIdx} className="p-5 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-2 hover:border-[#29A9E8] transition-all">
+                    <span className="text-xs font-mono text-[#29A9E8] font-bold">{p.num}</span>
                     <h4 className="text-base font-bold text-white">{p.title}</h4>
                     <p className="text-xs text-slate-400 leading-relaxed">{p.desc}</p>
                   </div>
@@ -2906,7 +2949,7 @@ function App() {
                 <img src="assets/process/correct.webp" alt="An O3 detailer machine-polishing a Mahindra Scorpio-N" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">Our Detailers</h3>
-                  <span className="text-xs text-[#00f0ff] font-mono">Trained in-house by Sharanpal Sir</span>
+                  <span className="text-xs text-[#29A9E8] font-mono">Trained in-house by Sharanpal Sir</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Trained in multi-stage machine polishing, steam cleaning, coating application and PPF edge tucking.
@@ -2917,7 +2960,7 @@ function App() {
                 <img src="assets/stills/coat-1.webp" alt="Applying graphene coating on a Maruti Brezza" className="w-full h-64 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div>
                   <h3 className="text-xl font-bold text-white">Tools & Products</h3>
-                  <span className="text-xs text-[#00f0ff] font-mono">Trusted brands, proper machines</span>
+                  <span className="text-xs text-[#29A9E8] font-mono">Trusted brands, proper machines</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
                   Equipped with infra-red curing lamps, 6500K daylight LED lights, machine polishers and steam cleaners.
@@ -2928,7 +2971,7 @@ function App() {
             {/* BRANDS WE TRUST SECTION */}
             <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]">
               <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">AUTHENTIC PRODUCTS ONLY</span>
+                <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">AUTHENTIC PRODUCTS ONLY</span>
                 <h2 className="text-3xl font-extrabold text-white">Brands We Trust</h2>
                 <p className="text-xs text-slate-300">Every product on your car is a trusted, industry-leading global brand.</p>
               </div>
@@ -2945,8 +2988,8 @@ function App() {
                   { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.webp" },
                   { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.webp" },
                 ].map((b, bIdx) => (
-                  <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#00f0ff] transition-all flex flex-col justify-between group hover:-translate-y-1">
-                    <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#00f0ff]/50 transition-all">
+                  <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#29A9E8] transition-all flex flex-col justify-between group hover:-translate-y-1">
+                    <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#29A9E8]/50 transition-all">
                       <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform"  loading="lazy" decoding="async" />
                     </div>
                     <div>
@@ -2987,17 +3030,17 @@ function App() {
                 <div 
                   key={cIdx} 
                   onClick={() => setProductCategory(cItem.cat)}
-                  className="glass-surface p-4 border border-[#cae8e8]/25 hover:border-[#00f0ff] space-y-3 cursor-pointer group transition-all duration-300 hover:-translate-y-1"
+                  className="glass-surface p-4 border border-[#cae8e8]/25 hover:border-[#29A9E8] space-y-3 cursor-pointer group transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="relative h-44 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
                     <img src={cItem.img} alt={cItem.title} className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"  loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent opacity-80"></div>
-                    <span className="absolute bottom-3 left-3 text-xs font-mono font-bold text-[#00f0ff] bg-[#05070c]/80 px-2.5 py-1 rounded-full border border-[#00f0ff]/30">
+                    <span className="absolute bottom-3 left-3 text-xs font-mono font-bold text-[#29A9E8] bg-[#05070c]/80 px-2.5 py-1 rounded-full border border-[#29A9E8]/30">
                       Explore SKU Grid →
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-[#00f0ff] transition-colors">{cItem.title}</h3>
+                    <h3 className="text-lg font-bold text-white group-hover:text-[#29A9E8] transition-colors">{cItem.title}</h3>
                     <p className="text-xs text-slate-300 leading-relaxed line-clamp-2 mt-1">{cItem.desc}</p>
                   </div>
                 </div>
@@ -3007,18 +3050,18 @@ function App() {
             {/* PRODUCT FILTER TABS */}
             <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto pt-4 border-t border-[#cae8e8]/20">
               {[
-                { id: 'all', label: '🛒 All Products (12)' },
-                { id: 'Exterior Care', label: '🧼 Exterior Care' },
-                { id: 'Interior Care', label: '🪑 Interior Care' },
-                { id: 'Coating Kits', label: '✨ Coating Kits' },
-                { id: 'Tools & Accessories', label: '🧽 Tools & Accessories' }
+                { id: 'all', label: 'All Products (12)' },
+                { id: 'Exterior Care', label: 'Exterior Care' },
+                { id: 'Interior Care', label: 'Interior Care' },
+                { id: 'Coating Kits', label: 'Coating Kits' },
+                { id: 'Tools & Accessories', label: 'Tools & Accessories' }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setProductCategory(tab.id)}
                   className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                     productCategory === tab.id
-                      ? 'bg-[#00f0ff] text-[#05070c] shadow-[0_0_20px_rgba(0,240,255,0.4)] font-bold'
+                      ? 'bg-[#29A9E8] text-[#05070c] shadow-[0_0_20px_rgba(0, 141, 210, 0.2)] font-bold'
                       : 'bg-[#0d111a] text-slate-300 border border-[#cae8e8]/20 hover:border-[#cae8e8]/50'
                   }`}
                 >
@@ -3163,22 +3206,22 @@ function App() {
                   inStock: true
                 }
               ].filter(item => productCategory === 'all' || item.category === productCategory).map((prod) => (
-                <div key={prod.id} className="glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group hover:border-[#00f0ff] transition-all">
+                <div key={prod.id} className="glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group hover:border-[#29A9E8] transition-all">
                   
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video">
                       <img src={prod.img} alt={prod.name} className={`w-full h-full group-hover:scale-105 transition-transform duration-500 ${(prod.img.includes('/logos/') || prod.img.includes('/brand/')) ? 'object-contain p-10 bg-black/40' : 'object-cover'}`} loading="lazy" decoding="async" />
-                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
+                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#29A9E8] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                         {prod.brand}
                       </span>
-                      <span className="absolute bottom-3 right-3 bg-[#00f0ff] text-[#05070c] font-extrabold text-xs font-mono px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,240,255,0.5)]">
+                      <span className="absolute bottom-3 right-3 bg-[#29A9E8] text-[#05070c] font-extrabold text-xs font-mono px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0, 141, 210, 0.25)]">
                         {prod.price}
                       </span>
                     </div>
 
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-[#cae8e8] uppercase font-bold">{prod.category}</span>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#00f0ff] transition-colors leading-snug">{prod.name}</h3>
+                      <h3 className="text-lg font-bold text-white group-hover:text-[#29A9E8] transition-colors leading-snug">{prod.name}</h3>
                       <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{prod.desc}</p>
                     </div>
 
@@ -3193,7 +3236,7 @@ function App() {
                       onClick={() => setSelectedProduct(prod)}
                       className="btn-secondary text-xs flex-1 justify-center py-2.5"
                     >
-                      <span>View Details 🔍</span>
+                      <span>View Details</span>
                     </button>
                     <a 
                       href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`}
@@ -3201,7 +3244,7 @@ function App() {
                       rel="noopener noreferrer"
                       className="btn-primary text-xs flex-1 justify-center py-2.5"
                     >
-                      <span>Order Now 🛒</span>
+                      <span>Order Now</span>
                     </a>
                   </div>
 
@@ -3212,7 +3255,7 @@ function App() {
             {/* FEATURED GLOBAL DETAILING BRANDS SHOWCASE */}
             <div className="glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]">
               <div className="text-center max-w-2xl mx-auto space-y-2">
-                <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-mono font-bold">100% AUTHENTIC FORMULATIONS</span>
+                <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">100% AUTHENTIC FORMULATIONS</span>
                 <h2 className="text-3xl font-extrabold text-white">Global Brands We Stock</h2>
                 <p className="text-xs text-slate-300">We stock the exact imported detailing brands used in our Vallabh Vidyanagar studio bay.</p>
               </div>
@@ -3229,8 +3272,8 @@ function App() {
                   { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.webp" },
                   { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.webp" },
                 ].map((b, bIdx) => (
-                  <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#00f0ff] transition-all flex flex-col justify-between group hover:-translate-y-1">
-                    <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#00f0ff]/50 transition-all">
+                  <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#29A9E8] transition-all flex flex-col justify-between group hover:-translate-y-1">
+                    <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#29A9E8]/50 transition-all">
                       <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform"  loading="lazy" decoding="async" />
                     </div>
                     <div>
@@ -3254,9 +3297,9 @@ function App() {
                   </button>
 
                   <div className="space-y-2">
-                    <span className="text-xs font-mono text-[#00f0ff] font-bold uppercase">{selectedProduct.category} · {selectedProduct.brand}</span>
+                    <span className="text-xs font-mono text-[#29A9E8] font-bold uppercase">{selectedProduct.category} · {selectedProduct.brand}</span>
                     <h2 className="text-2xl font-extrabold text-white">{selectedProduct.name}</h2>
-                    <div className="gsap-counter text-3xl font-extrabold text-[#00f0ff] font-mono">{selectedProduct.price}</div>
+                    <div className="gsap-counter text-3xl font-extrabold text-[#29A9E8] font-mono">{selectedProduct.price}</div>
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black h-56">
@@ -3280,7 +3323,7 @@ function App() {
                       rel="noopener noreferrer"
                       className="btn-primary text-xs w-full justify-center py-3"
                     >
-                      Instant Order via WhatsApp 💬
+                      Instant Order via WhatsApp
                     </a>
                   </div>
                 </div>
@@ -3318,8 +3361,8 @@ function App() {
                   onClick={() => setServiceCategory(cat.id)}
                   className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all border ${
                     serviceCategory === cat.id
-                      ? 'bg-[#00f0ff] text-[#05070c] border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] scale-105'
-                      : 'bg-[#0d111a]/80 text-slate-300 border-[#cae8e8]/20 hover:border-[#00f0ff]/50 hover:text-white'
+                      ? 'bg-[#29A9E8] text-[#05070c] border-[#29A9E8] shadow-[0_0_20px_rgba(0, 141, 210, 0.2)] scale-105'
+                      : 'bg-[#0d111a]/80 text-slate-300 border-[#cae8e8]/20 hover:border-[#29A9E8]/50 hover:text-white'
                   }`}
                 >
                   {cat.label}
@@ -3330,7 +3373,7 @@ function App() {
             {/* 47 EXHAUSTIVE OFFICIAL VISUAL SERVICE CARDS GRID */}
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-[#cae8e8]/20 pb-4">
-                <span className="text-xs font-mono font-bold text-[#00f0ff] uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-[#29A9E8] uppercase tracking-wider">
                   {serviceCategory === 'all' ? 'ALL 47 CERTIFIED CAR-SPA SERVICES' : serviceCategory.toUpperCase()}
                 </span>
                 <span className="text-xs text-slate-400 font-mono">
@@ -3343,7 +3386,7 @@ function App() {
                   <div 
                     key={s.id} 
                     onClick={() => setActiveServiceDetail(s)}
-                    className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#00f0ff] transition-all duration-300 hover:-translate-y-1.5 shadow-xl cursor-pointer"
+                    className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 hover:-translate-y-1.5 shadow-xl cursor-pointer"
                   >
                     <div className="space-y-3">
                       {/* CARD IMAGE & BADGES */}
@@ -3362,27 +3405,22 @@ function App() {
                         </span>
 
                         {/* Official Tariff Price Badge (bottom right, clear of the image title) */}
-                        <span className="absolute bottom-3 right-3 bg-[#05070c]/90 border border-[#00f0ff]/60 text-[#00f0ff] text-sm font-mono font-extrabold px-3.5 py-1.5 rounded-full shadow-[0_0_20px_rgba(0,240,255,0.5)]">
+                        <span className="absolute bottom-3 right-3 bg-[#05070c]/90 border border-[#29A9E8]/60 text-[#29A9E8] text-sm font-mono font-extrabold px-3.5 py-1.5 rounded-full shadow-[0_0_20px_rgba(0, 141, 210, 0.25)]">
                           {s.price}
                         </span>
                       </div>
 
                       {/* CATEGORY & ICON */}
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl">{s.icon}</span>
-                        <span className="text-[10px] font-mono text-[#00f0ff] uppercase font-bold tracking-wider">{s.category}</span>
+                        <span className="text-[10px] font-mono text-[#29A9E8] uppercase font-bold tracking-wider">{s.category}</span>
                       </div>
 
                       {/* TITLE & TAGLINE */}
-                      <h3 className="text-xl font-bold text-white group-hover:text-[#00f0ff] transition-colors leading-snug">{s.title}</h3>
+                      <h3 className="text-xl font-bold text-white group-hover:text-[#29A9E8] transition-colors leading-snug">{s.title}</h3>
                       <p className="text-xs text-slate-300 leading-relaxed line-clamp-2">{s.tagline}</p>
 
-                      {/* QUICK SPECS PREVIEW */}
-                      <div className="pt-2 text-[11px] text-slate-400 space-y-1 font-mono border-t border-[#cae8e8]/10">
-                        <div><strong className="text-white">Official Price:</strong> <span className="text-[#00f0ff] font-bold">{s.price}</span></div>
-                        <div><strong className="text-white">Durability:</strong> {s.durability}</div>
-                        <div><strong className="text-white">Equipment:</strong> {s.equipment.slice(0, 36)}...</div>
-                      </div>
+                      {/* Price is on the image chip; full specs live in Open Details */}
+                      <p className="text-[11px] text-slate-400">Lasts: <span className="text-slate-200">{s.durability}</span></p>
                     </div>
 
                     {/* CARD ACTIONS */}
@@ -3391,7 +3429,7 @@ function App() {
                         onClick={(e) => { e.stopPropagation(); setActiveServiceDetail(s); }} 
                         className="btn-secondary text-xs flex-1 justify-center py-2.5 font-bold"
                       >
-                        <span>Open Details 🔍</span>
+                        <span>Open Details</span>
                       </button>
                       <button 
                         onClick={(e) => { e.stopPropagation(); handleOpenBookingWithService(s.title); }} 
@@ -3403,6 +3441,103 @@ function App() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* DOORSTEP SERVICE (merged from the old Concierge page) */}
+            <div id="doorstep" className="scroll-mt-28">
+            <div className="glass-surface p-8 sm:p-12 bg-gradient-to-r from-[#0d111a] via-[#101726] to-[#05070c] border border-[#cae8e8]/30">
+              <div className="grid lg:grid-cols-12 gap-10 items-center">
+                <div className="lg:col-span-7 space-y-6">
+                  <span className="inline-block bg-[#cae8e8]/15 text-[#cae8e8] px-4 py-1.5 rounded-full text-xs font-mono font-bold border border-[#cae8e8]/30">
+                    Sub-Brand: O3 On Wheels
+                  </span>
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
+                    Doorstep Mobile Detailing <br />
+                    <span className="text-gradient-ocean">Concierge Unit.</span>
+                  </h2>
+                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Can't make it to our studio? O3 On Wheels delivers the complete studio experience directly to your doorstep, residential garage, or office park in Anand and surrounding areas.
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-4 text-xs text-slate-300 pt-2">
+                    <div className="p-3 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20">
+                      <strong className="text-white block">Onboard Silent Generator</strong>
+                      100% self-powered mobile detailing.
+                    </div>
+                    <div className="p-3 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20">
+                      <strong className="text-white block">Purified Water Tank</strong>
+                      Zero mineral water spots on your finish.
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 pt-2">
+                    <button onClick={() => setIsBookingOpen(true)} className="btn-primary">
+                      Book Doorstep Visit Now
+                    </button>
+                    <a href="tel:9033088869" className="btn-secondary">
+                      Call 90330 88869
+                    </a>
+                  </div>
+                </div>
+
+                <div className="lg:col-span-5">
+                  <img src="assets/o3_on_wheels.webp" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                </div>
+              </div>
+            </div>
+            </div>
+
+            {/* FAQ (merged from the old FAQ page) */}
+            <div id="faq" className="scroll-mt-28 max-w-5xl mx-auto space-y-8">
+            <div className="text-center max-w-2xl mx-auto space-y-3">
+              <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-bold font-mono">Knowledge Base</span>
+              <h2 className="text-4xl font-extrabold text-white">Frequently Asked Questions</h2>
+              <p className="text-slate-300 text-sm">Everything you need to know about PPF, Ceramic Coating, and Doorstep Concierge services.</p>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                {
+                  q: 'What is the difference between Ceramic Coating and Paint Protection Film (PPF)?',
+                  a: 'PPF is a physical self-healing thermoplastic polyurethane film designed to absorb impact energy from stones, gravel, and scratches. Ceramic Coating is a liquid silica polymer that chemically bonds to the paint, creating hyper-hydrophobic water beading, chemical resistance, and mirror gloss.'
+                },
+                {
+                  q: 'How does O3 On Wheels doorstep car detailing work?',
+                  a: 'Our mobile unit arrives directly at your home or office equipped with high-pressure foam wash systems, clean water, generators, vacuum extractors, and imported compounds.'
+                },
+                {
+                  q: 'How long does a studio Paint Correction & Ceramic Coating take?',
+                  a: 'A thorough 2-stage paint correction and 9H ceramic coating application takes 24 to 48 hours to allow proper decontamination, defect removal, and infra-red curing.'
+                },
+                {
+                  q: 'Does Paint Protection Film yellow or bubble over time?',
+                  a: 'We use non-yellowing, optical-grade TPU PPF backed by studio warranties against yellowing, cracking, or peeling.'
+                },
+                {
+                  q: 'What chemicals and compounds are used at O3 Car Spa?',
+                  a: "We use trusted brands such as Würth, Menzerna, Meguiar's, 3M and Kisho. The full list is on our About page."
+                },
+                {
+                  q: 'Can PPF or Ceramic Coating be applied to matte or satin paint finishes?',
+                  a: 'Yes! We offer specialized Matte Ceramic Coatings and Matte Self-Healing PPF that preserve the satin finish without adding unwanted gloss.'
+                }
+              ].map((faq, idx) => (
+                <div key={idx} className="glass-surface border border-[#cae8e8]/20 overflow-hidden">
+                  <button 
+                    onClick={() => setExpandedFaq(expandedFaq === idx ? -1 : idx)}
+                    className="w-full p-5 text-left flex items-center justify-between font-bold text-[#cae8e8]"
+                  >
+                    <span>{faq.q}</span>
+                    <span>{expandedFaq === idx ? '−' : '+'}</span>
+                  </button>
+                  {expandedFaq === idx && (
+                    <div className="px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-[#cae8e8]/15 pt-3">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
             </div>
 
           </div>
@@ -3441,7 +3576,7 @@ function App() {
                 },
                 {
                   name: 'Ceramic Leather AMC',
-                  badge: '⭐ MOST POPULAR',
+                  badge: 'MOST POPULAR',
                   highlight: true,
                   img: 'assets/process/protect.webp',
                   price: 'Flagship Studio AMC',
@@ -3482,13 +3617,13 @@ function App() {
                   ]
                 }
               ].map((plan, idx) => (
-                <div key={idx} className={`glass-surface p-5 border flex flex-col justify-between space-y-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlight ? 'border-[#00f0ff] bg-[#0d1726] shadow-[0_0_30px_rgba(0,240,255,0.25)]' : 'border-[#cae8e8]/25 bg-[#0d111a]'}`}>
+                <div key={idx} className={`glass-surface p-5 border flex flex-col justify-between space-y-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlight ? 'border-[#29A9E8] bg-[#0d1726] shadow-[0_0_30px_rgba(0, 141, 210, 0.13)]' : 'border-[#cae8e8]/25 bg-[#0d111a]'}`}>
                   
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden h-36 bg-black border border-[#cae8e8]/20">
                       <img src={plan.img} alt={plan.name} className="w-full h-full object-cover"  loading="lazy" decoding="async" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0d111a] via-transparent to-transparent opacity-90"></div>
-                      <span className={`absolute top-3 left-3 text-[10px] font-mono font-bold uppercase px-3 py-1 rounded-full border ${plan.highlight ? 'bg-[#00f0ff] text-[#05070c] border-[#00f0ff]' : 'bg-[#05070c]/80 text-[#00f0ff] border-[#00f0ff]/30'}`}>
+                      <span className={`absolute top-3 left-3 text-[10px] font-mono font-bold uppercase px-3 py-1 rounded-full border ${plan.highlight ? 'bg-[#29A9E8] text-[#05070c] border-[#29A9E8]' : 'bg-[#05070c]/80 text-[#29A9E8] border-[#29A9E8]/30'}`}>
                         {plan.badge}
                       </span>
                     </div>
@@ -3501,7 +3636,7 @@ function App() {
                     <ul className="space-y-2.5 text-xs text-slate-300 pt-2 border-t border-[#cae8e8]/15">
                       {plan.features.map((feat, fIdx) => (
                         <li key={fIdx} className="flex items-start gap-2">
-                          <span className="text-[#00f0ff] font-bold text-sm leading-none">✓</span>
+                          <span className="text-[#29A9E8] font-bold text-sm leading-none">✓</span>
                           <span className="leading-snug">{feat}</span>
                         </li>
                       ))}
@@ -3537,21 +3672,21 @@ function App() {
             {/* CATEGORY FILTER TABS */}
             <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
               {[
-                { id: 'all', label: '🌟 All Media (44)' },
-                { id: 'videos', label: '🎥 Videos (14)' },
-                { id: 'PPF Armor', label: '🛡️ PPF Armor' },
-                { id: 'Ceramic & Graphene', label: '✨ Ceramic & Graphene' },
-                { id: 'Interior & Steam', label: '🧼 Interior & Steam' },
-                { id: 'Customer Reels', label: '⚡ Customer Reels' },
-                { id: 'Service Design Specs', label: '📋 Service Specs' },
-                { id: 'Studio Photos', label: '📸 Studio Photos' }
+                { id: 'all', label: 'All Media (44)' },
+                { id: 'videos', label: 'Videos (14)' },
+                { id: 'PPF Armor', label: 'PPF Armor' },
+                { id: 'Ceramic & Graphene', label: 'Ceramic & Graphene' },
+                { id: 'Interior & Steam', label: 'Interior & Steam' },
+                { id: 'Customer Reels', label: 'Customer Reels' },
+                { id: 'Service Design Specs', label: 'Service Specs' },
+                { id: 'Studio Photos', label: 'Studio Photos' }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setGalleryCategory(tab.id)}
                   className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                     galleryCategory === tab.id
-                      ? 'bg-[#00f0ff] text-[#05070c] shadow-[0_0_20px_rgba(0,240,255,0.4)] font-bold'
+                      ? 'bg-[#29A9E8] text-[#05070c] shadow-[0_0_20px_rgba(0, 141, 210, 0.2)] font-bold'
                       : 'bg-[#0d111a] text-slate-300 border border-[#cae8e8]/20 hover:border-[#cae8e8]/50'
                   }`}
                 >
@@ -3569,7 +3704,7 @@ function App() {
     "desc": "High-pressure snow foam decontamination bath prior to PPF installation.",
     "src": "assets/gallery/web/13_wash_coat_ppf.mp4",
     "category": "PPF Armor",
-    "badge": "\ud83d\udee1\ufe0f PPF Prep",
+    "badge": "PPF Prep",
     "type": "video"
   },
   {
@@ -3578,7 +3713,7 @@ function App() {
     "desc": "Multi-stage compounding and mirror finish polish on BMW.",
     "src": "assets/gallery/web/26_bmw_edit.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\ud83c\udfce\ufe0f BMW Detailing",
+    "badge": "BMW Detailing",
     "type": "video"
   },
   {
@@ -3587,7 +3722,7 @@ function App() {
     "desc": "High-temperature steam cleaning for seats, carpets and upholstery.",
     "src": "assets/gallery/web/8_interior_steam_cleaning.mp4",
     "category": "Interior & Steam",
-    "badge": "\ud83e\uddfc Steam Sanitization",
+    "badge": "Steam Sanitization",
     "type": "video"
   },
   {
@@ -3596,7 +3731,7 @@ function App() {
     "desc": "Paint defect removal and silica quartz coating application on Scorpio.",
     "src": "assets/gallery/web/graphene_and_normal_coating_25_scorpio_polish_and_coating.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Scorpio Ceramic",
+    "badge": "Scorpio Ceramic",
     "type": "video"
   },
   {
@@ -3605,7 +3740,7 @@ function App() {
     "desc": "Extreme hydrophobic matrix bonding on Fortuner clear coat.",
     "src": "assets/gallery/web/graphene_and_normal_coating_27_fortuner_coating.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Fortuner Graphene",
+    "badge": "Fortuner Graphene",
     "type": "video"
   },
   {
@@ -3614,7 +3749,7 @@ function App() {
     "desc": "Machine polish and coating on a Kia Carens.",
     "src": "assets/gallery/web/graphene_and_normal_coating_29_kia_coating.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Kia Carens Coating",
+    "badge": "Kia Carens Coating",
     "type": "video"
   },
   {
@@ -3623,7 +3758,7 @@ function App() {
     "desc": "Dual-layer graphene heat resistance and deep mirror gloss.",
     "src": "assets/gallery/web/graphene_and_normal_coating_30_scorpio_graphene_coating.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Graphene Shield",
+    "badge": "Graphene Shield",
     "type": "video"
   },
   {
@@ -3632,7 +3767,7 @@ function App() {
     "desc": "Ultra-durable hydrophobic coat protecting paint against tropical UV.",
     "src": "assets/gallery/web/graphene_and_normal_coating_33_brezza_graphene_coating.mp4",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Brezza Graphene",
+    "badge": "Brezza Graphene",
     "type": "video"
   },
   {
@@ -3641,7 +3776,7 @@ function App() {
     "desc": "Squeegee pass and bubble-free optical TPU film wrap on vehicle panel.",
     "src": "assets/gallery/web/ppf_11_ppf_application.mp4",
     "category": "PPF Armor",
-    "badge": "\ud83d\udee1\ufe0f Optical TPU Pass",
+    "badge": "Optical TPU Pass",
     "type": "video"
   },
   {
@@ -3650,7 +3785,7 @@ function App() {
     "desc": "Corner tucking and seamless edge application of self-healing TPU.",
     "src": "assets/gallery/web/ppf_14_ppf_nice_video.mp4",
     "category": "PPF Armor",
-    "badge": "\ud83d\udee1\ufe0f Edge Tucking",
+    "badge": "Edge Tucking",
     "type": "video"
   },
   {
@@ -3659,7 +3794,7 @@ function App() {
     "desc": "Rugged off-road impact energy absorption film installed on Thar.",
     "src": "assets/gallery/web/ppf_28_thar_ppf.mp4",
     "category": "PPF Armor",
-    "badge": "\ud83d\udee1\ufe0f Thar PPF Armor",
+    "badge": "Thar PPF Armor",
     "type": "video"
   },
   {
@@ -3668,7 +3803,7 @@ function App() {
     "desc": "Self-healing TPU film hand-applied on a Mercedes-Benz.",
     "src": "assets/gallery/web/ppf_34_mercedes_ppf_very_nice.mp4",
     "category": "PPF Armor",
-    "badge": "\ud83d\udee1\ufe0f Mercedes-Benz PPF",
+    "badge": "Mercedes-Benz PPF",
     "type": "video"
   },
   {
@@ -3677,7 +3812,7 @@ function App() {
     "desc": "Real customer video showing optical clarity and self-healing properties.",
     "src": "assets/gallery/web/ugc_12_ugc_ppf.mp4",
     "category": "Customer Reels",
-    "badge": "\ud83c\udfa5 Client Review",
+    "badge": "Client Review",
     "type": "video"
   },
   {
@@ -3686,7 +3821,7 @@ function App() {
     "desc": "Studio transformations inside the O3 detailing bay.",
     "src": "assets/gallery/web/ugc_21_high_energy_ugc.mp4",
     "category": "Customer Reels",
-    "badge": "\u26a1 High Energy Reel",
+    "badge": "High Energy Reel",
     "type": "video"
   },
   {
@@ -3695,7 +3830,7 @@ function App() {
     "desc": "O3 service poster: foam wash, shampoo and full interior vacuum.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_17_cute_wash_design.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3704,7 +3839,7 @@ function App() {
     "desc": "O3 service poster: self-healing film that guards paint against chips and scratches.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_18_ppf_design.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3713,7 +3848,7 @@ function App() {
     "desc": "O3 service poster: graphene coating for gloss and easy-wash protection.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_19_graphene_design.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3722,7 +3857,7 @@ function App() {
     "desc": "O3 service poster: full or partial PPF wraps.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-17244.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3731,7 +3866,7 @@ function App() {
     "desc": "O3 service poster: restoring yellowed, hazy headlights instead of replacing them.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35242.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3740,7 +3875,7 @@ function App() {
     "desc": "O3 service poster: low-maintenance ceramic coating for lasting shine.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-35330.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3749,7 +3884,7 @@ function App() {
     "desc": "O3 service poster: water-repellent glass coating for clearer rainy-day driving.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-46627.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3758,7 +3893,7 @@ function App() {
     "desc": "O3 service poster: our standard wash package.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-49803.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3767,7 +3902,7 @@ function App() {
     "desc": "O3 service poster: engine bay cleaned and coated, before and after.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-67602.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3776,7 +3911,7 @@ function App() {
     "desc": "O3 service poster: ozone treatment that removes smoke, food and damp odours.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-77137.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3785,7 +3920,7 @@ function App() {
     "desc": "O3 service poster: protective coating that keeps alloys cleaner for longer.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-84181.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3794,7 +3929,7 @@ function App() {
     "desc": "O3 service poster: protection against rats chewing wires under the bonnet.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-88692.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3803,7 +3938,7 @@ function App() {
     "desc": "O3 service poster: cleaning and conditioning leather seats.",
     "src": "assets/gallery/35_44_services_design_extra_services_also_mentioned_image-91501.webp",
     "category": "Service Design Specs",
-    "badge": "\ud83d\udccb Service Spec",
+    "badge": "Service Spec",
     "type": "photo"
   },
   {
@@ -3812,7 +3947,7 @@ function App() {
     "desc": "Why paint protection film is worth it, explained.",
     "src": "assets/gallery/6__ppf_why_carousel_image-262.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3821,7 +3956,7 @@ function App() {
     "desc": "PPF keeps the showroom shine for years.",
     "src": "assets/gallery/6__ppf_why_carousel_image-29722.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3830,7 +3965,7 @@ function App() {
     "desc": "PPF helps prevent paint fading from harsh sun.",
     "src": "assets/gallery/6__ppf_why_carousel_image-70233.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3839,7 +3974,7 @@ function App() {
     "desc": "Call O3 Car-Spa: 72250 30303 | 97279 03038.",
     "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3848,7 +3983,7 @@ function App() {
     "desc": "PPF absorbs stone chips and light scratches.",
     "src": "assets/gallery/6__ppf_why_carousel_image-94354.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3857,7 +3992,7 @@ function App() {
     "desc": "PPF repels water, dirt and grime.",
     "src": "assets/gallery/6__ppf_why_carousel_image-97038.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3866,7 +4001,7 @@ function App() {
     "desc": "Deep wash, clay bar, paint correction, graphene application, curing and final inspection.",
     "src": "assets/gallery/graphene_and_normal_coating_31_graphene_coating_steps.webp",
     "category": "Ceramic & Graphene",
-    "badge": "\u2728 Graphene Process",
+    "badge": "Graphene Process",
     "type": "photo"
   },
   {
@@ -3875,7 +4010,7 @@ function App() {
     "desc": "From the O3 Car-Spa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-27511.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3884,7 +4019,7 @@ function App() {
     "desc": "From the O3 Car-Spa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-82021.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3893,7 +4028,7 @@ function App() {
     "desc": "From the O3 Car-Spa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-86981.webp",
     "category": "Studio Photos",
-    "badge": "\ud83d\udcf8 Studio Craft",
+    "badge": "Studio Craft",
     "type": "photo"
   },
   {
@@ -3902,7 +4037,7 @@ function App() {
     "desc": "Freshly detailed BMW X1 under the hex-LED lights.",
     "src": "assets/gallery/only_images_good_ones_1.2.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   },
   {
@@ -3911,7 +4046,7 @@ function App() {
     "desc": "Gloss and reflections after detailing.",
     "src": "assets/gallery/only_images_good_ones_1.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   },
   {
@@ -3920,7 +4055,7 @@ function App() {
     "desc": "Delivered outside the O3 Car-Spa studio.",
     "src": "assets/gallery/only_images_good_ones_3.1.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   },
   {
@@ -3929,7 +4064,7 @@ function App() {
     "desc": "Finished and ready for handover.",
     "src": "assets/gallery/only_images_good_ones_3.2.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   },
   {
@@ -3938,7 +4073,7 @@ function App() {
     "desc": "Clean, glossy finish after detailing.",
     "src": "assets/gallery/only_images_good_ones_3.3.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   },
   {
@@ -3947,7 +4082,7 @@ function App() {
     "desc": "Pre-wash on a white saloon in the wash bay.",
     "src": "assets/gallery/only_images_good_ones_4.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   },
   {
@@ -3956,7 +4091,7 @@ function App() {
     "desc": "Customer Jeep Wrangler outside the O3 Car-Spa studio.",
     "src": "assets/gallery/only_images_good_ones_5.webp",
     "category": "Studio Photos",
-    "badge": "\ud83c\udfce\ufe0f Studio Showcase",
+    "badge": "Studio Showcase",
     "type": "photo"
   }
 ].filter(item => {
@@ -3964,7 +4099,7 @@ function App() {
                 if (galleryCategory === 'videos') return item.type === 'video';
                 return item.category === galleryCategory;
               }).map((item) => (
-                <div key={item.id} className="glass-surface p-5 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group hover:border-[#00f0ff]/50 transition-all">
+                <div key={item.id} className="glass-surface p-5 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group hover:border-[#29A9E8]/50 transition-all">
                   
                   <div className="space-y-3">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video flex items-center justify-center">
@@ -3980,10 +4115,10 @@ function App() {
                             className="w-full h-full object-cover opacity-60 group-hover/vid:opacity-80 transition-opacity" 
                            loading="lazy" decoding="async" />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent"></div>
-                          <div className="absolute w-12 h-12 rounded-full bg-[#00f0ff]/90 text-[#05070c] font-bold flex items-center justify-center text-lg shadow-[0_0_20px_rgba(0,240,255,0.8)] group-hover/vid:scale-110 transition-transform">
+                          <div className="absolute w-12 h-12 rounded-full bg-[#29A9E8]/90 text-[#05070c] font-bold flex items-center justify-center text-lg shadow-[0_0_20px_rgba(0, 141, 210, 0.4)] group-hover/vid:scale-110 transition-transform">
                             ▶
                           </div>
-                          <span className="absolute bottom-2 text-[10px] font-mono text-white bg-black/80 px-2 py-0.5 rounded-full border border-[#00f0ff]/30">
+                          <span className="absolute bottom-2 text-[10px] font-mono text-white bg-black/80 px-2 py-0.5 rounded-full border border-[#29A9E8]/30">
                             Click to Watch Video Reel
                           </span>
                         </div>
@@ -3996,14 +4131,14 @@ function App() {
                         />
                       )}
 
-                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#00f0ff] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
+                      <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#29A9E8] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                         {item.badge}
                       </span>
                     </div>
 
                     <div>
                       <span className="text-[10px] font-mono text-[#cae8e8] uppercase font-bold block">{item.category}</span>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#00f0ff] transition-colors leading-snug">{item.title}</h3>
+                      <h3 className="text-lg font-bold text-white group-hover:text-[#29A9E8] transition-colors leading-snug">{item.title}</h3>
                       <p className="text-xs text-slate-300 mt-1 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -4013,7 +4148,7 @@ function App() {
                       onClick={() => setLightboxMedia(item)}
                       className="btn-secondary text-xs w-full justify-center py-2.5"
                     >
-                      🔍 Enlarge Photo
+                      Enlarge Photo
                     </button>
                   )}
 
@@ -4033,7 +4168,7 @@ function App() {
                   </button>
 
                   <div className="space-y-1">
-                    <span className="text-xs font-mono text-[#00f0ff] font-bold">{lightboxMedia.badge}</span>
+                    <span className="text-xs font-mono text-[#29A9E8] font-bold">{lightboxMedia.badge}</span>
                     <h3 className="text-2xl font-bold text-white">{lightboxMedia.title}</h3>
                     <p className="text-xs text-slate-300">{lightboxMedia.desc}</p>
                   </div>
@@ -4048,91 +4183,6 @@ function App() {
                 </div>
               </div>
             )}
-
-          </div>
-        )}
-
-        {/* ---------------- CONCIERGE VIEW ---------------- */}
-        {currentView === 'concierge' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-            
-            <div className="glass-surface p-8 sm:p-12 bg-gradient-to-r from-[#0d111a] via-[#101726] to-[#05070c] border border-[#cae8e8]/30">
-              <div className="grid lg:grid-cols-12 gap-10 items-center">
-                <div className="lg:col-span-7 space-y-6">
-                  <span className="inline-block bg-[#cae8e8]/15 text-[#cae8e8] px-4 py-1.5 rounded-full text-xs font-mono font-bold border border-[#cae8e8]/30">
-                    Sub-Brand: O3 On Wheels
-                  </span>
-                  <h1 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight">
-                    Doorstep Mobile Detailing <br />
-                    <span className="text-gradient-ocean">Concierge Unit.</span>
-                  </h1>
-                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                    Can't make it to our studio? O3 On Wheels delivers the complete studio experience directly to your doorstep, residential garage, or office park in Anand and surrounding areas.
-                  </p>
-                  
-                  <div className="grid grid-cols-2 gap-4 text-xs text-slate-300 pt-2">
-                    <div className="p-3 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20">
-                      <strong className="text-white block">⚡ Onboard Silent Generator</strong>
-                      100% self-powered mobile detailing.
-                    </div>
-                    <div className="p-3 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20">
-                      <strong className="text-white block">💧 Purified Water Tank</strong>
-                      Zero mineral water spots on your finish.
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4 pt-2">
-                    <button onClick={() => setIsBookingOpen(true)} className="btn-primary">
-                      Book Doorstep Visit Now
-                    </button>
-                    <a href="tel:9033088869" className="btn-secondary">
-                      📞 Call 90330 88869
-                    </a>
-                  </div>
-                </div>
-
-                <div className="lg:col-span-5">
-                  <img src="assets/o3_on_wheels.webp" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* ---------------- STANDALONE REVIEWS VIEW ---------------- */}
-        {currentView === 'testimonials' && (
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
-            
-            <div className="text-center max-w-3xl mx-auto space-y-3">
-              <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-bold">Real Customer Validation</span>
-              <h1 className="text-4xl font-extrabold text-white">Customer Reviews</h1>
-              <p className="text-slate-300 text-sm">Real reviews left by valued customers at O3 Car Spa.</p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {realReviews.map((rev) => (
-                <div key={rev.id} className="gsap-review-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-amber-400 font-bold">{rev.rating}</span>
-                      <span className="text-slate-400 font-mono text-[10px]">{rev.time}</span>
-                    </div>
-                    <p className="text-xs text-slate-300 leading-relaxed italic">"{rev.quote}"</p>
-                  </div>
-
-                  <div className="pt-3 border-t border-[#cae8e8]/15 flex items-center justify-between text-xs">
-                    <div>
-                      <strong className="text-white block">{rev.author}</strong>
-                      <span className="text-[#cae8e8] text-[11px] font-medium">{rev.car}</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full border border-emerald-400/20">
-                      Verified Review
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
 
           </div>
         )}
@@ -4204,63 +4254,6 @@ function App() {
           </div>
         )}
 
-        {/* ---------------- FAQ VIEW ---------------- */}
-        {currentView === 'faq' && (
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
-            
-            <div className="text-center max-w-2xl mx-auto space-y-3">
-              <span className="text-xs uppercase tracking-widest text-[#cae8e8] font-bold font-mono">Knowledge Base</span>
-              <h1 className="text-4xl font-extrabold text-white">Frequently Asked Questions</h1>
-              <p className="text-slate-300 text-sm">Everything you need to know about PPF, Ceramic Coating, and Doorstep Concierge services.</p>
-            </div>
-
-            <div className="space-y-4">
-              {[
-                {
-                  q: 'What is the difference between Ceramic Coating and Paint Protection Film (PPF)?',
-                  a: 'PPF is a physical self-healing thermoplastic polyurethane film designed to absorb impact energy from stones, gravel, and scratches. Ceramic Coating is a liquid silica polymer that chemically bonds to the paint, creating hyper-hydrophobic water beading, chemical resistance, and mirror gloss.'
-                },
-                {
-                  q: 'How does O3 On Wheels doorstep car detailing work?',
-                  a: 'Our mobile unit arrives directly at your home or office equipped with high-pressure foam wash systems, clean water, generators, vacuum extractors, and imported compounds.'
-                },
-                {
-                  q: 'How long does a studio Paint Correction & Ceramic Coating take?',
-                  a: 'A thorough 2-stage paint correction and 9H ceramic coating application takes 24 to 48 hours to allow proper decontamination, defect removal, and infra-red curing.'
-                },
-                {
-                  q: 'Does Paint Protection Film yellow or bubble over time?',
-                  a: 'We use non-yellowing, optical-grade TPU PPF backed by studio warranties against yellowing, cracking, or peeling.'
-                },
-                {
-                  q: 'What chemicals and compounds are used at O3 Car Spa?',
-                  a: 'We exclusively use German Würth protection formulations, Italian Rupes micro-abrasive compounds, and certified Grade-A Brazilian Carnauba wax.'
-                },
-                {
-                  q: 'Can PPF or Ceramic Coating be applied to matte or satin paint finishes?',
-                  a: 'Yes! We offer specialized Matte Ceramic Coatings and Matte Self-Healing PPF that preserve the satin finish without adding unwanted gloss.'
-                }
-              ].map((faq, idx) => (
-                <div key={idx} className="glass-surface border border-[#cae8e8]/20 overflow-hidden">
-                  <button 
-                    onClick={() => setExpandedFaq(expandedFaq === idx ? -1 : idx)}
-                    className="w-full p-5 text-left flex items-center justify-between font-bold text-[#cae8e8]"
-                  >
-                    <span>{faq.q}</span>
-                    <span>{expandedFaq === idx ? '−' : '+'}</span>
-                  </button>
-                  {expandedFaq === idx && (
-                    <div className="px-5 pb-5 text-xs text-slate-300 leading-relaxed border-t border-[#cae8e8]/15 pt-3">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-
-          </div>
-        )}
-
         {/* ---------------- CONTACT VIEW ---------------- */}
         {currentView === 'contact' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
@@ -4282,7 +4275,7 @@ function App() {
 
                 <div className="space-y-4 text-sm text-slate-300">
                   <div className="flex gap-3">
-                    <span className="text-[#cae8e8]">📍</span>
+                    <span className="text-[#cae8e8] pt-0.5"><Icon name="pin" className="w-5 h-5" /></span>
                     <div>
                       <strong className="text-white block">Studio Address:</strong>
                       No. 444/2, Phase 4, Opp. Swiss Glass Coat, Plot VU Nagar, New Vallabh Vidyanagar, GIDC, Anand, Gujarat 388121
@@ -4290,7 +4283,7 @@ function App() {
                   </div>
 
                   <div className="flex gap-3">
-                    <span className="text-[#cae8e8]">📞</span>
+                    <span className="text-[#cae8e8] pt-0.5"><Icon name="phone" className="w-5 h-5" /></span>
                     <div>
                       <strong className="text-white block">Direct Phone Lines:</strong>
                       <a href="tel:9033088869" className="hover:underline font-mono text-[#cae8e8]">90330 88869</a> · <a href="tel:7225030303" className="hover:underline font-mono text-[#cae8e8]">72250 30303</a>
@@ -4298,7 +4291,7 @@ function App() {
                   </div>
 
                   <div className="flex gap-3">
-                    <span className="text-[#cae8e8]">✉️</span>
+                    <span className="text-[#cae8e8] pt-0.5"><Icon name="mail" className="w-5 h-5" /></span>
                     <div>
                       <strong className="text-white block">Email:</strong>
                       <a href="mailto:o3carspavvn@gmail.com" className="hover:underline text-[#cae8e8]">o3carspavvn@gmail.com</a>
@@ -4370,7 +4363,6 @@ function App() {
 
             <div className="space-y-3">
               <div className="flex items-center gap-3">
-                <span className="text-3xl p-3 rounded-2xl bg-[#cae8e8]/10 border border-[#cae8e8]/20">{activeServiceDetail.icon}</span>
                 <div>
                   <span className="text-[10px] font-mono text-[#cae8e8] uppercase tracking-wider block">{activeServiceDetail.category}</span>
                   <h2 className="text-2xl font-extrabold text-white">{activeServiceDetail.title}</h2>
@@ -4390,7 +4382,7 @@ function App() {
             <div className="grid grid-cols-3 gap-3 text-xs bg-[#05070c] p-4 rounded-2xl border border-[#cae8e8]/20">
               <div>
                 <span className="text-slate-400 text-[10px] uppercase block font-mono font-bold">Official Tariff</span>
-                <strong className="text-[#00f0ff] text-sm sm:text-base font-extrabold font-mono">{activeServiceDetail.price}</strong>
+                <strong className="text-[#29A9E8] text-sm sm:text-base font-extrabold font-mono">{activeServiceDetail.price}</strong>
               </div>
               <div>
                 <span className="text-slate-400 text-[10px] uppercase block font-mono font-bold">Studio Warranty</span>
@@ -4407,7 +4399,7 @@ function App() {
               <ul className="space-y-2">
                 {activeServiceDetail.procedure.map((step, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <span className="text-[#00f0ff] font-bold">▸</span>
+                    <span className="text-[#29A9E8] font-bold">▸</span>
                     <span>{step}</span>
                   </li>
                 ))}
@@ -4433,7 +4425,7 @@ function App() {
                 rel="noopener noreferrer"
                 className="btn-secondary text-xs flex-1 justify-center py-3 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/10 font-bold"
               >
-                Instant WhatsApp Inquiry 💬
+                Instant WhatsApp Inquiry
               </a>
             </div>
           </div>
@@ -4453,7 +4445,7 @@ function App() {
               Book Appointment
             </button>
             <a href="tel:9033088869" className="btn-secondary">
-              📞 Call 90330 88869
+              Call 90330 88869
             </a>
           </div>
         </div>
@@ -4478,7 +4470,7 @@ function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
-                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'products',l:'Products'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
+                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
                   <li key={item.id}>
                     <button 
                       onClick={() => navigateTo(item.id)} 
@@ -4506,9 +4498,9 @@ function App() {
 
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Studio Contact</h4>
-              <p>📍 Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)</p>
-              <p>📞 <a href="tel:7225030303" className="hover:underline text-[#00f0ff]">72250 30303</a></p>
-              <p>✉️ <a href="mailto:o3carspavvn@gmail.com" className="hover:underline text-[#cae8e8]">o3carspavvn@gmail.com</a></p>
+              <p className="flex gap-2"><Icon name="pin" className="w-4 h-4 shrink-0 mt-1" /><span>Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)</span></p>
+              <p className="flex gap-2 items-center"><Icon name="phone" className="w-4 h-4 shrink-0" /><a href="tel:7225030303" className="hover:underline text-[#29A9E8]">72250 30303</a></p>
+              <p className="flex gap-2 items-center"><Icon name="mail" className="w-4 h-4 shrink-0" /><a href="mailto:o3carspavvn@gmail.com" className="hover:underline text-[#cae8e8]">o3carspavvn@gmail.com</a></p>
             </div>
 
           </div>
@@ -4640,7 +4632,7 @@ function App() {
               <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-8 w-auto mb-1"  loading="lazy" decoding="async" />
               <p className="text-xs text-[#cae8e8] font-mono">Official O3 Brand Tokens</p>
             </div>
-            <button onClick={() => setIsDrawerOpen(false)} className="text-[#cae8e8] hover:text-[#00f0ff] font-bold">
+            <button onClick={() => setIsDrawerOpen(false)} className="text-[#cae8e8] hover:text-[#29A9E8] font-bold">
               ✕
             </button>
           </div>
@@ -4653,9 +4645,9 @@ function App() {
                   <span>Ocean Water</span>
                   <span>#CAE8E8</span>
                 </div>
-                <div className="flex items-center justify-between p-2 rounded-2xl bg-[#00f0ff] text-[#05070c] font-bold">
+                <div className="flex items-center justify-between p-2 rounded-2xl bg-[#29A9E8] text-[#05070c] font-bold">
                   <span>Oxygen Cyan</span>
-                  <span>#00F0FF</span>
+                  <span>#29A9E8</span>
                 </div>
                 <div className="flex items-center justify-between p-2 rounded-2xl bg-[#05070c] text-white border border-[#cae8e8]/30">
                   <span>Obsidian Canvas</span>
@@ -4680,7 +4672,7 @@ function App() {
                 className="logo-blend h-10 w-auto" 
                loading="lazy" decoding="async" />
               <div>
-                <span className="text-[10px] font-mono font-bold text-[#00f0ff] uppercase block">PREMIUM STUDIO</span>
+                <span className="text-[10px] font-mono font-bold text-[#29A9E8] uppercase block">PREMIUM STUDIO</span>
                 <span className="text-xs text-white font-extrabold">Vallabh Vidyanagar</span>
               </div>
             </div>
@@ -4695,26 +4687,24 @@ function App() {
           {/* Navigation Links */}
           <div className="py-6 space-y-2">
             {[
-              { id: 'home', label: 'Home', icon: '🏠' },
-              { id: 'about', label: 'About', icon: 'ℹ️' },
-              { id: 'gallery', label: 'Work & Media', icon: '🎥' },
-              { id: 'services', label: 'Services Menu', icon: '✨' },
-              { id: 'products', label: 'Products Store', icon: '🛒' },
-              { id: 'plans', label: 'Plans & AMC', icon: '💎' },
-              { id: 'franchise', label: 'Franchise', icon: '🤝' },
-              { id: 'contact', label: 'Contact Us', icon: '📍' },
+              { id: 'home', label: 'Home', icon: '' },
+              { id: 'about', label: 'About', icon: '' },
+              { id: 'gallery', label: 'Work & Media', icon: '' },
+              { id: 'services', label: 'Services Menu', icon: '' },
+              { id: 'plans', label: 'Plans & AMC', icon: '' },
+              { id: 'franchise', label: 'Franchise', icon: '' },
+              { id: 'contact', label: 'Contact Us', icon: '' },
             ].map((item) => (
               <button
                 key={item.id}
                 onClick={() => navigateTo(item.id)}
                 className={`w-full p-3.5 rounded-2xl text-left flex items-center justify-between font-bold text-sm transition-all ${
                   currentView === item.id
-                    ? 'bg-gradient-to-r from-[#00f0ff] to-[#cae8e8] text-[#05070c] shadow-[0_0_20px_rgba(0,240,255,0.4)]'
-                    : 'bg-[#0d111a] text-slate-200 border border-[#cae8e8]/15 hover:border-[#00f0ff]/50'
+                    ? 'bg-gradient-to-r from-[#29A9E8] to-[#cae8e8] text-[#05070c] shadow-[0_0_20px_rgba(0, 141, 210, 0.2)]'
+                    : 'bg-[#0d111a] text-slate-200 border border-[#cae8e8]/15 hover:border-[#29A9E8]/50'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-lg">{item.icon}</span>
                   <span>{item.label}</span>
                 </div>
                 <span>→</span>
@@ -4726,17 +4716,17 @@ function App() {
           <div className="pt-6 border-t border-[#cae8e8]/20 space-y-3">
             <button 
               onClick={() => { setIsMobileMenuOpen(false); setIsBookingOpen(true); }}
-              className="btn-primary text-xs w-full justify-center py-3.5 font-bold shadow-[0_0_20px_rgba(0,240,255,0.5)]"
+              className="btn-primary text-xs w-full justify-center py-3.5 font-bold shadow-[0_0_20px_rgba(0, 141, 210, 0.25)]"
             >
-              Book Studio Appointment Now 📅
+              Book Studio Appointment Now
             </button>
 
             <div className="grid grid-cols-2 gap-3 text-xs">
               <a 
                 href="tel:9033088869" 
-                className="p-3 rounded-2xl bg-[#091524] border border-[#00f0ff]/30 text-[#00f0ff] font-mono font-bold flex items-center justify-center gap-2"
+                className="p-3 rounded-2xl bg-[#091524] border border-[#29A9E8]/30 text-[#29A9E8] font-mono font-bold flex items-center justify-center gap-2"
               >
-                <span>📞</span>
+                <Icon name="phone" className="w-4 h-4" />
                 <span>Call Us</span>
               </a>
 
@@ -4746,7 +4736,7 @@ function App() {
                 rel="noopener noreferrer"
                 className="p-3 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 text-emerald-400 font-mono font-bold flex items-center justify-center gap-2"
               >
-                <span>💬</span>
+                <Icon name="whatsapp" className="w-4 h-4" />
                 <span>WhatsApp</span>
               </a>
             </div>

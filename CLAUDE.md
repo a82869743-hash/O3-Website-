@@ -9,7 +9,7 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - `npm run build` = Babel (`babel.config.json`, classic runtime) → `app.js`, then Tailwind CLI → `tailwind.css`. Run it after every change and commit both outputs.
 - `npm run dev` builds and serves on :8080. The preview config is `.claude/launch.json` (falls back to :8081 if the user's server holds 8080).
 - Tailwind is precompiled (`tailwind.config.js` scans `index.html` + `app.jsx`). Class names must appear literally; never build them with template strings like `bg-${x}`.
-- Pages are hash routes (`#home`, `#services`, …) switched by `currentView` state in `App`. 7 pages in the menus: Home, About, Services, Plans, Work (gallery), Franchise, Contact. `VIEW_ALIASES` in `App` sends old links to the right page and section: story/studio → About, concierge → Services `#doorstep`, faq → Services `#faq`, testimonials → Home `#reviews`, products → Services (Products view is hidden until the client confirms the product list).
+- Pages are hash routes (`#home`, `#services`, …) switched by `currentView` state in `App`. 8 pages in the menus: Home, About, Work (gallery), Services, Products, Plans, Franchise, Contact. `VIEW_ALIASES` in `App` sends old links to the right page and section: story/studio → About, concierge → Services `#doorstep`, faq → Services `#faq`, testimonials → Home `#reviews`. Products is a live page again (owner's request); its 12 SKUs and prices still need client confirmation.
 
 ## Gotchas (each one has bitten us)
 
@@ -29,6 +29,10 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - Lenis is patched so it never rewrites the `<html>` class on scroll start/stop (that forced full-page style recalcs). `lenis-stopped` is toggled by the overlay effect.
 - `html.is-scrolling` disables pointer events on `main`/`footer` during scroll, so cards sliding under the mouse don't fire hover effects; restored 150 ms after scrolling stops.
 - Infinite animations use transform/opacity only (WhatsApp pulse is a `::after` ring). The preloader unmounts after its fade. The marquee pauses off screen and eases one shared speed value (never create tweens per scroll event).
+- three.js ("Pick Your Car") renders only while ≥12% on screen, at 30fps, pixel ratio 1 on phones / ≤1.25 desktop, and its rAF loop stops when off screen. It used to start early and render alongside the hero video, which was the hero's main lag.
+- Hero: `force3D` + `will-change` keep the video and copy on stable GPU layers while the hero is on screen. The scroll zoom on the video runs on ≥768px only (it was the hero's biggest cost on phones); the video itself is unchanged everywhere.
+- Cards use one moderate shadow (`.glass-surface`), not stacked `shadow-xl`; avoid `transition-all` on repeated cards.
+- FPS at 4× CPU is too noisy on this laptop to judge small changes (same code varies 31–52 fps run to run). Compare old vs new with total rendering work instead: `%TEMP%/perf/abwork.js` (old build served on :8091, new on :8090).
 - Measure, don't guess: `%TEMP%/perf/measure.js` (frame times per page at 4× CPU), `trace.js` (rendering breakdown), `invalid.js` (why styles/paints happen), all via playwright-core driving the local Chrome.
 - Pause anything animated when it's off screen. Respect `prefers-reduced-motion`.
 - Images are WebP (originals kept beside them). Real reels have web versions in `assets/reels/*.mp4` (540p, 12s, ~1 MB) plus `.webp` posters. The hero is `assets/hero_web.mp4` (0.96 MB) with poster `hero_poster.webp`.
@@ -50,7 +54,7 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - Official logo: `assets/brand/` (vector SVGs taken from "O3 Car Spa Logo 2024.pdf"). The site uses `o3-logo-white.svg`; the favicon is `o3-mark-blue.svg`. Show it unfiltered (no glow).
 - Brand blue **#008DD2** (glows use it at half strength). Accent text/buttons use **#29A9E8**, a lighter tint of it that stays readable on the dark background. The old neon cyan #00F0FF is gone; don't reintroduce it.
 - No emoji in the UI; use the `Icon` component (line icons: whatsapp, phone, pin, clock, mail, instagram, facebook). `font-mono` is mapped to Space Grotesk in `tailwind.config.js`, so it is just a label style, not a code font.
-- Home hero: text can change, but **never touch the hero video** (owner's instruction). It carries a Gujarati line in `font-gujarati` (Noto Sans Gujarati).
+- Home hero: text can change, but **never touch the hero video** (owner's instruction). No Gujarati line (removed at the owner's request).
 - SEO lives in `index.html` (description, Open Graph using `assets/brand/og-share.jpg`, AutoWash JSON-LD with address/hours/phone) and per-page `document.title` in `App`. Make `og:image` absolute once the domain is known.
 
 ## Home page (11 sections, in this order)

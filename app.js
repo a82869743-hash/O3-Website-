@@ -595,12 +595,16 @@ function HexStudioScene({
     const start = THREE => {
       if (disposed || !THREE) return;
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Cost control: the scene shares the GPU with the hero video above it.
+      // Phones render at 1x, desktops at up to 1.25x; MSAA only on 1x screens.
+      const isPhone = window.matchMedia('(max-width: 767px)').matches;
+      const dpr = Math.min(window.devicePixelRatio || 1, isPhone ? 1 : 1.25);
       const renderer = new THREE.WebGLRenderer({
-        antialias: true,
+        antialias: (window.devicePixelRatio || 1) <= 1,
         alpha: true,
         powerPreference: 'high-performance'
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.setPixelRatio(dpr);
       renderer.setSize(mount.clientWidth, mount.clientHeight);
       mount.appendChild(renderer.domElement);
       const scene = new THREE.Scene();
@@ -695,23 +699,29 @@ function HexStudioScene({
         camera.updateProjectionMatrix();
       };
       window.addEventListener('resize', onResize);
-      let visible = true;
+      let visible = false;
+      let raf = 0;
       const io = new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
+        if (visible && !raf) {
+          last = performance.now();
+          raf = requestAnimationFrame(tick);
+        }
       }, {
-        rootMargin: '100px'
+        threshold: 0.12
       });
       io.observe(mount);
       const period = rowStep * 2;
-      let raf;
       let last = performance.now();
+      const FRAME = 1000 / 30;
       const tick = now => {
-        raf = requestAnimationFrame(tick);
         if (!visible) {
-          last = now;
+          raf = 0;
           return;
-        }
-        const dt = Math.min((now - last) / 1000, 0.05);
+        } // loop stops entirely off screen
+        raf = requestAnimationFrame(tick);
+        if (now - last < FRAME - 1) return;
+        const dt = Math.min((now - last) / 1000, 0.08);
         last = now;
         if (!reduceMotion) grid.position.z = (grid.position.z + dt * 0.9) % period;
         camera.position.x += (pointer.x * 0.6 - camera.position.x) * 0.04;
@@ -719,7 +729,8 @@ function HexStudioScene({
         camera.lookAt(0, 0.4, -10);
         renderer.render(scene, camera);
       };
-      raf = requestAnimationFrame(tick);
+      // first frame is started by the IntersectionObserver above
+
       sceneApi.current = {
         THREE,
         ledMat,
@@ -2428,8 +2439,7 @@ function App() {
         studio: ['about'],
         concierge: ['services', 'doorstep'],
         faq: ['services', 'faq'],
-        testimonials: ['home', 'reviews'],
-        products: ['services']
+        testimonials: ['home', 'reviews']
       };
       if (aliases[hash]) {
         const [v, anchor] = aliases[hash];
@@ -2440,7 +2450,7 @@ function App() {
         }, 600);
         return;
       }
-      if (['home', 'about', 'gallery', 'services', 'plans', 'contact', 'franchise'].includes(hash)) {
+      if (['home', 'about', 'gallery', 'services', 'products', 'plans', 'contact', 'franchise'].includes(hash)) {
         setCurrentView(hash);
       }
     };
@@ -2455,8 +2465,7 @@ function App() {
     studio: ['about'],
     concierge: ['services', 'doorstep'],
     faq: ['services', 'faq'],
-    testimonials: ['home', 'reviews'],
-    products: ['services']
+    testimonials: ['home', 'reviews']
   };
   const scrollToAnchor = id => setTimeout(() => {
     const el = document.getElementById(id);
@@ -2554,15 +2563,41 @@ function App() {
             scrub: true
           }
         });
-        heroTl.to('.hero-video-bg-clear', {
-          scale: 1.18,
-          yPercent: 12,
-          ease: 'none'
-        }, 0).to('.gsap-hero-copy', {
+        // force3D keeps the video and copy on stable GPU layers. With the default
+        // ("auto") GSAP drops the layer whenever scrolling pauses and the browser
+        // re-rasterises the full-screen video when scrolling resumes.
+        gsap.set(['.hero-video-bg-clear', '.gsap-hero-copy'], {
+          force3D: true,
+          willChange: 'transform'
+        });
+        // Scaling a full-screen video every scroll frame is the hero's biggest cost on
+        // phones (3x pixel density), so the zoom runs on tablets/desktops only. The video
+        // itself plays unchanged everywhere; the text lift-and-fade runs everywhere.
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          heroTl.to('.hero-video-bg-clear', {
+            scale: 1.18,
+            yPercent: 12,
+            ease: 'none',
+            force3D: true
+          }, 0);
+        }
+        heroTl.to('.gsap-hero-copy', {
           yPercent: -40,
           opacity: 0,
-          ease: 'none'
+          ease: 'none',
+          force3D: true
         }, 0);
+        // Hero is off screen: let the browser free those layers
+        ScrollTrigger.create({
+          trigger: '.hero-video-stage-clear',
+          start: 'bottom top',
+          onEnter: () => gsap.set(['.hero-video-bg-clear', '.gsap-hero-copy'], {
+            willChange: 'auto'
+          }),
+          onLeaveBack: () => gsap.set(['.hero-video-bg-clear', '.gsap-hero-copy'], {
+            willChange: 'transform'
+          })
+        });
         gsap.from('.gsap-hero-copy > *', {
           y: 40,
           opacity: 0,
@@ -2802,6 +2837,9 @@ function App() {
     id: 'services',
     label: 'Services'
   }, {
+    id: 'products',
+    label: 'Products'
+  }, {
     id: 'plans',
     label: 'Plans'
   }, {
@@ -2861,10 +2899,7 @@ function App() {
     className: "text-gradient-ocean font-black"
   }, "Cars That Deserve More.")), /*#__PURE__*/React.createElement("p", {
     className: "text-shadow-hero text-xs sm:text-sm text-slate-200 font-light leading-relaxed max-w-md"
-  }, "Precision detailing for people who care about every inch of their car. Glass Coating · Ceramic Coating · Acrylic Coating"), /*#__PURE__*/React.createElement("p", {
-    lang: "gu",
-    className: "text-shadow-hero font-gujarati text-sm text-[#cae8e8]"
-  }, "આણંદનો ભરોસાપાત્ર કાર ડિટેલિંગ સ્ટુડિયો · 2013 થી")), /*#__PURE__*/React.createElement("div", {
+  }, "Precision detailing for people who care about every inch of their car. Glass Coating · Ceramic Coating · Acrylic Coating"), "                  "), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3 pointer-events-auto"
   }, /*#__PURE__*/React.createElement("button", {
     onClick: () => setIsBookingOpen(true),
@@ -3563,7 +3598,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("img", {
     src: cItem.img,
     alt: cItem.title,
-    className: "w-full h-full object-cover group-hover:scale-108 transition-all duration-500",
+    className: "w-full h-full object-cover group-hover:scale-108 transition-transform duration-500",
     loading: "lazy",
     decoding: "async"
   }), /*#__PURE__*/React.createElement("div", {
@@ -3914,7 +3949,7 @@ function App() {
   }, (serviceCategory === 'all' ? allServicesData : allServicesData.filter(s => s.category === serviceCategory)).map(s => /*#__PURE__*/React.createElement("div", {
     key: s.id,
     onClick: () => setActiveServiceDetail(s),
-    className: "gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 hover:-translate-y-1.5 shadow-xl cursor-pointer"
+    className: "gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#29A9E8] transition-[transform,border-color] duration-300 hover:-translate-y-1.5 cursor-pointer"
   }, /*#__PURE__*/React.createElement("div", {
     className: "space-y-3"
   }, /*#__PURE__*/React.createElement("div", {
@@ -3922,7 +3957,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("img", {
     src: s.img,
     alt: s.title,
-    className: "w-full h-full object-cover group-hover:scale-108 transition-all duration-500",
+    className: "w-full h-full object-cover group-hover:scale-108 transition-transform duration-500",
     loading: "lazy",
     decoding: "async"
   }), /*#__PURE__*/React.createElement("span", {
@@ -4933,6 +4968,9 @@ function App() {
     id: 'services',
     l: 'Services'
   }, {
+    id: 'products',
+    l: 'Products'
+  }, {
     id: 'plans',
     l: 'Plans'
   }, {
@@ -5169,6 +5207,10 @@ function App() {
   }, {
     id: 'services',
     label: 'Services Menu',
+    icon: ''
+  }, {
+    id: 'products',
+    label: 'Products Store',
     icon: ''
   }, {
     id: 'plans',

@@ -284,8 +284,12 @@ function HexStudioScene({ accent }) {
     const start = (THREE) => {
       if (disposed || !THREE) return;
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      // Cost control: the scene shares the GPU with the hero video above it.
+      // Phones render at 1x, desktops at up to 1.25x; MSAA only on 1x screens.
+      const isPhone = window.matchMedia('(max-width: 767px)').matches;
+      const dpr = Math.min(window.devicePixelRatio || 1, isPhone ? 1 : 1.25);
+      const renderer = new THREE.WebGLRenderer({ antialias: (window.devicePixelRatio || 1) <= 1, alpha: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(dpr);
       renderer.setSize(mount.clientWidth, mount.clientHeight);
       mount.appendChild(renderer.domElement);
 
@@ -366,17 +370,22 @@ function HexStudioScene({ accent }) {
       };
       window.addEventListener('resize', onResize);
 
-      let visible = true;
-      const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { rootMargin: '100px' });
+      let visible = false;
+      let raf = 0;
+      const io = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+      }, { threshold: 0.12 });
       io.observe(mount);
 
       const period = rowStep * 2;
-      let raf;
       let last = performance.now();
+      const FRAME = 1000 / 30;
       const tick = (now) => {
+        if (!visible) { raf = 0; return; } // loop stops entirely off screen
         raf = requestAnimationFrame(tick);
-        if (!visible) { last = now; return; }
-        const dt = Math.min((now - last) / 1000, 0.05);
+        if (now - last < FRAME - 1) return;
+        const dt = Math.min((now - last) / 1000, 0.08);
         last = now;
         if (!reduceMotion) grid.position.z = (grid.position.z + dt * 0.9) % period;
         camera.position.x += (pointer.x * 0.6 - camera.position.x) * 0.04;
@@ -384,7 +393,7 @@ function HexStudioScene({ accent }) {
         camera.lookAt(0, 0.4, -10);
         renderer.render(scene, camera);
       };
-      raf = requestAnimationFrame(tick);
+      // first frame is started by the IntersectionObserver above
 
       sceneApi.current = { THREE, ledMat, reflMat, streakMat };
 
@@ -2044,14 +2053,14 @@ function App() {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '');
       // Old links to merged/hidden pages land on the right page and section
-      const aliases = { story: ['about'], studio: ['about'], concierge: ['services', 'doorstep'], faq: ['services', 'faq'], testimonials: ['home', 'reviews'], products: ['services'] };
+      const aliases = { story: ['about'], studio: ['about'], concierge: ['services', 'doorstep'], faq: ['services', 'faq'], testimonials: ['home', 'reviews'] };
       if (aliases[hash]) {
         const [v, anchor] = aliases[hash];
         setCurrentView(v);
         if (anchor) setTimeout(() => { const el = document.getElementById(anchor); if (el) el.scrollIntoView(); }, 600);
         return;
       }
-      if (['home', 'about', 'gallery', 'services', 'plans', 'contact', 'franchise'].includes(hash)) {
+      if (['home', 'about', 'gallery', 'services', 'products', 'plans', 'contact', 'franchise'].includes(hash)) {
         setCurrentView(hash);
       }
     };
@@ -2061,7 +2070,7 @@ function App() {
   }, []);
 
   // Pages merged into others (or hidden): old names land on the right section
-  const VIEW_ALIASES = { story: ['about'], studio: ['about'], concierge: ['services', 'doorstep'], faq: ['services', 'faq'], testimonials: ['home', 'reviews'], products: ['services'] };
+  const VIEW_ALIASES = { story: ['about'], studio: ['about'], concierge: ['services', 'doorstep'], faq: ['services', 'faq'], testimonials: ['home', 'reviews'] };
   const scrollToAnchor = (id) => setTimeout(() => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -2119,8 +2128,23 @@ function App() {
         const heroTl = gsap.timeline({
           scrollTrigger: { trigger: '.hero-video-stage-clear', start: 'top top', end: 'bottom top', scrub: true }
         });
-        heroTl.to('.hero-video-bg-clear', { scale: 1.18, yPercent: 12, ease: 'none' }, 0)
-          .to('.gsap-hero-copy', { yPercent: -40, opacity: 0, ease: 'none' }, 0);
+        // force3D keeps the video and copy on stable GPU layers. With the default
+        // ("auto") GSAP drops the layer whenever scrolling pauses and the browser
+        // re-rasterises the full-screen video when scrolling resumes.
+        gsap.set(['.hero-video-bg-clear', '.gsap-hero-copy'], { force3D: true, willChange: 'transform' });
+        // Scaling a full-screen video every scroll frame is the hero's biggest cost on
+        // phones (3x pixel density), so the zoom runs on tablets/desktops only. The video
+        // itself plays unchanged everywhere; the text lift-and-fade runs everywhere.
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          heroTl.to('.hero-video-bg-clear', { scale: 1.18, yPercent: 12, ease: 'none', force3D: true }, 0);
+        }
+        heroTl.to('.gsap-hero-copy', { yPercent: -40, opacity: 0, ease: 'none', force3D: true }, 0);
+        // Hero is off screen: let the browser free those layers
+        ScrollTrigger.create({
+          trigger: '.hero-video-stage-clear', start: 'bottom top',
+          onEnter: () => gsap.set(['.hero-video-bg-clear', '.gsap-hero-copy'], { willChange: 'auto' }),
+          onLeaveBack: () => gsap.set(['.hero-video-bg-clear', '.gsap-hero-copy'], { willChange: 'transform' })
+        });
 
         gsap.from('.gsap-hero-copy > *', { y: 40, opacity: 0, duration: 1.1, stagger: 0.12, ease: 'power4.out', delay: 0.15 });
       }
@@ -2294,6 +2318,7 @@ function App() {
               { id: 'about', label: 'About' },
               { id: 'gallery', label: 'Work' },
               { id: 'services', label: 'Services' },
+              { id: 'products', label: 'Products' },
               { id: 'plans', label: 'Plans' },
               { id: 'contact', label: 'Contact' },
             ].map((item) => (
@@ -2377,11 +2402,7 @@ function App() {
 
                     <p className="text-shadow-hero text-xs sm:text-sm text-slate-200 font-light leading-relaxed max-w-md">
                       Precision detailing for people who care about every inch of their car. Glass Coating · Ceramic Coating · Acrylic Coating
-                    </p>
-                    <p lang="gu" className="text-shadow-hero font-gujarati text-sm text-[#cae8e8]">
-                      આણંદનો ભરોસાપાત્ર કાર ડિટેલિંગ સ્ટુડિયો · 2013 થી
-                    </p>
-                  </div>
+                    </p>                  </div>
 
                   <div className="flex items-center gap-3 pointer-events-auto">
                     <button onClick={() => setIsBookingOpen(true)} className="btn-primary text-xs !py-3 !px-6">
@@ -3033,7 +3054,7 @@ function App() {
                   className="glass-surface p-4 border border-[#cae8e8]/25 hover:border-[#29A9E8] space-y-3 cursor-pointer group transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="relative h-44 rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20">
-                    <img src={cItem.img} alt={cItem.title} className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"  loading="lazy" decoding="async" />
+                    <img src={cItem.img} alt={cItem.title} className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"  loading="lazy" decoding="async" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent opacity-80"></div>
                     <span className="absolute bottom-3 left-3 text-xs font-mono font-bold text-[#29A9E8] bg-[#05070c]/80 px-2.5 py-1 rounded-full border border-[#29A9E8]/30">
                       Explore SKU Grid →
@@ -3386,7 +3407,7 @@ function App() {
                   <div 
                     key={s.id} 
                     onClick={() => setActiveServiceDetail(s)}
-                    className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 hover:-translate-y-1.5 shadow-xl cursor-pointer"
+                    className="gsap-service-card glass-surface p-6 border border-[#cae8e8]/25 flex flex-col justify-between space-y-4 group bg-[#0d111a] hover:border-[#29A9E8] transition-[transform,border-color] duration-300 hover:-translate-y-1.5 cursor-pointer"
                   >
                     <div className="space-y-3">
                       {/* CARD IMAGE & BADGES */}
@@ -3394,7 +3415,7 @@ function App() {
                         <img 
                           src={s.img} 
                           alt={s.title} 
-                          className="w-full h-full object-cover group-hover:scale-108 transition-all duration-500"  
+                          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"  
                           loading="lazy" 
                           decoding="async" 
                         />
@@ -4470,7 +4491,7 @@ function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Navigation</h4>
               <ul className="space-y-2">
-                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
+                {[{id:'home',l:'Home'},{id:'about',l:'About'},{id:'gallery',l:'Work'},{id:'services',l:'Services'},{id:'products',l:'Products'},{id:'plans',l:'Plans'},{id:'franchise',l:'Franchise'},{id:'contact',l:'Contact'}].map((item) => (
                   <li key={item.id}>
                     <button 
                       onClick={() => navigateTo(item.id)} 
@@ -4691,6 +4712,7 @@ function App() {
               { id: 'about', label: 'About', icon: '' },
               { id: 'gallery', label: 'Work & Media', icon: '' },
               { id: 'services', label: 'Services Menu', icon: '' },
+              { id: 'products', label: 'Products Store', icon: '' },
               { id: 'plans', label: 'Plans & AMC', icon: '' },
               { id: 'franchise', label: 'Franchise', icon: '' },
               { id: 'contact', label: 'Contact Us', icon: '' },

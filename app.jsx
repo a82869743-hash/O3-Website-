@@ -4,6 +4,28 @@
 
 const { useState, useEffect, useRef } = React;
 
+// Official brand logos only (assets/logos/official). Brands without a verified
+// official logo are shown as their name in type, never as an invented badge.
+const BRAND_LOGOS = {
+  '3M': 'assets/logos/official/3m.svg',
+  '3M Car Care': 'assets/logos/official/3m.svg',
+  'Würth': 'assets/logos/official/wurth.svg',
+  'Menzerna': 'assets/logos/official/menzerna.svg',
+  'Paicristal Italia': 'assets/logos/official/paicristal.svg',
+  'Ma-Fra': 'assets/logos/official/mafra.webp',
+  'O3 Studio': 'assets/brand/o3-logo-blue.svg',
+};
+function BrandMark({ brand, className = 'h-16', pad = 'p-3' }) {
+  const logo = BRAND_LOGOS[brand];
+  return (
+    <div className={`${className} ${pad} w-full rounded-xl bg-white flex items-center justify-center overflow-hidden`}>
+      {logo
+        ? <img src={logo} alt={`${brand} logo`} className="max-h-full max-w-full object-contain" loading="lazy" decoding="async" />
+        : <span className="font-display font-extrabold text-[#0d111a] text-lg tracking-tight text-center leading-tight">{brand}</span>}
+    </div>
+  );
+}
+
 // Small line icons (replace emoji in UI; inherit text colour)
 const ICON_PATHS = {
   whatsapp: <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
@@ -2541,7 +2563,7 @@ function App() {
                   </div>
 
                   <div className="lg:col-span-5">
-                    <img src="assets/o3_on_wheels.webp" alt="O3 On Wheels Mobile Concierge Truck" className="w-full h-64 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                    <img src="assets/brand/o3-on-wheels.webp" alt="O3 On Wheels doorstep detailing: a freshly detailed Mahindra Scorpio-N on a customer driveway" className="w-full aspect-[16/10] object-cover rounded-3xl border border-[#cae8e8]/30"  loading="lazy" decoding="async" />
                   </div>
                 </div>
               </div>
@@ -2999,20 +3021,18 @@ function App() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 text-left text-xs">
                 {[
-                  { name: "Meguiar's", note: "Trusted since 1901", logo: "assets/logos/meguiars.webp" },
-                  { name: "Menzerna", note: "Polishing compounds", logo: "assets/logos/menzerna.webp" },
-                  { name: "Paicristal Italia", note: "Masters in polishing since 1965", logo: "assets/logos/paicristal.webp" },
-                  { name: "Kisho", note: "Japanese craftsmanship since 1965", logo: "assets/logos/kisho.webp" },
-                  { name: "Würth", note: "German car care compounds", logo: "assets/logos/wurth.webp" },
-                  { name: "Ma-Fra", note: "Cosmetics for your car", logo: "assets/logos/mafra.webp" },
-                  { name: "3M Car Care", note: "Keep your car looking new", logo: "assets/logos/3m.webp" },
-                  { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.webp" },
-                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.webp" },
+                  { name: "Meguiar's", note: "Trusted since 1901" },
+                  { name: "Menzerna", note: "Polishing compounds" },
+                  { name: "Paicristal Italia", note: "Masters in polishing since 1965" },
+                  { name: "Kisho", note: "Japanese craftsmanship since 1965" },
+                  { name: "Würth", note: "German car care compounds" },
+                  { name: "Ma-Fra", note: "Cosmetics for your car" },
+                  { name: "3M Car Care", note: "Keep your car looking new" },
+                  { name: "Vista Car Care", note: "Surface protection" },
+                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified" },
                 ].map((b, bIdx) => (
                   <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#29A9E8] transition-all flex flex-col justify-between group hover:-translate-y-1">
-                    <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#29A9E8]/50 transition-all">
-                      <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform"  loading="lazy" decoding="async" />
-                    </div>
+                    <BrandMark brand={b.name} />
                     <div>
                       <strong className="text-white text-sm block leading-tight">{b.name}</strong>
                       <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">{b.note}</span>
@@ -3100,7 +3120,7 @@ function App() {
                   brand: "Meguiar's",
                   category: "Exterior Care",
                   price: "₹ 1,250",
-                  img: "assets/logos/meguiars.webp",
+                  img: "",
                   desc: "pH-balanced luxury wash formula that cleans paint without stripping existing wax or ceramic coating protection.",
                   specs: "Formula: Rich Carnauba Conditioner · Volume: 473ml · Origin: USA",
                   inStock: true
@@ -3111,7 +3131,7 @@ function App() {
                   brand: "Menzerna",
                   category: "Exterior Care",
                   price: "₹ 1,890",
-                  img: "assets/logos/menzerna.webp",
+                  img: "",
                   desc: "German high-performance compound that removes 1200 grit sanding marks and deep scratches rapidly.",
                   specs: "Cut Level: 9/10 · Gloss Level: 8/10 · Silicone-Free · Origin: Germany",
                   inStock: true
@@ -3122,7 +3142,7 @@ function App() {
                   brand: "Würth",
                   category: "Coating Kits",
                   price: "₹ 4,990",
-                  img: "assets/logos/wurth.webp",
+                  img: "",
                   desc: "Complete German engineered liquid quartz ceramic kit providing 3 years of hyper-hydrophobic water beading.",
                   specs: "Hardness: 9H Pencil · Coverage: 50ml · Durability: 3 Years · Origin: Germany",
                   inStock: true
@@ -3133,7 +3153,7 @@ function App() {
                   brand: "Ma-Fra",
                   category: "Interior Care",
                   price: "₹ 1,450",
-                  img: "assets/logos/mafra.webp",
+                  img: "",
                   desc: "Italian leather cosmetics formula enriched with Aloe Vera and natural oils to prevent cracking and fading.",
                   specs: "Finish: Natural Matte · Volume: 500ml · Scent: Fresh Leather · Origin: Italy",
                   inStock: true
@@ -3144,7 +3164,7 @@ function App() {
                   brand: "3M Car Care",
                   category: "Tools & Accessories",
                   price: "₹ 790",
-                  img: "assets/logos/3m.webp",
+                  img: "",
                   desc: "500 GSM edgeless microfibers engineered for streak-free polish removal, drying, and glass wiping.",
                   specs: "Density: 500 GSM · Size: 40cm x 40cm · Scratch-Free Edgeless · Pack of 4",
                   inStock: true
@@ -3155,7 +3175,7 @@ function App() {
                   brand: "Kisho",
                   category: "Coating Kits",
                   price: "₹ 3,490",
-                  img: "assets/logos/kisho.webp",
+                  img: "",
                   desc: "Japanese fluorine silica glass coating creating a water-repellent barrier for windshields and windows.",
                   specs: "Water Contact Angle: 110° · Rain Visibility Speed: 40km/h · Origin: Japan",
                   inStock: true
@@ -3166,7 +3186,7 @@ function App() {
                   brand: "Meguiar's",
                   category: "Exterior Care",
                   price: "₹ 2,150",
-                  img: "assets/logos/meguiars.webp",
+                  img: "",
                   desc: "Advanced pure synthetic wax offering maximum gloss, mirror reflections, and hydrophobic slickness.",
                   specs: "Technology: ThinFilm Hydrophobic · Easy On/Off · Volume: 473ml · Origin: USA",
                   inStock: true
@@ -3177,7 +3197,7 @@ function App() {
                   brand: "Paicristal Italia",
                   category: "Exterior Care",
                   price: "₹ 2,350",
-                  img: "assets/logos/paicristal.webp",
+                  img: "",
                   desc: "Master Italian micro-abrasive polish designed to eliminate fine swirl marks and deliver deep wet-look shine.",
                   specs: "Cut Level: 3/10 · Gloss Level: 10/10 · Zero Dusting · Origin: Italy",
                   inStock: true
@@ -3188,7 +3208,7 @@ function App() {
                   brand: "Vista Car Care",
                   category: "Interior Care",
                   price: "₹ 650",
-                  img: "assets/logos/vista.webp",
+                  img: "",
                   desc: "Restores vinyl, plastic dashboard, and door trims with non-greasy UV protective satin sheen.",
                   specs: "Protection: UV Blocker · Non-Sticky · Volume: 500ml",
                   inStock: true
@@ -3199,7 +3219,7 @@ function App() {
                   brand: "Würth",
                   category: "Exterior Care",
                   price: "₹ 1,190",
-                  img: "assets/logos/wurth.webp",
+                  img: "",
                   desc: "Protective engine bay coating and rubber trim preservative engineered to withstand high temperatures.",
                   specs: "Heat Resistance: 200°C · Anti-Corrosive · Volume: 500ml · Origin: Germany",
                   inStock: true
@@ -3210,7 +3230,7 @@ function App() {
                   brand: "O3 Studio",
                   category: "Coating Kits",
                   price: "₹ 1,690",
-                  img: "assets/brand/o3-logo-white.svg",
+                  img: "",
                   desc: "Spray-on silica quartz ceramic booster to rejuvenate hydrophobic water beading on existing coatings.",
                   specs: "Silica Content: 12% SiO2 · Application: Spray & Wipe · Volume: 300ml",
                   inStock: true
@@ -3231,7 +3251,9 @@ function App() {
                   
                   <div className="space-y-4">
                     <div className="relative rounded-2xl overflow-hidden bg-black border border-[#cae8e8]/20 aspect-video">
-                      <img src={prod.img} alt={prod.name} className={`w-full h-full group-hover:scale-105 transition-transform duration-500 ${(prod.img.includes('/logos/') || prod.img.includes('/brand/')) ? 'object-contain p-10 bg-black/40' : 'object-cover'}`} loading="lazy" decoding="async" />
+                      {prod.img
+                        ? <img src={prod.img} alt={prod.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" decoding="async" />
+                        : <div className="w-full h-full bg-[#0d111a] flex items-center justify-center p-8"><BrandMark brand={prod.brand} className="h-28" pad="p-5" /></div>}
                       <span className="absolute top-3 left-3 bg-[#05070c]/90 border border-[#cae8e8]/30 text-[#29A9E8] text-[10px] font-mono px-3 py-1 rounded-full font-bold">
                         {prod.brand}
                       </span>
@@ -3283,20 +3305,18 @@ function App() {
 
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 text-left text-xs">
                 {[
-                  { name: "Meguiar's", note: "Trusted since 1901", logo: "assets/logos/meguiars.webp" },
-                  { name: "Menzerna", note: "Polishing compounds", logo: "assets/logos/menzerna.webp" },
-                  { name: "Paicristal Italia", note: "Masters in polishing since 1965", logo: "assets/logos/paicristal.webp" },
-                  { name: "Kisho", note: "Japanese craftsmanship since 1965", logo: "assets/logos/kisho.webp" },
-                  { name: "Würth", note: "German car care compounds", logo: "assets/logos/wurth.webp" },
-                  { name: "Ma-Fra", note: "Cosmetics for your car", logo: "assets/logos/mafra.webp" },
-                  { name: "3M Car Care", note: "Keep your car looking new", logo: "assets/logos/3m.webp" },
-                  { name: "Vista Car Care", note: "Surface protection", logo: "assets/logos/vista.webp" },
-                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified", logo: "assets/logos/chemverse.webp" },
+                  { name: "Meguiar's", note: "Trusted since 1901" },
+                  { name: "Menzerna", note: "Polishing compounds" },
+                  { name: "Paicristal Italia", note: "Masters in polishing since 1965" },
+                  { name: "Kisho", note: "Japanese craftsmanship since 1965" },
+                  { name: "Würth", note: "German car care compounds" },
+                  { name: "Ma-Fra", note: "Cosmetics for your car" },
+                  { name: "3M Car Care", note: "Keep your car looking new" },
+                  { name: "Vista Car Care", note: "Surface protection" },
+                  { name: "Chem-Verse Consultants", note: "ISO 9001 Certified" },
                 ].map((b, bIdx) => (
                   <div key={bIdx} className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 space-y-3 hover:border-[#29A9E8] transition-all flex flex-col justify-between group hover:-translate-y-1">
-                    <div className="h-16 rounded-xl bg-black/60 border border-[#cae8e8]/15 overflow-hidden flex items-center justify-center p-2 group-hover:border-[#29A9E8]/50 transition-all">
-                      <img src={b.logo} alt={b.name} className="h-full w-auto object-contain group-hover:scale-105 transition-transform"  loading="lazy" decoding="async" />
-                    </div>
+                    <BrandMark brand={b.name} />
                     <div>
                       <strong className="text-white text-sm block leading-tight">{b.name}</strong>
                       <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">{b.note}</span>
@@ -3324,7 +3344,9 @@ function App() {
                   </div>
 
                   <div className="rounded-2xl overflow-hidden border border-[#cae8e8]/20 bg-black h-56">
-                    <img src={selectedProduct.img} alt={selectedProduct.name} className={`w-full h-full ${(selectedProduct.img.includes('/logos/') || selectedProduct.img.includes('/brand/')) ? 'object-contain p-12 bg-black/40' : 'object-cover'}`} decoding="async" />
+                    {selectedProduct.img
+                      ? <img src={selectedProduct.img} alt={selectedProduct.name} className="w-full h-full object-cover" decoding="async" />
+                      : <div className="w-full h-full bg-[#0d111a] flex items-center justify-center p-10"><BrandMark brand={selectedProduct.brand} className="h-32" pad="p-6" /></div>}
                   </div>
 
                   <div className="space-y-2 text-xs text-slate-300">
@@ -3502,7 +3524,7 @@ function App() {
                 </div>
 
                 <div className="lg:col-span-5">
-                  <img src="assets/o3_on_wheels.webp" alt="O3 On Wheels Mobile Concierge Unit" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                  <img src="assets/brand/o3-on-wheels.webp" alt="O3 On Wheels doorstep detailing: a freshly detailed Mahindra Scorpio-N on a customer driveway" className="w-full aspect-[16/10] object-cover rounded-3xl border border-[#cae8e8]/30"  loading="lazy" decoding="async" />
                 </div>
               </div>
             </div>
@@ -4225,7 +4247,7 @@ function App() {
             <div className="grid md:grid-cols-2 gap-8">
               
               <div className="glass-surface p-8 space-y-6 bg-[#0d111a] border border-[#cae8e8]/40">
-                <img src="assets/o3_on_wheels.webp" alt="Mobile Detailing Franchise Unit" className="w-full h-48 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/brand/o3-on-wheels.webp" alt="O3 On Wheels doorstep detailing: a freshly detailed Mahindra Scorpio-N on a customer driveway" className="w-full aspect-[16/10] object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
                 <div className="space-y-2">
                   <span className="text-xs font-mono text-[#cae8e8] uppercase font-bold">Model 1: Mobile Unit</span>
                   <h3 className="text-2xl font-bold text-white">Doorstep Detailing Franchise</h3>

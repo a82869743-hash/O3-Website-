@@ -45,9 +45,10 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 - Never label AI footage as O3 work. Never invent specs (gloss units, "10H", contact angles, live telemetry).
 - Prices must come from the official tariff in `allServicesData` (look up by `id`), never hard-coded.
 - The "Kia" reel is a **Kia Carens**, not a Seltos.
-- Remaining AI placeholders (7 refs, waiting on the client): `o3_on_wheels` van (home, concierge, franchise), `o3_swirl_before/after`, `sharanpal_sodhi_founder`. Every service, plan, gallery, about, contact and franchise image is now a real frame from O3 footage.
+- Remaining AI placeholders (waiting on the client): `o3_swirl_before/after`, `sharanpal_sodhi_founder`, and the hero video. Every service, plan, gallery, about, contact and franchise image is now a real frame from O3 footage.
 - Service images (`assets/services/<service-id>.webp`, 960×600) are designed in Figma: file "O3 Car-Spa — Service Images" (https://www.figma.com/design/cE4KastXokuFGDetkR6Nox), one `Service Image` component with 47 instances (photo, category tag, title, subline). Edit there, export the two 4×6 grids (Figma caps exports at 4096 px), slice into 960×600 tiles. Photos are real O3 frames, or the photo cropped from O3’s own service poster when the footage has none (headlight, engine, alloy, windshield, ozone, rodent, leather). Service cards show the price chip bottom-right so it never covers the image title.
-- Products show each brand's real logo (`assets/logos/`) instead of AI bottle renders; the 12 SKUs and their prices are unverified and need client confirmation.
+- Brand logos: the old `assets/logos/*.png|webp` are **AI-generated fakes**; never use them. `BrandMark` (in `app.jsx`) shows official logos from `assets/logos/official/` (3M and Würth from Wikimedia Commons, Menzerna and Pai Cristal from their own sites, Ma-Fra from Commons) on white tiles. Meguiar's, Kisho, Vista and Chem-Verse have no verified official logo, so they show the brand name in type until a real logo is sourced. Never invent a logo. The 12 product SKUs and prices are unverified.
+- O3 On Wheels image (`assets/brand/o3-on-wheels.webp`) is the Figma Service Image component with a real driveway frame (Scorpio-N), not a van. Replace with a real van photo when the client sends one.
 
 ## Brand
 

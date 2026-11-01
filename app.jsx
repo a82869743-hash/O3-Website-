@@ -4352,7 +4352,7 @@ function App() {
                 <h3 className="text-2xl font-bold text-white">O3 Car Spaa Studio</h3>
                 <p className="text-xs text-[#cae8e8] font-mono">Managed by Mr. Sharanpal Sodhi</p>
 
-                <img src="assets/gallery/only_images_good_ones_3.1.webp" alt="A customer car outside the O3 Car Spaa studio sign" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/stills/studio-bay.webp" alt="A freshly detailed Toyota Fortuner inside the O3 Car Spaa studio bay" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
 
                 <div className="space-y-4 text-sm text-slate-300">
                   <div className="flex gap-3">

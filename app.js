@@ -4809,8 +4809,8 @@ function App() {
   }, "O3 Car Spaa Studio"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-[#cae8e8] font-mono"
   }, "Managed by Mr. Sharanpal Sodhi"), /*#__PURE__*/React.createElement("img", {
-    src: "assets/gallery/only_images_good_ones_3.1.webp",
-    alt: "A customer car outside the O3 Car Spaa studio sign",
+    src: "assets/stills/studio-bay.webp",
+    alt: "A freshly detailed Toyota Fortuner inside the O3 Car Spaa studio bay",
     className: "w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20",
     loading: "lazy",
     decoding: "async"

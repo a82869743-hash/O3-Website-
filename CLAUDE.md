@@ -78,7 +78,7 @@ The global scroll system lives in `App`: Lenis, the progress bar, hero parallax,
 
 ## Open work, in priority order
 
-1. **Booking form doesn't send anything.** It shows `alert("Booking confirmed…")`, so customers think they're booked but nobody is notified. Fix first: send to WhatsApp 917225030303 or a form service.
+1. Done (2026-11-02): booking, contact and franchise forms send to o3carspavvn@gmail.com via FormSubmit (`submitEnquiry` in app.jsx), with a WhatsApp fallback if sending fails. FormSubmit needs a one-time activation: the owner must click the "Activate Form" email it sends after the first submission.
 2. Done (2026-10-26): inner pages cleaned. AI images replaced with real frames, inflated claims rewritten (cleanroom/HEPA/4K/molecular/0.1-micron/ultrasonic/99.9%/Rupes-certified/AMG), Story merged into About, Studio page removed, gallery titles written and gallery video playback fixed.
 3. Waiting on the client: a real landscape hero video, a real founder photo, a before/after pair of the same panel, a real photo of the O3 On Wheels van, the real product list and prices, and confirmation of the 2016/2020 timeline dates. Their own Instagram posts in the gallery say "14 Years of Trust" and "25,000+ Happy Customers", which conflict with 2013 and the "5,000+" figure.
 4. SEO: LocalBusiness schema, link-preview (Open Graph) image, per-page titles. The site is a client-rendered single URL.

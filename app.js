@@ -1635,6 +1635,57 @@ function CoatingCompare({
     className: "text-center text-[11px] text-slate-500 font-mono mt-6"
   }, "Many owners combine them: PPF on the front, graphene on the rest. Prices from O3's official tariff; final quote after inspection."));
 }
+
+// Form enquiries go to the studio inbox via FormSubmit (no backend on this static site).
+// The first submission sends FormSubmit's one-time activation email to this address.
+const ENQUIRY_EMAIL = 'o3carspavvn@gmail.com';
+const ENQUIRY_WHATSAPP = '917225030303';
+async function submitEnquiry(e, subject, onDone) {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const btn = form.querySelector('button[type="submit"]');
+  const fields = {};
+  Array.from(form.elements).forEach(el => {
+    if (!el.tagName || el.tagName === 'BUTTON' || !el.value) return;
+    const label = el.closest('div') && el.closest('div').querySelector('label');
+    fields[label ? label.textContent.trim() : el.placeholder || el.type] = el.value;
+  });
+  const text = subject + '\n' + Object.entries(fields).map(([k, v]) => k + ': ' + v).join('\n');
+  const label = btn ? btn.textContent : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+  }
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/' + ENQUIRY_EMAIL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        _subject: 'Website: ' + subject,
+        _template: 'table',
+        _captcha: 'false',
+        ...fields
+      })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || String(data.success) === 'false') throw new Error(data.message || 'send failed');
+    alert('Thank you! Your request has reached O3 Car Spaa. We will call you shortly to confirm.');
+    form.reset();
+    if (onDone) onDone();
+  } catch (err) {
+    if (confirm('Sorry, we could not send this online. Send it to us on WhatsApp instead?')) {
+      window.open('https://wa.me/' + ENQUIRY_WHATSAPP + '?text=' + encodeURIComponent(text), '_blank');
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  }
+}
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   // Preloader is removed from the DOM after its fade-out; left mounted, its
@@ -2894,7 +2945,7 @@ function App() {
     onClick: () => setIsBookingOpen(true),
     className: "btn-primary text-xs !py-2 !px-5 font-bold shadow-[0_0_20px_rgba(0, 141, 210, 0.2)]"
   }, "Book Appointment")))), /*#__PURE__*/React.createElement("main", {
-    className: "flex-1 relative z-10"
+    className: `flex-1 relative z-10 ${currentView === 'home' ? '' : 'pt-20 sm:pt-24'}`
   }, currentView === 'home' && /*#__PURE__*/React.createElement("div", {
     className: "space-y-28 sm:space-y-36 pb-28"
   }, /*#__PURE__*/React.createElement("section", {
@@ -4808,10 +4859,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("h3", {
     className: "text-2xl font-bold text-white"
   }, "Send Consultation Message"), /*#__PURE__*/React.createElement("form", {
-    onSubmit: e => {
-      e.preventDefault();
-      alert('Thank you! Our O3 Car Spaa representative will call you shortly.');
-    },
+    onSubmit: e => submitEnquiry(e, 'Consultation request'),
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "grid sm:grid-cols-2 gap-4"
@@ -5065,11 +5113,7 @@ function App() {
   }, "Partner with O3 Car Spaa"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-400"
   }, "Investment Tier: ₹5 Lakhs – ₹10 Lakhs")), /*#__PURE__*/React.createElement("form", {
-    onSubmit: e => {
-      e.preventDefault();
-      alert('Franchise application received! Mr. Sharanpal Sodhi or team will connect with you within 24 hours.');
-      setIsFranchiseModalOpen(false);
-    },
+    onSubmit: e => submitEnquiry(e, 'Franchise enquiry', () => setIsFranchiseModalOpen(false)),
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-xs font-bold text-slate-300 mb-1"
@@ -5119,11 +5163,7 @@ function App() {
   }, "Schedule Detailing Visit"), selectedBookingService && /*#__PURE__*/React.createElement("div", {
     className: "text-xs text-[#cae8e8] font-mono"
   }, "Selected: ", selectedBookingService)), /*#__PURE__*/React.createElement("form", {
-    onSubmit: e => {
-      e.preventDefault();
-      alert(`Booking confirmed for ${selectedBookingService || 'Detailing Visit'}! Our O3 team will call you to verify your slot.`);
-      setIsBookingOpen(false);
-    },
+    onSubmit: e => submitEnquiry(e, 'Booking request: ' + (selectedBookingService || 'Detailing visit'), () => setIsBookingOpen(false)),
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-xs font-bold text-slate-300 mb-1"

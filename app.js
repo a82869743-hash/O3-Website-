@@ -2792,11 +2792,23 @@ function App() {
       ScrollTrigger = window.ScrollTrigger;
     if (!window.Lenis || !gsap || !ScrollTrigger) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Lenis runs `prevent` on every node under the cursor for every wheel event.
+    // getComputedStyle there forced a style recalc mid-scroll, so cache the answer.
+    const fixedCache = new WeakMap();
+    const isFixed = node => {
+      if (!(node instanceof Element)) return false;
+      let v = fixedCache.get(node);
+      if (v === undefined) {
+        v = getComputedStyle(node).position === 'fixed';
+        fixedCache.set(node, v);
+      }
+      return v;
+    };
     const lenis = new window.Lenis({
-      lerp: 0.1,
+      lerp: 0.12,
       smoothWheel: true,
       // Let modals, drawers and lightboxes (all position: fixed) scroll natively
-      prevent: node => node instanceof Element && getComputedStyle(node).position === 'fixed'
+      prevent: isFixed
     });
     lenisRef.current = lenis;
     // Lenis rewrites the <html> class on every scroll start/stop, which forces a

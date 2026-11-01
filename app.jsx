@@ -209,7 +209,7 @@ function OfficialTariffMenu() {
           rel="noopener noreferrer"
           className="btn-primary text-xs !py-3 !px-6 flex items-center gap-2"
         >
-          <span>Book via WhatsApp (72250 30303)</span>
+          <span>Book via WhatsApp (72 25 03 03 03)</span>
         </a>
       </div>
 
@@ -2373,7 +2373,7 @@ function App() {
               className="hidden xl:flex items-center gap-2 text-xs text-[#29A9E8] bg-[#29A9E8]/10 px-4 py-2 rounded-full border border-[#29A9E8]/30 hover:bg-[#29A9E8]/20 transition-all font-mono font-bold shadow-[0_0_15px_rgba(0, 141, 210, 0.1)]"
             >
               <Icon name="phone" className="w-4 h-4" />
-              <span>72250 30303</span>
+              <span>72 25 03 03 03</span>
             </a>
 
             <button 
@@ -2704,7 +2704,7 @@ function App() {
                         <span className="text-lg text-[#29A9E8] pt-0.5"><Icon name="phone" className="w-5 h-5" /></span>
                         <div>
                           <strong className="text-white block">Direct Booking / Query Line:</strong>
-                          <a href="tel:7225030303" className="text-[#29A9E8] hover:underline font-mono font-bold">72250 30303</a>
+                          <a href="tel:7225030303" className="text-[#29A9E8] hover:underline font-mono font-bold">72 25 03 03 03</a>
                         </div>
                       </div>
 
@@ -2740,7 +2740,7 @@ function App() {
                   >
                     <div className="text-emerald-400 flex justify-center"><Icon name="whatsapp" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-emerald-400">WhatsApp Chat</div>
-                    <div className="text-[10px] font-mono text-emerald-400">72250 30303</div>
+                    <div className="text-[10px] font-mono text-emerald-400">72 25 03 03 03</div>
                   </a>
 
                   {/* Phone Direct */}
@@ -2750,7 +2750,7 @@ function App() {
                   >
                     <div className="text-cyan-400 flex justify-center"><Icon name="phone" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-cyan-400">Call Direct</div>
-                    <div className="text-[10px] font-mono text-cyan-400">72250 30303</div>
+                    <div className="text-[10px] font-mono text-cyan-400">72 25 03 03 03</div>
                   </a>
 
                   {/* Google Maps Direction */}
@@ -3517,8 +3517,8 @@ function App() {
                     <button onClick={() => setIsBookingOpen(true)} className="btn-primary">
                       Book Doorstep Visit Now
                     </button>
-                    <a href="tel:9033088869" className="btn-secondary">
-                      Call 90330 88869
+                    <a href="tel:7225030303" className="btn-secondary">
+                      Call 72 25 03 03 03
                     </a>
                   </div>
                 </div>
@@ -4014,7 +4014,7 @@ function App() {
   {
     "id": "p17",
     "title": "Invest in Your Car, Not Repairs",
-    "desc": "Call O3 Car-Spa: 72250 30303 | 97279 03038.",
+    "desc": "Call O3 Car-Spa: 72 25 03 03 03.",
     "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4321,7 +4321,7 @@ function App() {
                     <span className="text-[#cae8e8] pt-0.5"><Icon name="pin" className="w-5 h-5" /></span>
                     <div>
                       <strong className="text-white block">Studio Address:</strong>
-                      No. 444/2, Phase 4, Opp. Swiss Glass Coat, Plot VU Nagar, New Vallabh Vidyanagar, GIDC, Anand, Gujarat 388121
+                      Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)
                     </div>
                   </div>
 
@@ -4329,7 +4329,7 @@ function App() {
                     <span className="text-[#cae8e8] pt-0.5"><Icon name="phone" className="w-5 h-5" /></span>
                     <div>
                       <strong className="text-white block">Direct Phone Lines:</strong>
-                      <a href="tel:9033088869" className="hover:underline font-mono text-[#cae8e8]">90330 88869</a> · <a href="tel:7225030303" className="hover:underline font-mono text-[#cae8e8]">72250 30303</a>
+                      <a href="tel:7225030303" className="hover:underline font-mono text-[#cae8e8]">72 25 03 03 03</a>
                     </div>
                   </div>
 
@@ -4360,7 +4360,7 @@ function App() {
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-slate-300 mb-1">Phone Number</label>
-                      <input type="tel" required placeholder="90330 88869" className="w-full bg-[#05070c] border border-[#cae8e8]/30 rounded-2xl p-3 text-sm text-white focus:outline-none focus:border-[#cae8e8]" />
+                      <input type="tel" required placeholder="Your mobile number" className="w-full bg-[#05070c] border border-[#cae8e8]/30 rounded-2xl p-3 text-sm text-white focus:outline-none focus:border-[#cae8e8]" />
                     </div>
                   </div>
 
@@ -4487,8 +4487,8 @@ function App() {
             <button onClick={() => setIsBookingOpen(true)} className="btn-primary">
               Book Appointment
             </button>
-            <a href="tel:9033088869" className="btn-secondary">
-              Call 90330 88869
+            <a href="tel:7225030303" className="btn-secondary">
+              Call 72 25 03 03 03
             </a>
           </div>
         </div>
@@ -4542,7 +4542,7 @@ function App() {
             <div className="space-y-3">
               <h4 className="font-bold text-white text-sm uppercase tracking-wider">Studio Contact</h4>
               <p className="flex gap-2"><Icon name="pin" className="w-4 h-4 shrink-0 mt-1" /><span>Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)</span></p>
-              <p className="flex gap-2 items-center"><Icon name="phone" className="w-4 h-4 shrink-0" /><a href="tel:7225030303" className="hover:underline text-[#29A9E8]">72250 30303</a></p>
+              <p className="flex gap-2 items-center"><Icon name="phone" className="w-4 h-4 shrink-0" /><a href="tel:7225030303" className="hover:underline text-[#29A9E8]">72 25 03 03 03</a></p>
               <p className="flex gap-2 items-center"><Icon name="mail" className="w-4 h-4 shrink-0" /><a href="mailto:o3carspavvn@gmail.com" className="hover:underline text-[#cae8e8]">o3carspavvn@gmail.com</a></p>
             </div>
 
@@ -4638,7 +4638,7 @@ function App() {
 
               <div>
                 <label className="block text-xs font-bold text-slate-300 mb-1">Phone Number</label>
-                <input type="tel" required placeholder="90330 88869" className="w-full bg-[#05070c] border border-[#cae8e8]/30 rounded-2xl p-3 text-sm text-white focus:outline-none focus:border-[#cae8e8]" />
+                <input type="tel" required placeholder="Your mobile number" className="w-full bg-[#05070c] border border-[#cae8e8]/30 rounded-2xl p-3 text-sm text-white focus:outline-none focus:border-[#cae8e8]" />
               </div>
 
               <div>
@@ -4767,7 +4767,7 @@ function App() {
 
             <div className="grid grid-cols-2 gap-3 text-xs">
               <a 
-                href="tel:9033088869" 
+                href="tel:7225030303" 
                 className="p-3 rounded-2xl bg-[#091524] border border-[#29A9E8]/30 text-[#29A9E8] font-mono font-bold flex items-center justify-center gap-2"
               >
                 <Icon name="phone" className="w-4 h-4" />
@@ -4775,7 +4775,7 @@ function App() {
               </a>
 
               <a 
-                href="https://wa.me/919033088869?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing."
+                href="https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 text-emerald-400 font-mono font-bold flex items-center justify-center gap-2"

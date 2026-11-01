@@ -458,7 +458,7 @@ function OfficialTariffMenu() {
     target: "_blank",
     rel: "noopener noreferrer",
     className: "btn-primary text-xs !py-3 !px-6 flex items-center gap-2"
-  }, /*#__PURE__*/React.createElement("span", null, "Book via WhatsApp (72250 30303)"))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Book via WhatsApp (72 25 03 03 03)"))), /*#__PURE__*/React.createElement("div", {
     className: "flex flex-wrap gap-2"
   }, tariffCategories.map(cat => /*#__PURE__*/React.createElement("button", {
     key: cat.id,
@@ -2890,7 +2890,7 @@ function App() {
   }, /*#__PURE__*/React.createElement(Icon, {
     name: "phone",
     className: "w-4 h-4"
-  }), /*#__PURE__*/React.createElement("span", null, "72250 30303")), /*#__PURE__*/React.createElement("button", {
+  }), /*#__PURE__*/React.createElement("span", null, "72 25 03 03 03")), /*#__PURE__*/React.createElement("button", {
     onClick: () => setIsBookingOpen(true),
     className: "btn-primary text-xs !py-2 !px-5 font-bold shadow-[0_0_20px_rgba(0, 141, 210, 0.2)]"
   }, "Book Appointment")))), /*#__PURE__*/React.createElement("main", {
@@ -3188,7 +3188,7 @@ function App() {
   }, "Direct Booking / Query Line:"), /*#__PURE__*/React.createElement("a", {
     href: "tel:7225030303",
     className: "text-[#29A9E8] hover:underline font-mono font-bold"
-  }, "72250 30303"))), /*#__PURE__*/React.createElement("div", {
+  }, "72 25 03 03 03"))), /*#__PURE__*/React.createElement("div", {
     className: "flex items-start gap-3"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-lg text-[#29A9E8] pt-0.5"
@@ -3221,7 +3221,7 @@ function App() {
     className: "text-xs font-bold text-white group-hover:text-emerald-400"
   }, "WhatsApp Chat"), /*#__PURE__*/React.createElement("div", {
     className: "text-[10px] font-mono text-emerald-400"
-  }, "72250 30303")), /*#__PURE__*/React.createElement("a", {
+  }, "72 25 03 03 03")), /*#__PURE__*/React.createElement("a", {
     href: "tel:7225030303",
     className: "p-5 rounded-2xl bg-[#091524] border border-cyan-500/30 hover:border-cyan-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
   }, /*#__PURE__*/React.createElement("div", {
@@ -3233,7 +3233,7 @@ function App() {
     className: "text-xs font-bold text-white group-hover:text-cyan-400"
   }, "Call Direct"), /*#__PURE__*/React.createElement("div", {
     className: "text-[10px] font-mono text-cyan-400"
-  }, "72250 30303")), /*#__PURE__*/React.createElement("a", {
+  }, "72 25 03 03 03")), /*#__PURE__*/React.createElement("a", {
     href: "https://www.google.com/maps/dir/?api=1&destination=22.5492,72.9304",
     target: "_blank",
     rel: "noopener noreferrer",
@@ -4035,9 +4035,9 @@ function App() {
     onClick: () => setIsBookingOpen(true),
     className: "btn-primary"
   }, "Book Doorstep Visit Now"), /*#__PURE__*/React.createElement("a", {
-    href: "tel:9033088869",
+    href: "tel:7225030303",
     className: "btn-secondary"
-  }, "Call 90330 88869"))), /*#__PURE__*/React.createElement("div", {
+  }, "Call 72 25 03 03 03"))), /*#__PURE__*/React.createElement("div", {
     className: "lg:col-span-5"
   }, /*#__PURE__*/React.createElement("img", {
     src: "assets/brand/o3-on-wheels.webp",
@@ -4443,7 +4443,7 @@ function App() {
   }, {
     "id": "p17",
     "title": "Invest in Your Car, Not Repairs",
-    "desc": "Call O3 Car-Spa: 72250 30303 | 97279 03038.",
+    "desc": "Call O3 Car-Spa: 72 25 03 03 03.",
     "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4774,7 +4774,7 @@ function App() {
     className: "w-5 h-5"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", {
     className: "text-white block"
-  }, "Studio Address:"), "No. 444/2, Phase 4, Opp. Swiss Glass Coat, Plot VU Nagar, New Vallabh Vidyanagar, GIDC, Anand, Gujarat 388121")), /*#__PURE__*/React.createElement("div", {
+  }, "Studio Address:"), "Plot No. 37, Zone No. D5, Opp. Bank of Baroda, GIDC, Vitthal Udyognagar, Anand, Gujarat (388121)")), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-3"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[#cae8e8] pt-0.5"
@@ -4784,12 +4784,9 @@ function App() {
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("strong", {
     className: "text-white block"
   }, "Direct Phone Lines:"), /*#__PURE__*/React.createElement("a", {
-    href: "tel:9033088869",
-    className: "hover:underline font-mono text-[#cae8e8]"
-  }, "90330 88869"), " · ", /*#__PURE__*/React.createElement("a", {
     href: "tel:7225030303",
     className: "hover:underline font-mono text-[#cae8e8]"
-  }, "72250 30303"))), /*#__PURE__*/React.createElement("div", {
+  }, "72 25 03 03 03"))), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-3"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-[#cae8e8] pt-0.5"
@@ -4830,7 +4827,7 @@ function App() {
   }, "Phone Number"), /*#__PURE__*/React.createElement("input", {
     type: "tel",
     required: true,
-    placeholder: "90330 88869",
+    placeholder: "Your mobile number",
     className: "w-full bg-[#05070c] border border-[#cae8e8]/30 rounded-2xl p-3 text-sm text-white focus:outline-none focus:border-[#cae8e8]"
   }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-xs font-bold text-slate-300 mb-1"
@@ -4941,9 +4938,9 @@ function App() {
     onClick: () => setIsBookingOpen(true),
     className: "btn-primary"
   }, "Book Appointment"), /*#__PURE__*/React.createElement("a", {
-    href: "tel:9033088869",
+    href: "tel:7225030303",
     className: "btn-secondary"
-  }, "Call 90330 88869")))), /*#__PURE__*/React.createElement("footer", {
+  }, "Call 72 25 03 03 03")))), /*#__PURE__*/React.createElement("footer", {
     className: "bg-[#040609] border-t border-[#cae8e8]/15 pt-16 pb-12 text-slate-400 text-xs relative z-10"
   }, /*#__PURE__*/React.createElement("div", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12"
@@ -5027,7 +5024,7 @@ function App() {
   }), /*#__PURE__*/React.createElement("a", {
     href: "tel:7225030303",
     className: "hover:underline text-[#29A9E8]"
-  }, "72250 30303")), /*#__PURE__*/React.createElement("p", {
+  }, "72 25 03 03 03")), /*#__PURE__*/React.createElement("p", {
     className: "flex gap-2 items-center"
   }, /*#__PURE__*/React.createElement(Icon, {
     name: "mail",
@@ -5140,7 +5137,7 @@ function App() {
   }, "Phone Number"), /*#__PURE__*/React.createElement("input", {
     type: "tel",
     required: true,
-    placeholder: "90330 88869",
+    placeholder: "Your mobile number",
     className: "w-full bg-[#05070c] border border-[#cae8e8]/30 rounded-2xl p-3 text-sm text-white focus:outline-none focus:border-[#cae8e8]"
   })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("label", {
     className: "block text-xs font-bold text-slate-300 mb-1"
@@ -5253,13 +5250,13 @@ function App() {
   }, "Book Studio Appointment Now"), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 gap-3 text-xs"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "tel:9033088869",
+    href: "tel:7225030303",
     className: "p-3 rounded-2xl bg-[#091524] border border-[#29A9E8]/30 text-[#29A9E8] font-mono font-bold flex items-center justify-center gap-2"
   }, /*#__PURE__*/React.createElement(Icon, {
     name: "phone",
     className: "w-4 h-4"
   }), /*#__PURE__*/React.createElement("span", null, "Call Us")), /*#__PURE__*/React.createElement("a", {
-    href: "https://wa.me/919033088869?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing.",
+    href: "https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing.",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "p-3 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 text-emerald-400 font-mono font-bold flex items-center justify-center gap-2"

@@ -52,7 +52,7 @@ Marketing site for **O3 Car-Spa**, a car detailing studio in Vitthal Udyognagar,
 
 ## Brand
 
-- Official logo: `assets/brand/` (vector SVGs taken from "O3 Car Spa Logo 2024.pdf"). The site uses `o3-logo-white.svg`; the favicon is `o3-mark-blue.svg`. Show it unfiltered (no glow).
+- Logo (redesigned Nov 2026, owner-approved): **O3 Car Spaa**. Blue glass O with water beads (spa), a red car in the gap, and a subscript 3. Files in `assets/brand/`: `o3-car-spaa-white.svg` (header/footer lockup, text as Outfit outlines), `o3-car-spaa-mark.svg` / `-mark-dark.svg` (symbol), `o3-icon.svg` (favicon, no car/beads), `og-share.jpg`. Old `o3-logo-*.svg` / `o3-mark-*.svg` are the previous logo, no longer used. Business name is now "O3 Car Spaa" everywhere.
 - Brand blue **#008DD2** (glows use it at half strength). Accent text/buttons use **#29A9E8**, a lighter tint of it that stays readable on the dark background. The old neon cyan #00F0FF is gone; don't reintroduce it.
 - No emoji in the UI; use the `Icon` component (line icons: whatsapp, phone, pin, clock, mail, instagram, facebook). `font-mono` is mapped to Space Grotesk in `tailwind.config.js`, so it is just a label style, not a code font.
 - Home hero: text can change, but **never touch the hero video** (owner's instruction). No Gujarati line (removed at the owner's request).

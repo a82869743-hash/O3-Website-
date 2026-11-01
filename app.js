@@ -1,5 +1,5 @@
 // ==========================================================================
-// O3 Car-Spa — Master Application (Reordered Cinema Showcase & Redesigned FAQ)
+// O3 Car Spaa — Master Application (Reordered Cinema Showcase & Redesigned FAQ)
 // ==========================================================================
 
 const {
@@ -17,7 +17,7 @@ const BRAND_LOGOS = {
   'Menzerna': 'assets/logos/official/menzerna.svg',
   'Paicristal Italia': 'assets/logos/official/paicristal.svg',
   'Ma-Fra': 'assets/logos/official/mafra.webp',
-  'O3 Studio': 'assets/brand/o3-logo-blue.svg'
+  'O3 Studio': 'assets/brand/o3-car-spaa-mark-dark.svg'
 };
 function BrandMark({
   brand,
@@ -111,7 +111,7 @@ function O3Preloader({
     if (p < 30) return "WARMING UP THE STUDIO LIGHTS...";
     if (p < 65) return "PREPPING THE DETAILING BAY...";
     if (p < 90) return "LOADING OUR LATEST WORK...";
-    return "WELCOME TO O3 CAR-SPA STUDIO — ANAND";
+    return "WELCOME TO O3 CAR SPAA STUDIO — ANAND";
   };
   return /*#__PURE__*/React.createElement("div", {
     className: `fixed inset-0 z-[99999] bg-[#05070c] flex flex-col items-center justify-center p-6 transition-all duration-700 select-none ${isFinished ? 'opacity-0 pointer-events-none scale-105' : 'opacity-100'}`
@@ -124,8 +124,8 @@ function O3Preloader({
   }, /*#__PURE__*/React.createElement("div", {
     className: "absolute -inset-4 bg-[#29A9E8]/20 rounded-full blur-2xl animate-pulse"
   }), /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Official Studio Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Official Studio Logo",
     className: "h-20 sm:h-24 w-auto mx-auto relative z-10 drop-shadow-[0_0_35px_rgba(0, 141, 210, 0.35)]",
     loading: "lazy",
     decoding: "async"
@@ -159,7 +159,7 @@ function O3Preloader({
   }, "Sharanpal Sodhi"))));
 }
 
-// 12. OFFICIAL O3 CAR-SPA STUDIO TARIFF & PRICE CATALOG (EXACT OFFICIAL PRICE LIST)
+// 12. OFFICIAL O3 CAR SPAA STUDIO TARIFF & PRICE CATALOG (EXACT OFFICIAL PRICE LIST)
 function OfficialTariffMenu() {
   const [activeCategory, setActiveCategory] = useState('all');
   const tariffCategories = [{
@@ -451,7 +451,7 @@ function OfficialTariffMenu() {
     className: "text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold"
   }, "Official Studio Price List & Tariff Card"), /*#__PURE__*/React.createElement("h2", {
     className: "text-2xl sm:text-4xl font-extrabold text-white mt-1"
-  }, "O3 Car-Spa Official Services Menu"), /*#__PURE__*/React.createElement("p", {
+  }, "O3 Car Spaa Official Services Menu"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-400 font-mono mt-1"
   }, "Transparent fixed pricing · Managed by Mr. Sharanpalsingh Sodhi · Vitthal Udyognagar, Anand")), /*#__PURE__*/React.createElement("a", {
     href: "https://wa.me/917225030303?text=Hello%20Sharanpalsingh%20Sir!%20I%20want%20to%20book%20a%20detailing%20service%20from%20the%20official%20price%20list.",
@@ -1683,14 +1683,14 @@ function App() {
   // Each page gets its own browser-tab / search title
   useEffect(() => {
     const titles = {
-      home: 'O3 Car-Spa | Car Detailing, Ceramic Coating & PPF in Anand',
-      about: 'About O3 Car-Spa | Detailing in Anand Since 2013',
-      services: 'Services & Prices | Ceramic, Graphene, PPF | O3 Car-Spa Anand',
-      plans: 'Wash Plans & Subscriptions | O3 Car-Spa Anand',
-      gallery: 'Our Work | Real Cars Detailed at O3 Car-Spa, Anand',
-      franchise: 'Franchise | O3 Car-Spa',
-      contact: 'Contact & Location | O3 Car-Spa, Vitthal Udyognagar, Anand',
-      products: 'Products | O3 Car-Spa'
+      home: 'O3 Car Spaa | Car Detailing, Ceramic Coating & PPF in Anand',
+      about: 'About O3 Car Spaa | Detailing in Anand Since 2013',
+      services: 'Services & Prices | Ceramic, Graphene, PPF | O3 Car Spaa Anand',
+      plans: 'Wash Plans & Subscriptions | O3 Car Spaa Anand',
+      gallery: 'Our Work | Real Cars Detailed at O3 Car Spaa, Anand',
+      franchise: 'Franchise | O3 Car Spaa',
+      contact: 'Contact & Location | O3 Car Spaa, Vitthal Udyognagar, Anand',
+      products: 'Products | O3 Car Spaa'
     };
     document.title = titles[currentView] || titles.home;
   }, [currentView]);
@@ -2393,7 +2393,7 @@ function App() {
     car: "Maruti Suzuki WagonR (2015)",
     category: "Underbody & Restoration",
     rating: "★★★★★",
-    quote: "My 2015 WagonR Complete Under Body Coating, Head Light Buffing And Total Clean..... Thanks Sharanpal Sir O3 Car Spa Good Staff!"
+    quote: "My 2015 WagonR Complete Under Body Coating, Head Light Buffing And Total Clean..... Thanks Sharanpal Sir O3 Car Spaa Good Staff!"
   }, {
     id: 2,
     author: "Rutvik Gamit",
@@ -2402,7 +2402,7 @@ function App() {
     car: "Accidental Paint Restoration",
     category: "Paint Restoration",
     rating: "★★★★★",
-    quote: "I had the opportunity to refer a friend to Mr. Sharanpal Sodhi and the team at O3 Car Spa after his car was accidentally splattered with paint. Professionalism, attention to detail, and top-notch problem solving!"
+    quote: "I had the opportunity to refer a friend to Mr. Sharanpal Sodhi and the team at O3 Car Spaa after his car was accidentally splattered with paint. Professionalism, attention to detail, and top-notch problem solving!"
   }, {
     id: 3,
     author: "Adit Shah",
@@ -2411,7 +2411,7 @@ function App() {
     car: "Royal Enfield Hunter 350",
     category: "Bikes & Superbikes",
     rating: "★★★★★",
-    quote: "I got a matte ceramic coating on my Hunter 350. My overall experience was beyond expectations. Thank you O3 Car Spa for your wonderful service!"
+    quote: "I got a matte ceramic coating on my Hunter 350. My overall experience was beyond expectations. Thank you O3 Car Spaa for your wonderful service!"
   }, {
     id: 4,
     author: "Mihir Patel",
@@ -2447,7 +2447,7 @@ function App() {
     car: "Honda Activa",
     category: "Bikes & Superbikes",
     rating: "★★★★★",
-    quote: "My Activa has been done ceramic coating at O3 Car Spa — beautiful detailed work! 13+ years of expert experience in town!"
+    quote: "My Activa has been done ceramic coating at O3 Car Spaa — beautiful detailed work! 13+ years of expert experience in town!"
   }, {
     id: 8,
     author: "Bhavesh Prajapati",
@@ -2829,7 +2829,7 @@ function App() {
     className: "scroll-progress-bar",
     "aria-hidden": "true"
   }), /*#__PURE__*/React.createElement("a", {
-    href: "https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing.",
+    href: "https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20inquire%20about%20detailing.",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "whatsapp-float-btn",
@@ -2847,8 +2847,8 @@ function App() {
     onClick: () => navigateTo('home'),
     className: "cursor-pointer flex items-center gap-3 group"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Premium Car Detailing Studio Official Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Premium Car Detailing Studio Official Logo",
     className: "logo-blend h-12 sm:h-14 w-auto group-hover:scale-103 transition-transform",
     loading: "lazy",
     decoding: "async"
@@ -3030,7 +3030,7 @@ function App() {
     className: "w-full h-full object-cover rounded-2xl"
   })), /*#__PURE__*/React.createElement("p", {
     className: "text-xs sm:text-sm text-slate-300 leading-relaxed"
-  }, "\"At O3 Car Spa, detailing is an exact science. From daily drivers to premium SUVs, every panel gets multi-stage polishing and coating under bright 6500K inspection lights.\""))))), /*#__PURE__*/React.createElement("section", {
+  }, "\"At O3 Car Spaa, detailing is an exact science. From daily drivers to premium SUVs, every panel gets multi-stage polishing and coating under bright 6500K inspection lights.\""))))), /*#__PURE__*/React.createElement("section", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-r from-[#0d111a] via-[#101726] to-[#05070c]"
@@ -3091,7 +3091,7 @@ function App() {
     q: 'How long does a studio Paint Correction & Ceramic Coating take?',
     a: 'A complete multi-stage paint defect compounding pass and 9H liquid ceramic quartz application requires 24 to 48 hours to allow surface decontamination, scratch leveling, and shortwave infra-red lamp curing at 80°C.'
   }, {
-    q: 'What chemicals and compounding equipment are used at O3 Car Spa?',
+    q: 'What chemicals and compounding equipment are used at O3 Car Spaa?',
     a: 'We exclusively utilize Italian Rupes BigFoot orbital polishers, German Würth protection systems, Scangrip 6500K color-calibrated daylight LEDs, and Grade-A Brazilian Carnauba natural waxes.'
   }].map((faq, idx) => /*#__PURE__*/React.createElement("div", {
     key: idx,
@@ -3136,7 +3136,7 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "lg:col-span-7 rounded-3xl overflow-hidden border border-[#cae8e8]/30 shadow-2xl h-80 sm:h-96"
   }, /*#__PURE__*/React.createElement("iframe", {
-    title: "O3 Car-Spa Studio Location Map",
+    title: "O3 Car Spaa Studio Location Map",
     src: "https://maps.google.com/maps?q=O3%20Car%20Spa%20New%20Vallabh%20Vidyanagar%20GIDC%20Anand%20Gujarat&t=&z=15&ie=UTF8&iwloc=&output=embed",
     width: "100%",
     height: "100%",
@@ -3154,7 +3154,7 @@ function App() {
     className: "text-[10px] font-mono text-[#cae8e8] uppercase font-bold"
   }, "Flagship Studio Facility"), /*#__PURE__*/React.createElement("h3", {
     className: "text-xl font-bold text-white"
-  }, "O3 Car-Spa Studio, Anand"), /*#__PURE__*/React.createElement("p", {
+  }, "O3 Car Spaa Studio, Anand"), /*#__PURE__*/React.createElement("p", {
     className: "text-[11px] text-emerald-400 font-mono"
   }, "Directed by Mr. Sharanpalsingh Sodhi")), /*#__PURE__*/React.createElement("div", {
     className: "space-y-3 pt-2"
@@ -3208,7 +3208,7 @@ function App() {
   }, "Open Turn-By-Turn GPS Directions"))), /*#__PURE__*/React.createElement("div", {
     className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-4 border-t border-[#cae8e8]/20"
   }, /*#__PURE__*/React.createElement("a", {
-    href: "https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20book%20a%20detailing%20session.",
+    href: "https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20book%20a%20detailing%20session.",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "p-5 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 hover:border-emerald-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
@@ -3275,13 +3275,13 @@ function App() {
     className: "text-xs font-bold text-white group-hover:text-blue-400"
   }, "Facebook"), /*#__PURE__*/React.createElement("div", {
     className: "text-[10px] font-mono text-blue-400"
-  }, "O3 Car Spa")))))), currentView === 'about' && /*#__PURE__*/React.createElement("div", {
+  }, "O3 Car Spaa")))))), currentView === 'about' && /*#__PURE__*/React.createElement("div", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16"
   }, /*#__PURE__*/React.createElement("div", {
     className: "text-center max-w-3xl mx-auto space-y-4"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-16 w-auto mx-auto mb-2",
     loading: "lazy",
     decoding: "async"
@@ -3291,9 +3291,9 @@ function App() {
     className: "text-4xl sm:text-6xl font-extrabold text-white tracking-tight"
   }, "About ", /*#__PURE__*/React.createElement("span", {
     className: "text-gradient-ocean font-black"
-  }, "O3 Car Spa")), /*#__PURE__*/React.createElement("p", {
+  }, "O3 Car Spaa")), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-300 text-sm sm:text-base leading-relaxed"
-  }, "O3 Car Spa is changing the way people think about car care. We built a cleaning studio around one core idea — your car should feel brand new, every time you drive it. Using high-pressure cleaning machines, steam cleaners, powerful vacuums, and precise spray equipment, we treat every car like it's the only one in the shop.")), /*#__PURE__*/React.createElement("div", {
+  }, "O3 Car Spaa is changing the way people think about car care. We built a cleaning studio around one core idea — your car should feel brand new, every time you drive it. Using high-pressure cleaning machines, steam cleaners, powerful vacuums, and precise spray equipment, we treat every car like it's the only one in the shop.")), /*#__PURE__*/React.createElement("div", {
     className: "grid md:grid-cols-3 gap-8"
   }, /*#__PURE__*/React.createElement("div", {
     className: "glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 group"
@@ -3315,7 +3315,7 @@ function App() {
     className: "text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors"
   }, "How It Started"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-300 leading-relaxed"
-  }, "O3 Car Spa began with a simple frustration — most car washes rush through the job, and cars come out looking barely better than before. We wanted to build something different: a studio where every car gets time, attention, and the right products, not just a quick rinse."), /*#__PURE__*/React.createElement("p", {
+  }, "O3 Car Spaa began with a simple frustration — most car washes rush through the job, and cars come out looking barely better than before. We wanted to build something different: a studio where every car gets time, attention, and the right products, not just a quick rinse."), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-400 leading-relaxed font-mono"
   }, "What started as a single unit in Vallabh Vidyanagar has grown into a name car owners across Anand trust — built one careful detail at a time."))), /*#__PURE__*/React.createElement("div", {
     className: "glass-surface p-6 border border-[#cae8e8]/25 space-y-4 bg-[#0d111a] hover:border-[#29A9E8] transition-all duration-300 group"
@@ -3359,7 +3359,7 @@ function App() {
     className: "text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors"
   }, "Where We Are Today"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-300 leading-relaxed"
-  }, "Today, O3 Car Spa runs a full studio with modern equipment, trained detailers, and a growing list of customers who trust us with their cars — from daily drivers to premium rides."), /*#__PURE__*/React.createElement("p", {
+  }, "Today, O3 Car Spaa runs a full studio with modern equipment, trained detailers, and a growing list of customers who trust us with their cars — from daily drivers to premium rides."), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-400 leading-relaxed font-mono"
   }, "Equipped with hexagonal LED inspection lighting, infrared curing lamps, and trusted products from Germany, Italy and Japan.")))), /*#__PURE__*/React.createElement("div", {
     className: "glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 bg-gradient-to-br from-[#0a0e17] via-[#0f1726] to-[#05070c] space-y-6"
@@ -3371,7 +3371,7 @@ function App() {
     className: "lg:col-span-4 space-y-3"
   }, /*#__PURE__*/React.createElement("img", {
     src: "assets/sharanpal_sodhi_founder.webp",
-    alt: "Sharanpal Sodhi — Founder, O3 Car Spa",
+    alt: "Sharanpal Sodhi — Founder, O3 Car Spaa",
     className: "w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl",
     loading: "lazy",
     decoding: "async"
@@ -3379,13 +3379,13 @@ function App() {
     className: "text-2xl font-bold text-white"
   }, "Sharanpal Sodhi"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-[#29A9E8] font-mono"
-  }, "Founder, O3 Car Spa"))), /*#__PURE__*/React.createElement("div", {
+  }, "Founder, O3 Car Spaa"))), /*#__PURE__*/React.createElement("div", {
     className: "lg:col-span-8 space-y-4"
   }, /*#__PURE__*/React.createElement("h3", {
     className: "text-3xl font-extrabold text-white leading-tight"
   }, "\"We don't just wash cars. We take care of them.\""), /*#__PURE__*/React.createElement("p", {
     className: "text-xs sm:text-sm text-slate-300 leading-relaxed"
-  }, "O3 Car Spa was founded on a simple belief: a car is more than a machine — it's something people take pride in. Sharanpal built the studio from the ground up, focused on one goal — bringing genuine, detail-first car care to Anand, without cutting corners."), /*#__PURE__*/React.createElement("blockquote", {
+  }, "O3 Car Spaa was founded on a simple belief: a car is more than a machine — it's something people take pride in. Sharanpal built the studio from the ground up, focused on one goal — bringing genuine, detail-first car care to Anand, without cutting corners."), /*#__PURE__*/React.createElement("blockquote", {
     className: "p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 text-xs italic text-[#cae8e8]"
   }, "\"Every car that enters our bay gets the same level of precision and obsessive care as if it were our own personal machine.\" — Sharanpal Sodhi")))), /*#__PURE__*/React.createElement("div", {
     className: "glass-surface p-8 sm:p-12 border border-[#cae8e8]/30 space-y-8 bg-[#0d111a]"
@@ -3582,7 +3582,7 @@ function App() {
     className: "text-gradient-ocean font-black"
   }, "Detailing Essentials")), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-300 text-sm sm:text-base leading-relaxed"
-  }, "Bring the O3 Car Spa finish home. We stock authentic, global-standard detailing formulations, ceramic maintenance boosters, and professional applicator kits.")), /*#__PURE__*/React.createElement("div", {
+  }, "Bring the O3 Car Spaa finish home. We stock authentic, global-standard detailing formulations, ceramic maintenance boosters, and professional applicator kits.")), /*#__PURE__*/React.createElement("div", {
     className: "grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
   }, [{
     title: 'Exterior Care',
@@ -3810,7 +3810,7 @@ function App() {
     onClick: () => setSelectedProduct(prod),
     className: "btn-secondary text-xs flex-1 justify-center py-2.5"
   }, /*#__PURE__*/React.createElement("span", null, "View Details")), /*#__PURE__*/React.createElement("a", {
-    href: `https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`,
+    href: `https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`,
     target: "_blank",
     rel: "noopener noreferrer",
     className: "btn-primary text-xs flex-1 justify-center py-2.5"
@@ -3907,7 +3907,7 @@ function App() {
   }, selectedProduct.specs)), /*#__PURE__*/React.createElement("div", {
     className: "pt-4 flex gap-4 border-t border-[#cae8e8]/20"
   }, /*#__PURE__*/React.createElement("a", {
-    href: `https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(selectedProduct.name)}%20(${selectedProduct.price})`,
+    href: `https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(selectedProduct.name)}%20(${selectedProduct.price})`,
     target: "_blank",
     rel: "noopener noreferrer",
     className: "btn-primary text-xs w-full justify-center py-3"
@@ -3954,7 +3954,7 @@ function App() {
     className: "flex items-center justify-between border-b border-[#cae8e8]/20 pb-4"
   }, /*#__PURE__*/React.createElement("span", {
     className: "text-xs font-mono font-bold text-[#29A9E8] uppercase tracking-wider"
-  }, serviceCategory === 'all' ? 'ALL 47 CERTIFIED CAR-SPA SERVICES' : serviceCategory.toUpperCase()), /*#__PURE__*/React.createElement("span", {
+  }, serviceCategory === 'all' ? 'ALL 47 O3 CAR SPAA SERVICES' : serviceCategory.toUpperCase()), /*#__PURE__*/React.createElement("span", {
     className: "text-xs text-slate-400 font-mono"
   }, "Showing ", (serviceCategory === 'all' ? allServicesData : allServicesData.filter(s => s.category === serviceCategory)).length, " Certified Treatments")), /*#__PURE__*/React.createElement("div", {
     className: "grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -4071,7 +4071,7 @@ function App() {
     q: 'Does Paint Protection Film yellow or bubble over time?',
     a: 'We use non-yellowing, optical-grade TPU PPF backed by studio warranties against yellowing, cracking, or peeling.'
   }, {
-    q: 'What chemicals and compounds are used at O3 Car Spa?',
+    q: 'What chemicals and compounds are used at O3 Car Spaa?',
     a: "We use trusted brands such as Würth, Menzerna, Meguiar's, 3M and Kisho. The full list is on our About page."
   }, {
     q: 'Can PPF or Ceramic Coating be applied to matte or satin paint finishes?',
@@ -4443,7 +4443,7 @@ function App() {
   }, {
     "id": "p17",
     "title": "Invest in Your Car, Not Repairs",
-    "desc": "Call O3 Car-Spa: 72 25 03 03 03.",
+    "desc": "Call O3 Car Spaa: 72 25 03 03 03.",
     "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4475,7 +4475,7 @@ function App() {
   }, {
     "id": "p21",
     "title": "Our Legacy",
-    "desc": "From the O3 Car-Spa Instagram.",
+    "desc": "From the O3 Car Spaa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-27511.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4483,7 +4483,7 @@ function App() {
   }, {
     "id": "p22",
     "title": "Our Perfection",
-    "desc": "From the O3 Car-Spa Instagram.",
+    "desc": "From the O3 Car Spaa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-82021.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4491,7 +4491,7 @@ function App() {
   }, {
     "id": "p23",
     "title": "Our Customers",
-    "desc": "From the O3 Car-Spa Instagram.",
+    "desc": "From the O3 Car Spaa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-86981.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4515,7 +4515,7 @@ function App() {
   }, {
     "id": "p26",
     "title": "Mercedes-Benz GLA",
-    "desc": "Delivered outside the O3 Car-Spa studio.",
+    "desc": "Delivered outside the O3 Car Spaa studio.",
     "src": "assets/gallery/only_images_good_ones_3.1.webp",
     "category": "Studio Photos",
     "badge": "Studio Showcase",
@@ -4547,7 +4547,7 @@ function App() {
   }, {
     "id": "p30",
     "title": "Jeep Wrangler",
-    "desc": "Customer Jeep Wrangler outside the O3 Car-Spa studio.",
+    "desc": "Customer Jeep Wrangler outside the O3 Car Spaa studio.",
     "src": "assets/gallery/only_images_good_ones_5.webp",
     "category": "Studio Photos",
     "badge": "Studio Showcase",
@@ -4637,7 +4637,7 @@ function App() {
     className: "inline-block bg-[#cae8e8]/15 text-[#cae8e8] px-4 py-1 rounded-full text-xs font-mono font-bold"
   }, "Business Opportunity"), /*#__PURE__*/React.createElement("h1", {
     className: "text-4xl sm:text-5xl font-extrabold text-white"
-  }, "O3 Car-Spa Franchise Program"), /*#__PURE__*/React.createElement("p", {
+  }, "O3 Car Spaa Franchise Program"), /*#__PURE__*/React.createElement("p", {
     className: "text-slate-300 text-sm sm:text-base leading-relaxed"
   }, "Partner with Anand's most trusted automotive detailing brand under the guidance of ", /*#__PURE__*/React.createElement("strong", {
     className: "text-white"
@@ -4748,18 +4748,18 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "lg:col-span-5 glass-surface p-8 space-y-6 bg-[#0d111a]"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-12 w-auto mb-2",
     loading: "lazy",
     decoding: "async"
   }), /*#__PURE__*/React.createElement("h3", {
     className: "text-2xl font-bold text-white"
-  }, "O3 Car-Spa Studio"), /*#__PURE__*/React.createElement("p", {
+  }, "O3 Car Spaa Studio"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-[#cae8e8] font-mono"
   }, "Managed by Mr. Sharanpal Sodhi"), /*#__PURE__*/React.createElement("img", {
     src: "assets/gallery/only_images_good_ones_3.1.webp",
-    alt: "A customer car outside the O3 Car-Spa studio sign",
+    alt: "A customer car outside the O3 Car Spaa studio sign",
     className: "w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20",
     loading: "lazy",
     decoding: "async"
@@ -4810,7 +4810,7 @@ function App() {
   }, "Send Consultation Message"), /*#__PURE__*/React.createElement("form", {
     onSubmit: e => {
       e.preventDefault();
-      alert('Thank you! Our O3 Car-Spa representative will call you shortly.');
+      alert('Thank you! Our O3 Car Spaa representative will call you shortly.');
     },
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("div", {
@@ -4914,7 +4914,7 @@ function App() {
     onClick: () => handleOpenBookingWithService(activeServiceDetail.title),
     className: "btn-primary text-xs flex-1 justify-center py-3 font-bold"
   }, "Book Treatment Now →"), /*#__PURE__*/React.createElement("a", {
-    href: `https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20service:%20${encodeURIComponent(activeServiceDetail.title)}%20(${activeServiceDetail.price})`,
+    href: `https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20inquire%20about%20service:%20${encodeURIComponent(activeServiceDetail.title)}%20(${activeServiceDetail.price})`,
     target: "_blank",
     rel: "noopener noreferrer",
     className: "btn-secondary text-xs flex-1 justify-center py-3 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/10 font-bold"
@@ -4923,8 +4923,8 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-14 w-auto mx-auto mb-2",
     loading: "lazy",
     decoding: "async"
@@ -4949,8 +4949,8 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "space-y-4"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Premium Detailing Studio Official Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Premium Detailing Studio Official Logo",
     className: "logo-blend h-12 w-auto",
     loading: "lazy",
     decoding: "async"
@@ -5034,7 +5034,7 @@ function App() {
     className: "hover:underline text-[#cae8e8]"
   }, "o3carspavvn@gmail.com")))), /*#__PURE__*/React.createElement("div", {
     className: "border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500"
-  }, /*#__PURE__*/React.createElement("div", null, "© O3 Car-Spa. Precision Detailing Studio (Managed by Mr. Sharanpalsingh Sodhi). All rights reserved."), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", null, "© O3 Car Spaa. Precision Detailing Studio (Managed by Mr. Sharanpalsingh Sodhi). All rights reserved."), /*#__PURE__*/React.createElement("div", {
     className: "flex gap-4"
   }, /*#__PURE__*/React.createElement("a", {
     href: "#",
@@ -5055,14 +5055,14 @@ function App() {
   }, "✕"), /*#__PURE__*/React.createElement("div", {
     className: "space-y-1"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-10 w-auto mb-1",
     loading: "lazy",
     decoding: "async"
   }), /*#__PURE__*/React.createElement("h3", {
     className: "text-2xl font-bold text-white"
-  }, "Partner with O3 Car-Spa"), /*#__PURE__*/React.createElement("p", {
+  }, "Partner with O3 Car Spaa"), /*#__PURE__*/React.createElement("p", {
     className: "text-xs text-slate-400"
   }, "Investment Tier: ₹5 Lakhs – ₹10 Lakhs")), /*#__PURE__*/React.createElement("form", {
     onSubmit: e => {
@@ -5109,8 +5109,8 @@ function App() {
   }, "✕"), /*#__PURE__*/React.createElement("div", {
     className: "space-y-1"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-10 w-auto mb-1",
     loading: "lazy",
     decoding: "async"
@@ -5158,8 +5158,8 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center justify-between mb-6 pb-4 border-b border-[#cae8e8]/20"
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-8 w-auto mb-1",
     loading: "lazy",
     decoding: "async"
@@ -5187,8 +5187,8 @@ function App() {
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-3"
   }, /*#__PURE__*/React.createElement("img", {
-    src: "assets/brand/o3-logo-white.svg",
-    alt: "O3 CAR-SPA Logo",
+    src: "assets/brand/o3-car-spaa-white.svg",
+    alt: "O3 CAR SPAA Logo",
     className: "logo-blend h-10 w-auto",
     loading: "lazy",
     decoding: "async"
@@ -5256,7 +5256,7 @@ function App() {
     name: "phone",
     className: "w-4 h-4"
   }), /*#__PURE__*/React.createElement("span", null, "Call Us")), /*#__PURE__*/React.createElement("a", {
-    href: "https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing.",
+    href: "https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20inquire%20about%20detailing.",
     target: "_blank",
     rel: "noopener noreferrer",
     className: "p-3 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 text-emerald-400 font-mono font-bold flex items-center justify-center gap-2"

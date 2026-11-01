@@ -1,5 +1,5 @@
 // ==========================================================================
-// O3 Car-Spa — Master Application (Reordered Cinema Showcase & Redesigned FAQ)
+// O3 Car Spaa — Master Application (Reordered Cinema Showcase & Redesigned FAQ)
 // ==========================================================================
 
 const { useState, useEffect, useRef } = React;
@@ -13,7 +13,7 @@ const BRAND_LOGOS = {
   'Menzerna': 'assets/logos/official/menzerna.svg',
   'Paicristal Italia': 'assets/logos/official/paicristal.svg',
   'Ma-Fra': 'assets/logos/official/mafra.webp',
-  'O3 Studio': 'assets/brand/o3-logo-blue.svg',
+  'O3 Studio': 'assets/brand/o3-car-spaa-mark-dark.svg',
 };
 function BrandMark({ brand, className = 'h-16', pad = 'p-3' }) {
   const logo = BRAND_LOGOS[brand];
@@ -50,7 +50,7 @@ function O3Preloader({ progress, isFinished }) {
     if (p < 30) return "WARMING UP THE STUDIO LIGHTS...";
     if (p < 65) return "PREPPING THE DETAILING BAY...";
     if (p < 90) return "LOADING OUR LATEST WORK...";
-    return "WELCOME TO O3 CAR-SPA STUDIO — ANAND";
+    return "WELCOME TO O3 CAR SPAA STUDIO — ANAND";
   };
 
   return (
@@ -66,8 +66,8 @@ function O3Preloader({ progress, isFinished }) {
         {/* Brand Official Logo with Pulsing Halo */}
         <div className="relative inline-block">
           <div className="absolute -inset-4 bg-[#29A9E8]/20 rounded-full blur-2xl animate-pulse"></div>
-          <img src="assets/brand/o3-logo-white.svg" 
-            alt="O3 CAR-SPA Official Studio Logo" 
+          <img src="assets/brand/o3-car-spaa-white.svg" 
+            alt="O3 CAR SPAA Official Studio Logo" 
             className="h-20 sm:h-24 w-auto mx-auto relative z-10 drop-shadow-[0_0_35px_rgba(0, 141, 210, 0.35)]"
            loading="lazy" decoding="async" />
         </div>
@@ -109,7 +109,7 @@ function O3Preloader({ progress, isFinished }) {
   );
 }
 
-// 12. OFFICIAL O3 CAR-SPA STUDIO TARIFF & PRICE CATALOG (EXACT OFFICIAL PRICE LIST)
+// 12. OFFICIAL O3 CAR SPAA STUDIO TARIFF & PRICE CATALOG (EXACT OFFICIAL PRICE LIST)
 function OfficialTariffMenu() {
   const [activeCategory, setActiveCategory] = useState('all');
 
@@ -199,7 +199,7 @@ function OfficialTariffMenu() {
       <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#cae8e8]/20 pb-4 gap-4 text-left">
         <div>
           <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">Official Studio Price List & Tariff Card</span>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white mt-1">O3 Car-Spa Official Services Menu</h2>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white mt-1">O3 Car Spaa Official Services Menu</h2>
           <p className="text-xs text-slate-400 font-mono mt-1">Transparent fixed pricing · Managed by Mr. Sharanpalsingh Sodhi · Vitthal Udyognagar, Anand</p>
         </div>
 
@@ -1025,14 +1025,14 @@ function App() {
   // Each page gets its own browser-tab / search title
   useEffect(() => {
     const titles = {
-      home: 'O3 Car-Spa | Car Detailing, Ceramic Coating & PPF in Anand',
-      about: 'About O3 Car-Spa | Detailing in Anand Since 2013',
-      services: 'Services & Prices | Ceramic, Graphene, PPF | O3 Car-Spa Anand',
-      plans: 'Wash Plans & Subscriptions | O3 Car-Spa Anand',
-      gallery: 'Our Work | Real Cars Detailed at O3 Car-Spa, Anand',
-      franchise: 'Franchise | O3 Car-Spa',
-      contact: 'Contact & Location | O3 Car-Spa, Vitthal Udyognagar, Anand',
-      products: 'Products | O3 Car-Spa'
+      home: 'O3 Car Spaa | Car Detailing, Ceramic Coating & PPF in Anand',
+      about: 'About O3 Car Spaa | Detailing in Anand Since 2013',
+      services: 'Services & Prices | Ceramic, Graphene, PPF | O3 Car Spaa Anand',
+      plans: 'Wash Plans & Subscriptions | O3 Car Spaa Anand',
+      gallery: 'Our Work | Real Cars Detailed at O3 Car Spaa, Anand',
+      franchise: 'Franchise | O3 Car Spaa',
+      contact: 'Contact & Location | O3 Car Spaa, Vitthal Udyognagar, Anand',
+      products: 'Products | O3 Car Spaa'
     };
     document.title = titles[currentView] || titles.home;
   }, [currentView]);
@@ -1996,7 +1996,7 @@ function App() {
       car: "Maruti Suzuki WagonR (2015)",
       category: "Underbody & Restoration",
       rating: "★★★★★",
-      quote: "My 2015 WagonR Complete Under Body Coating, Head Light Buffing And Total Clean..... Thanks Sharanpal Sir O3 Car Spa Good Staff!"
+      quote: "My 2015 WagonR Complete Under Body Coating, Head Light Buffing And Total Clean..... Thanks Sharanpal Sir O3 Car Spaa Good Staff!"
     },
     {
       id: 2,
@@ -2006,7 +2006,7 @@ function App() {
       car: "Accidental Paint Restoration",
       category: "Paint Restoration",
       rating: "★★★★★",
-      quote: "I had the opportunity to refer a friend to Mr. Sharanpal Sodhi and the team at O3 Car Spa after his car was accidentally splattered with paint. Professionalism, attention to detail, and top-notch problem solving!"
+      quote: "I had the opportunity to refer a friend to Mr. Sharanpal Sodhi and the team at O3 Car Spaa after his car was accidentally splattered with paint. Professionalism, attention to detail, and top-notch problem solving!"
     },
     {
       id: 3,
@@ -2016,7 +2016,7 @@ function App() {
       car: "Royal Enfield Hunter 350",
       category: "Bikes & Superbikes",
       rating: "★★★★★",
-      quote: "I got a matte ceramic coating on my Hunter 350. My overall experience was beyond expectations. Thank you O3 Car Spa for your wonderful service!"
+      quote: "I got a matte ceramic coating on my Hunter 350. My overall experience was beyond expectations. Thank you O3 Car Spaa for your wonderful service!"
     },
     {
       id: 4,
@@ -2056,7 +2056,7 @@ function App() {
       car: "Honda Activa",
       category: "Bikes & Superbikes",
       rating: "★★★★★",
-      quote: "My Activa has been done ceramic coating at O3 Car Spa — beautiful detailed work! 13+ years of expert experience in town!"
+      quote: "My Activa has been done ceramic coating at O3 Car Spaa — beautiful detailed work! 13+ years of expert experience in town!"
     },
     {
       id: 8,
@@ -2308,7 +2308,7 @@ function App() {
 
       {/* FLOATING DIRECT WHATSAPP ACTION TOGGLE BUTTON (PURE ROUND CIRCLE) */}
       <a 
-        href="https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing."
+        href="https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20inquire%20about%20detailing."
         target="_blank"
         rel="noopener noreferrer"
         className="whatsapp-float-btn"
@@ -2327,8 +2327,8 @@ function App() {
             onClick={() => navigateTo('home')} 
             className="cursor-pointer flex items-center gap-3 group"
           >
-            <img src="assets/brand/o3-logo-white.svg" 
-              alt="O3 CAR-SPA Premium Car Detailing Studio Official Logo" 
+            <img src="assets/brand/o3-car-spaa-white.svg" 
+              alt="O3 CAR SPAA Premium Car Detailing Studio Official Logo" 
               className="logo-blend h-12 sm:h-14 w-auto group-hover:scale-103 transition-transform"
              loading="lazy" decoding="async" />
           </div>
@@ -2528,7 +2528,7 @@ function App() {
                     </div>
 
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      "At O3 Car Spa, detailing is an exact science. From daily drivers to premium SUVs, every panel gets multi-stage polishing and coating under bright 6500K inspection lights."
+                      "At O3 Car Spaa, detailing is an exact science. From daily drivers to premium SUVs, every panel gets multi-stage polishing and coating under bright 6500K inspection lights."
                     </p>
                   </div>
                 </div>
@@ -2604,7 +2604,7 @@ function App() {
                       a: 'A complete multi-stage paint defect compounding pass and 9H liquid ceramic quartz application requires 24 to 48 hours to allow surface decontamination, scratch leveling, and shortwave infra-red lamp curing at 80°C.'
                     },
                     {
-                      q: 'What chemicals and compounding equipment are used at O3 Car Spa?',
+                      q: 'What chemicals and compounding equipment are used at O3 Car Spaa?',
                       a: 'We exclusively utilize Italian Rupes BigFoot orbital polishers, German Würth protection systems, Scangrip 6500K color-calibrated daylight LEDs, and Grade-A Brazilian Carnauba natural waxes.'
                     }
                   ].map((faq, idx) => (
@@ -2664,7 +2664,7 @@ function App() {
                   {/* Embedded Google Map */}
                   <div className="lg:col-span-7 rounded-3xl overflow-hidden border border-[#cae8e8]/30 shadow-2xl h-80 sm:h-96">
                     <iframe 
-                      title="O3 Car-Spa Studio Location Map"
+                      title="O3 Car Spaa Studio Location Map"
                       src="https://maps.google.com/maps?q=O3%20Car%20Spa%20New%20Vallabh%20Vidyanagar%20GIDC%20Anand%20Gujarat&t=&z=15&ie=UTF8&iwloc=&output=embed"
                       width="100%" 
                       height="100%" 
@@ -2679,7 +2679,7 @@ function App() {
                   <div className="lg:col-span-5 space-y-5 p-6 rounded-3xl bg-[#05070c] border border-[#cae8e8]/20 text-xs text-slate-300">
                     <div className="space-y-1">
                       <span className="text-[10px] font-mono text-[#cae8e8] uppercase font-bold">Flagship Studio Facility</span>
-                      <h3 className="text-xl font-bold text-white">O3 Car-Spa Studio, Anand</h3>
+                      <h3 className="text-xl font-bold text-white">O3 Car Spaa Studio, Anand</h3>
                       <p className="text-[11px] text-emerald-400 font-mono">Directed by Mr. Sharanpalsingh Sodhi</p>
                     </div>
 
@@ -2733,7 +2733,7 @@ function App() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-4 border-t border-[#cae8e8]/20">
                   {/* WhatsApp API */}
                   <a 
-                    href="https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20book%20a%20detailing%20session." 
+                    href="https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20book%20a%20detailing%20session." 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="p-5 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 hover:border-emerald-400 text-center space-y-2 transition-all hover:-translate-y-1 group"
@@ -2786,7 +2786,7 @@ function App() {
                   >
                     <div className="text-blue-400 flex justify-center"><Icon name="facebook" className="w-8 h-8" /></div>
                     <div className="text-xs font-bold text-white group-hover:text-blue-400">Facebook</div>
-                    <div className="text-[10px] font-mono text-blue-400">O3 Car Spa</div>
+                    <div className="text-[10px] font-mono text-blue-400">O3 Car Spaa</div>
                   </a>
                 </div>
 
@@ -2803,13 +2803,13 @@ function App() {
             
             {/* BRAND VISION HEADER */}
             <div className="text-center max-w-3xl mx-auto space-y-4">
-              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Logo" className="logo-blend h-16 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
               <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">WE ADD AN ATOM OF OXYGEN TO YOUR AUTOMOBILES · SINCE 2013</span>
               <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight">
-                About <span className="text-gradient-ocean font-black">O3 Car Spa</span>
+                About <span className="text-gradient-ocean font-black">O3 Car Spaa</span>
               </h1>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                O3 Car Spa is changing the way people think about car care. We built a cleaning studio around one core idea — your car should feel brand new, every time you drive it. Using high-pressure cleaning machines, steam cleaners, powerful vacuums, and precise spray equipment, we treat every car like it's the only one in the shop.
+                O3 Car Spaa is changing the way people think about car care. We built a cleaning studio around one core idea — your car should feel brand new, every time you drive it. Using high-pressure cleaning machines, steam cleaners, powerful vacuums, and precise spray equipment, we treat every car like it's the only one in the shop.
               </p>
             </div>
 
@@ -2828,7 +2828,7 @@ function App() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors">How It Started</h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    O3 Car Spa began with a simple frustration — most car washes rush through the job, and cars come out looking barely better than before. We wanted to build something different: a studio where every car gets time, attention, and the right products, not just a quick rinse.
+                    O3 Car Spaa began with a simple frustration — most car washes rush through the job, and cars come out looking barely better than before. We wanted to build something different: a studio where every car gets time, attention, and the right products, not just a quick rinse.
                   </p>
                   <p className="text-xs text-slate-400 leading-relaxed font-mono">
                     What started as a single unit in Vallabh Vidyanagar has grown into a name car owners across Anand trust — built one careful detail at a time.
@@ -2868,7 +2868,7 @@ function App() {
                 <div className="space-y-2">
                   <h3 className="text-2xl font-extrabold text-white group-hover:text-[#29A9E8] transition-colors">Where We Are Today</h3>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    Today, O3 Car Spa runs a full studio with modern equipment, trained detailers, and a growing list of customers who trust us with their cars — from daily drivers to premium rides.
+                    Today, O3 Car Spaa runs a full studio with modern equipment, trained detailers, and a growing list of customers who trust us with their cars — from daily drivers to premium rides.
                   </p>
                   <p className="text-xs text-slate-400 leading-relaxed font-mono">
                     Equipped with hexagonal LED inspection lighting, infrared curing lamps, and trusted products from Germany, Italy and Japan.
@@ -2883,10 +2883,10 @@ function App() {
               <span className="text-xs uppercase tracking-widest text-[#29A9E8] font-mono font-bold">MEET THE FOUNDER</span>
               <div className="grid lg:grid-cols-12 gap-8 items-center">
                 <div className="lg:col-span-4 space-y-3">
-                  <img src="assets/sharanpal_sodhi_founder.webp" alt="Sharanpal Sodhi — Founder, O3 Car Spa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
+                  <img src="assets/sharanpal_sodhi_founder.webp" alt="Sharanpal Sodhi — Founder, O3 Car Spaa" className="w-full h-80 object-cover rounded-3xl border border-[#cae8e8]/30 shadow-2xl"  loading="lazy" decoding="async" />
                   <div>
                     <h3 className="text-2xl font-bold text-white">Sharanpal Sodhi</h3>
-                    <p className="text-xs text-[#29A9E8] font-mono">Founder, O3 Car Spa</p>
+                    <p className="text-xs text-[#29A9E8] font-mono">Founder, O3 Car Spaa</p>
                   </div>
                 </div>
                 <div className="lg:col-span-8 space-y-4">
@@ -2894,7 +2894,7 @@ function App() {
                     "We don't just wash cars. We take care of them."
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    O3 Car Spa was founded on a simple belief: a car is more than a machine — it's something people take pride in. Sharanpal built the studio from the ground up, focused on one goal — bringing genuine, detail-first car care to Anand, without cutting corners.
+                    O3 Car Spaa was founded on a simple belief: a car is more than a machine — it's something people take pride in. Sharanpal built the studio from the ground up, focused on one goal — bringing genuine, detail-first car care to Anand, without cutting corners.
                   </p>
                   <blockquote className="p-4 rounded-2xl bg-[#05070c] border border-[#cae8e8]/20 text-xs italic text-[#cae8e8]">
                     "Every car that enters our bay gets the same level of precision and obsessive care as if it were our own personal machine." — Sharanpal Sodhi
@@ -3056,7 +3056,7 @@ function App() {
                 Shop Our <span className="text-gradient-ocean font-black">Detailing Essentials</span>
               </h1>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Bring the O3 Car Spa finish home. We stock authentic, global-standard detailing formulations, ceramic maintenance boosters, and professional applicator kits.
+                Bring the O3 Car Spaa finish home. We stock authentic, global-standard detailing formulations, ceramic maintenance boosters, and professional applicator kits.
               </p>
             </div>
 
@@ -3282,7 +3282,7 @@ function App() {
                       <span>View Details</span>
                     </button>
                     <a 
-                      href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`}
+                      href={`https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(prod.name)}%20(${prod.price})`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary text-xs flex-1 justify-center py-2.5"
@@ -3361,7 +3361,7 @@ function App() {
 
                   <div className="pt-4 flex gap-4 border-t border-[#cae8e8]/20">
                     <a 
-                      href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(selectedProduct.name)}%20(${selectedProduct.price})`}
+                      href={`https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20order%20product:%20${encodeURIComponent(selectedProduct.name)}%20(${selectedProduct.price})`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary text-xs w-full justify-center py-3"
@@ -3417,7 +3417,7 @@ function App() {
             <div className="space-y-6">
               <div className="flex items-center justify-between border-b border-[#cae8e8]/20 pb-4">
                 <span className="text-xs font-mono font-bold text-[#29A9E8] uppercase tracking-wider">
-                  {serviceCategory === 'all' ? 'ALL 47 CERTIFIED CAR-SPA SERVICES' : serviceCategory.toUpperCase()}
+                  {serviceCategory === 'all' ? 'ALL 47 O3 CAR SPAA SERVICES' : serviceCategory.toUpperCase()}
                 </span>
                 <span className="text-xs text-slate-400 font-mono">
                   Showing {(serviceCategory === 'all' ? allServicesData : allServicesData.filter(s => s.category === serviceCategory)).length} Certified Treatments
@@ -3557,7 +3557,7 @@ function App() {
                   a: 'We use non-yellowing, optical-grade TPU PPF backed by studio warranties against yellowing, cracking, or peeling.'
                 },
                 {
-                  q: 'What chemicals and compounds are used at O3 Car Spa?',
+                  q: 'What chemicals and compounds are used at O3 Car Spaa?',
                   a: "We use trusted brands such as Würth, Menzerna, Meguiar's, 3M and Kisho. The full list is on our About page."
                 },
                 {
@@ -4014,7 +4014,7 @@ function App() {
   {
     "id": "p17",
     "title": "Invest in Your Car, Not Repairs",
-    "desc": "Call O3 Car-Spa: 72 25 03 03 03.",
+    "desc": "Call O3 Car Spaa: 72 25 03 03 03.",
     "src": "assets/gallery/6__ppf_why_carousel_image-76627.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4050,7 +4050,7 @@ function App() {
   {
     "id": "p21",
     "title": "Our Legacy",
-    "desc": "From the O3 Car-Spa Instagram.",
+    "desc": "From the O3 Car Spaa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-27511.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4059,7 +4059,7 @@ function App() {
   {
     "id": "p22",
     "title": "Our Perfection",
-    "desc": "From the O3 Car-Spa Instagram.",
+    "desc": "From the O3 Car Spaa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-82021.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4068,7 +4068,7 @@ function App() {
   {
     "id": "p23",
     "title": "Our Customers",
-    "desc": "From the O3 Car-Spa Instagram.",
+    "desc": "From the O3 Car Spaa Instagram.",
     "src": "assets/gallery/insta_pinned_main_theme_very_nice_image-86981.webp",
     "category": "Studio Photos",
     "badge": "Studio Craft",
@@ -4095,7 +4095,7 @@ function App() {
   {
     "id": "p26",
     "title": "Mercedes-Benz GLA",
-    "desc": "Delivered outside the O3 Car-Spa studio.",
+    "desc": "Delivered outside the O3 Car Spaa studio.",
     "src": "assets/gallery/only_images_good_ones_3.1.webp",
     "category": "Studio Photos",
     "badge": "Studio Showcase",
@@ -4131,7 +4131,7 @@ function App() {
   {
     "id": "p30",
     "title": "Jeep Wrangler",
-    "desc": "Customer Jeep Wrangler outside the O3 Car-Spa studio.",
+    "desc": "Customer Jeep Wrangler outside the O3 Car Spaa studio.",
     "src": "assets/gallery/only_images_good_ones_5.webp",
     "category": "Studio Photos",
     "badge": "Studio Showcase",
@@ -4238,7 +4238,7 @@ function App() {
               <span className="inline-block bg-[#cae8e8]/15 text-[#cae8e8] px-4 py-1 rounded-full text-xs font-mono font-bold">
                 Business Opportunity
               </span>
-              <h1 className="text-4xl sm:text-5xl font-extrabold text-white">O3 Car-Spa Franchise Program</h1>
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-white">O3 Car Spaa Franchise Program</h1>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
                 Partner with Anand's most trusted automotive detailing brand under the guidance of <strong className="text-white">Mr. Sharanpal Sodhi</strong>.
               </p>
@@ -4310,11 +4310,11 @@ function App() {
             <div className="grid lg:grid-cols-12 gap-10">
               
               <div className="lg:col-span-5 glass-surface p-8 space-y-6 bg-[#0d111a]">
-                <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-12 w-auto mb-2"  loading="lazy" decoding="async" />
-                <h3 className="text-2xl font-bold text-white">O3 Car-Spa Studio</h3>
+                <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Logo" className="logo-blend h-12 w-auto mb-2"  loading="lazy" decoding="async" />
+                <h3 className="text-2xl font-bold text-white">O3 Car Spaa Studio</h3>
                 <p className="text-xs text-[#cae8e8] font-mono">Managed by Mr. Sharanpal Sodhi</p>
 
-                <img src="assets/gallery/only_images_good_ones_3.1.webp" alt="A customer car outside the O3 Car-Spa studio sign" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
+                <img src="assets/gallery/only_images_good_ones_3.1.webp" alt="A customer car outside the O3 Car Spaa studio sign" className="w-full h-44 object-cover rounded-2xl border border-[#cae8e8]/20"  loading="lazy" decoding="async" />
 
                 <div className="space-y-4 text-sm text-slate-300">
                   <div className="flex gap-3">
@@ -4352,7 +4352,7 @@ function App() {
               <div className="lg:col-span-7 glass-surface p-8 space-y-6">
                 <h3 className="text-2xl font-bold text-white">Send Consultation Message</h3>
 
-                <form onSubmit={(e) => { e.preventDefault(); alert('Thank you! Our O3 Car-Spa representative will call you shortly.'); }} className="space-y-4">
+                <form onSubmit={(e) => { e.preventDefault(); alert('Thank you! Our O3 Car Spaa representative will call you shortly.'); }} className="space-y-4">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-300 mb-1">Full Name</label>
@@ -4463,7 +4463,7 @@ function App() {
                 Book Treatment Now →
               </button>
               <a 
-                href={`https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20service:%20${encodeURIComponent(activeServiceDetail.title)}%20(${activeServiceDetail.price})`}
+                href={`https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20inquire%20about%20service:%20${encodeURIComponent(activeServiceDetail.title)}%20(${activeServiceDetail.price})`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary text-xs flex-1 justify-center py-3 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/10 font-bold"
@@ -4478,7 +4478,7 @@ function App() {
       {/* ================= FINAL CTA BAND ================= */}
       <section className="bg-gradient-to-r from-[#0d111a] via-[#101827] to-[#0d111a] border-t border-b border-[#cae8e8]/20 py-16 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-14 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
+          <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Logo" className="logo-blend h-14 w-auto mx-auto mb-2"  loading="lazy" decoding="async" />
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white">Ready for Perfection?</h2>
           <p className="text-slate-[#cae8e8] max-w-xl mx-auto text-sm sm:text-base">
             Schedule a consultation with Sharanpal Sir and team at our studio, or request doorstep concierge service.
@@ -4501,7 +4501,7 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             <div className="space-y-4">
-              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Premium Detailing Studio Official Logo" className="logo-blend h-12 w-auto"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Premium Detailing Studio Official Logo" className="logo-blend h-12 w-auto"  loading="lazy" decoding="async" />
               <p className="text-slate-400 leading-relaxed">
                 13+ years of detailing excellence in Anand under Mr. Sharanpal Sodhi. High-glow foam wash, PPF, Graphene & Ceramic Coating.
               </p>
@@ -4550,7 +4550,7 @@ function App() {
 
           <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
             <div>
-              © O3 Car-Spa. Precision Detailing Studio (Managed by Mr. Sharanpalsingh Sodhi). All rights reserved.
+              © O3 Car Spaa. Precision Detailing Studio (Managed by Mr. Sharanpalsingh Sodhi). All rights reserved.
             </div>
             <div className="flex gap-4">
               <a href="#" className="hover:underline">Privacy Policy</a>
@@ -4574,8 +4574,8 @@ function App() {
             </button>
 
             <div className="space-y-1">
-              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
-              <h3 className="text-2xl font-bold text-white">Partner with O3 Car-Spa</h3>
+              <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
+              <h3 className="text-2xl font-bold text-white">Partner with O3 Car Spaa</h3>
               <p className="text-xs text-slate-400">Investment Tier: ₹5 Lakhs – ₹10 Lakhs</p>
             </div>
 
@@ -4623,7 +4623,7 @@ function App() {
             </button>
 
             <div className="space-y-1">
-              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Logo" className="logo-blend h-10 w-auto mb-1"  loading="lazy" decoding="async" />
               <h3 className="text-2xl font-bold text-white">Schedule Detailing Visit</h3>
               {selectedBookingService && (
                 <div className="text-xs text-[#cae8e8] font-mono">Selected: {selectedBookingService}</div>
@@ -4672,7 +4672,7 @@ function App() {
         <div className="drawer-panel">
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#cae8e8]/20">
             <div>
-              <img src="assets/brand/o3-logo-white.svg" alt="O3 CAR-SPA Logo" className="logo-blend h-8 w-auto mb-1"  loading="lazy" decoding="async" />
+              <img src="assets/brand/o3-car-spaa-white.svg" alt="O3 CAR SPAA Logo" className="logo-blend h-8 w-auto mb-1"  loading="lazy" decoding="async" />
               <p className="text-xs text-[#cae8e8] font-mono">Official O3 Brand Tokens</p>
             </div>
             <button onClick={() => setIsDrawerOpen(false)} className="text-[#cae8e8] hover:text-[#29A9E8] font-bold">
@@ -4710,8 +4710,8 @@ function App() {
           {/* Drawer Header */}
           <div className="flex items-center justify-between pb-6 border-b border-[#cae8e8]/20">
             <div className="flex items-center gap-3">
-              <img src="assets/brand/o3-logo-white.svg" 
-                alt="O3 CAR-SPA Logo" 
+              <img src="assets/brand/o3-car-spaa-white.svg" 
+                alt="O3 CAR SPAA Logo" 
                 className="logo-blend h-10 w-auto" 
                loading="lazy" decoding="async" />
               <div>
@@ -4775,7 +4775,7 @@ function App() {
               </a>
 
               <a 
-                href="https://wa.me/917225030303?text=Hello%20O3%20Car-Spa!%20I%20want%20to%20inquire%20about%20detailing."
+                href="https://wa.me/917225030303?text=Hello%20O3%20Car%20Spaa!%20I%20want%20to%20inquire%20about%20detailing."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-2xl bg-[#0d1a14] border border-emerald-500/30 text-emerald-400 font-mono font-bold flex items-center justify-center gap-2"
